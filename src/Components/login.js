@@ -102,7 +102,7 @@ export default function Login(props){
           rollno: 'AM.EN.U4CSE17001',
           resumeScore: 8.5,
           interviewStaus: 'Qualified',
-          colorCH: 'orange',
+          colorCH: 'red',
           e1: '',
           e2: '',
           e3: '',
@@ -110,12 +110,12 @@ export default function Login(props){
           e5: ''
         }; //post successful auth; for testing; actual- responsedata[0]
         user.peData = peData;        
-        console.log(user);
+//        console.log(user);
       }
       /*for testing, actual - check if faculty exists in db; else error */
       else if(username.search(/[0-9]/g) === -1 && username.search(/[.]/g) === -1)
         user.name = "faculty";
-      console.log(user);
+//      console.log(user);
       user.authenticated = true;
       props.onLogin(user);
     }

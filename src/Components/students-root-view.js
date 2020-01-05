@@ -5,6 +5,6 @@ export default function StudentsRootView(props){
 
 
   return (
-    <StudentsReport/>
+    <StudentsReport colorCH={props.peData.colorCH}/>
   );
 }

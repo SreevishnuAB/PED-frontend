@@ -19,7 +19,7 @@ function App() {
       <NavBar authenticated={user.authenticated} username={user.name}/>
       {(!user.authenticated)? <Login onLogin={handleUserAuth}/>:
        (user.peData === null)? <div><h1>TODO faculty view</h1></div>:
-       <StudentsRootView/>}
+       <StudentsRootView peData={user.peData}/>}
     </React.Fragment>
   );
 }
