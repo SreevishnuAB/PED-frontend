@@ -77,7 +77,7 @@ export default function NavBar(props) {
         {({ TransitionProps }) => (
           <Fade {...TransitionProps} timeout={350}>
             <Paper className={classes.menuPaper}>
-              <Typography className={classes.user}>Username</Typography>
+              <Typography className={classes.user}>{props.username}</Typography>
               <Button className={classes.menuButton} >Profile</Button>
               <Button className={classes.menuButton}>Change Password</Button>
               <Button className={classes.menuButton}>Logout</Button>

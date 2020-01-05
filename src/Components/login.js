@@ -93,13 +93,13 @@ export default function Login(props){
     else{
       /*TODO Check db, differentiate student vs faculty, appropriate component rendering */
       //for testing
-      const user = {authenticated: false, peData:null};
+      const user = {authenticated: false, name: '', peData:null};
 //      console.log(username.search(/[0-9]/g));
       if(username.search(/[^A-Za-z]+$/g) !== -1){
         /* retrieve data from student db; if data, set authenticated and PEData */
+        user.name = "Aakash K O";
         let peData = {
           rollno: 'AM.EN.U4CSE17001',
-          name: 'Aakash K O',
           resumeScore: 8.5,
           interviewStaus: 'Qualified',
           colorCH: 'orange',
@@ -112,6 +112,9 @@ export default function Login(props){
         user.peData = peData;        
         console.log(user);
       }
+      /*for testing, actual - check if faculty exists in db; else error */
+      else if(username.search(/[0-9]/g) === -1 && username.search(/[.]/g) === -1)
+        user.name = "faculty";
       console.log(user);
       user.authenticated = true;
       props.onLogin(user);
