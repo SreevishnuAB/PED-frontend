@@ -14,9 +14,12 @@ function App() {
     console.log(authData);
   }
 
+  const handleLogout = ()=>{
+    setUser({authenticated:false, name: "",peData: null});
+  }
   return(
     <React.Fragment>
-      <NavBar authenticated={user.authenticated} username={user.name}/>
+      <NavBar authenticated={user.authenticated} username={user.name} onLogout={handleLogout}/>
       {(!user.authenticated)? <Login onLogin={handleUserAuth}/>:
        (user.peData === null)? <div><h1>TODO faculty view</h1></div>:
        <StudentsRootView peData={user.peData}/>}

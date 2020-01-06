@@ -69,18 +69,21 @@ export default function NavBar(props) {
   const handleMenu = (event)=>{
     setAnchorEl(anchorEl ? null : event.currentTarget);
   }
-  
+  const handleLogout = ()=>{
+    setAnchorEl(null);
+    props.onLogout();
+  }
   return (
   <div className={classes.root}>
     
     <Popper open={openMenu} anchorEl={anchorEl} placement="bottom-end" transition>
         {({ TransitionProps }) => (
-          <Fade {...TransitionProps} timeout={350}>
+          <Fade {...TransitionProps} timeout={0}>
             <Paper className={classes.menuPaper}>
               <Typography className={classes.user}>{props.username}</Typography>
               <Button className={classes.menuButton} >Profile</Button>
               <Button className={classes.menuButton}>Change Password</Button>
-              <Button className={classes.menuButton}>Logout</Button>
+              <Button className={classes.menuButton} onClick={handleLogout}>Logout</Button>
             </Paper>
           </Fade>
         )}
