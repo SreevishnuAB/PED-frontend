@@ -94,30 +94,68 @@ export default function Login(props){
       /*TODO Check db, differentiate student vs faculty, appropriate component rendering */
       //for testing
       const user = {authenticated: false, name: '', peData:null};
-//      console.log(username.search(/[0-9]/g));
+      // console.log(username.search(/[^A-Za-z]+$/g) !== -1);
+      // console.log(username.search(/[0-9]/g) === -1 && username.search(/[.]/g) === -1);
       if(username.search(/[^A-Za-z]+$/g) !== -1){
         /* retrieve data from student db; if data, set authenticated and PEData */
-        user.name = "Aakash K O";
-        let peData = {
-          rollno: 'AM.EN.U4CSE17001',
-          resumeScore: 8.5,
-          interviewStaus: 'Qualified',
-          colorCH: 'red',
-          e1: '',
-          e2: '',
-          e3: '',
-          e4: '',
-          e5: ''
-        }; //post successful auth; for testing; actual- responsedata[0]
-        user.peData = peData;        
+        if(username === "AM.EN.U4CSE17001"){
+          let profile = {
+            id: 'AM.EN.U4CSE17001',
+            name: "Aakash K O",
+            batch: "CS",
+            semester: "S6"
+          }
+          let peData = {
+            resumeScore: 8.5,
+            interviewStatus: 'Pending',
+            softSkillsStatus: 'Qualified',
+            colorCH: 'red',
+            e1: '',
+            e2: '',
+            e3: '',
+            e4: '',
+            e5: ''
+          }; //post successful auth; for testing; actual- responsedata[0]
+          user.profile = profile;
+          user.peData = peData;
+          user.authenticated = true;
+        }
+        else{
+          let profile = {
+            id: 'AM.EN.U4CSE17002',
+            name: "Adarsh K",
+            batch: "CS",
+            semester: "S6"
+            }
+          let peData = {
+            resumeScore: 8,
+            interviewStatus: 'Qualified',
+            softSkillsStatus: 'Qualified',
+            colorCH: 'blue',
+            e1: '',
+            e2: '',
+            e3: '',
+            e4: '',
+            e5: ''
+          }
+          user.profile = profile;
+          user.peData = peData;
+          user.authenticated = true;
+        }
+        props.onLogin(user);
 //        console.log(user);
       }
       /*for testing, actual - check if faculty exists in db; else error */
-      else if(username.search(/[0-9]/g) === -1 && username.search(/[.]/g) === -1)
-        user.name = "faculty";
+      else if(username.search(/[0-9]/g) === -1 && username.search(/[.]/g) === -1){
+        user.profile = {name: "faculty"};
 //      console.log(user);
-      user.authenticated = true;
-      props.onLogin(user);
+        user.authenticated = true;
+        props.onLogin(user);
+      }
+      else{
+        setToastMessage({error:true,messageText:"Invalid username or password"});
+        setOpenToast(!openToast);      
+      }
     }
   }
 
