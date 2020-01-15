@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme)=>({
   sectionBounds: {
     border: "1px solid",
     borderRadius: '3px',
-    width:'inherit',
+    width: 'inherit',
     height: 'inherit',
   },
   CHOrange: {
@@ -49,24 +49,22 @@ const useStyles = makeStyles((theme)=>({
     borderColor: "red"
   },
   cards: {
-    minWidth: '250px',
+    minWidth: '270px',
     backgroundColor: '#181818',
     border: '1px solid',
-    margin: '5px'
+    margin: '5px',
   },
   cardContainer: {
     display: 'flex',
-    justifyContent: 'space-evenly',
-    alignItems: 'stretch',
-    flexWrap: 'wrap',
-    [theme.breakpoints.up('lg')]: {
-      height: '88%',
+    alignItems: 'stretch', 
+    justifyContent: 'center',
+    flexDirection: 'column',
+    [theme.breakpoints.up('md')]: {
+      flexDirection: 'row'
     },
-    
   },
   colorIndicator: {
    width: '75px !important',
-   broderRadius: '50% !important',
    marginBottom: '5px',
    '&:hover': {
      backgroundColor: 'inherit !important',
@@ -85,23 +83,32 @@ const useStyles = makeStyles((theme)=>({
   },
   colorChip:{
     color: "#ffffff",
-    marginBottom: '5px',
-    minWidth: '75px !important'
+    margin: '10px 0px 5px',
+    minWidth: '150px !important'
   },
   cardColumn: {
+    display:'flex',
+    flexDirection:'column',
+    justifyContent:'space-between',
+    alignItems:'stretch',
+    height: '261px !important'
+  },
+  cardChip: {
     display:'flex',
     flexDirection:'column',
     justifyContent:'center',
     alignItems:'flex-end'
   },
   cardTechnical:{
-    height: '100% !important'
   },
   cardContainerRow: {
     display: 'flex',
-    justifyContent: 'space-between',
+    justifyContent: 'space-evenly',
     alignItems: 'stretch',
-    flexWrap: 'wrap'
+    flexDirection: 'column',
+    [theme.breakpoints.up('lg')]: {
+      flexDirection: 'row',
+    },
   },
 }));
 
@@ -155,8 +162,7 @@ export default function StudentsReport(props){
     <div className={classes.reportRoot}>
       <fieldset className={`${colorCH} ${classes.rootSectionBound}`}>
         <legend>Know Your Eligibility</legend>
-          <div className={classes.cardContainerRow}>
-            <div className={`${classes.sections} ${classes.sectionFill}`}>
+        <div className={classes.cardContainerRow}>
               <fieldset className={`${colorCH} ${classes.sectionBounds}`}>
                 <legend>Overview</legend>
                 <div className={classes.cardContainer}>
@@ -178,13 +184,13 @@ export default function StudentsReport(props){
                       <Typography className={classes.header} gutterBottom>
                         INTERVIEW STATUS
                       </Typography>
-                      <div className={classes.cardColumn}>
+                      <div className={classes.cardChip}>
                         <Chip className={classes.colorChip} style={{backgroundColor: `${resolveColorByStatus(props.peData.interviewStatus)}`}} label={props.peData.interviewStatus}/>
                       </div>
                     </CardContent>
                   </Card>
                   <div className={classes.cardColumn}>
-                    <Card className={`${colorCH} ${classes.cards}`}>
+                    <Card className={`${colorCH} ${classes.cards}`} style={{flex:1}}>
                       <CardContent>
                         <Typography className={classes.header} gutterBottom>
                           BATCH
@@ -194,7 +200,7 @@ export default function StudentsReport(props){
                         </Typography>
                       </CardContent>
                     </Card>
-                    <Card className={`${colorCH} ${classes.cards}`}>
+                    <Card className={`${colorCH} ${classes.cards}`} style={{flex:1}}>
                       <CardContent>
                         <Typography className={classes.header} gutterBottom>
                           SEMESTER
@@ -207,12 +213,10 @@ export default function StudentsReport(props){
                   </div>
                 </div>
               </fieldset>
-            </div>
-            <div className={`${classes.sections} ${classes.sectionFill}`}>
               <fieldset className={`${colorCH} ${classes.sectionBounds}`}>
                 <legend>Technical & Soft Skills</legend>
-                <div className={classes.cardContainer}>
-                  <Card className={`${colorCH} ${classes.cards} ${classes.cardTechnical}`}>
+                  <div className={classes.cardContainer}>
+                  <Card className={`${colorCH} ${classes.cards}`}>
                     <CardContent>
                       <div className={classes.headerContainer}>
                         <Typography className={classes.header} gutterBottom>
@@ -220,7 +224,7 @@ export default function StudentsReport(props){
                         </Typography>
                         <Chip className={`${colorCH} ${classes.colorIndicator}`} label={props.peData.colorCH.toUpperCase()} style={{backgroundColor: `${color[props.peData.colorCH]}`, color: `${color[props.peData.colorCH]}`, borderColor: `${color[props.peData.colorCH]}`}}/>
                       </div>
-                      <div className={classes.cardColumn}>
+                      <div className={classes.cardChip}>
                         <Chip className={classes.colorChip} style={{backgroundColor: `${resolveColorByStatus(props.peData.colorCH)}`}} label={(props.peData.colorCH === 'red')?"Orange or above color group needed":"Eligible"}/>
                       </div>
                     </CardContent>
@@ -231,13 +235,13 @@ export default function StudentsReport(props){
                         <Typography className={classes.header} gutterBottom>
                           SOFT SKILLS
                         </Typography>
-                        <div className={classes.cardColumn}>
+                        <div className={classes.cardChip}>
                           <Chip className={classes.colorChip} style={{backgroundColor: `${resolveColorByStatus(props.peData.softSkillsStatus)}`}} label={props.peData.softSkillsStatus}/>
                         </div>
                       </CardContent>
                     </Card>
                     <Card className={`${colorCH} ${classes.cards}`}>
-                      <CardContent>
+                      <CardContent className={classes.cardContent}>
                         <Typography className={classes.header} gutterBottom>
                           RESUME SCORE
                         </Typography>
@@ -250,7 +254,6 @@ export default function StudentsReport(props){
                 </div>
               </fieldset>
             </div>
-          </div>
           <div className={classes.sections}>
             <fieldset className={`${colorCH} ${classes.sectionBounds}`}>
               <legend>Verbal & Aptitude</legend>
