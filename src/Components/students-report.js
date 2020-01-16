@@ -136,7 +136,15 @@ const resolveClassName = (colorCodeHour, classes)=>{
   return styleClass;
 }
 
-const resolveColorByStatus = (status)=>{
+const resolveColorByValue = (status)=>{
+
+  var score = parseFloat(status);
+
+  if(score >= 10)
+    return "green"
+  else if(score >= 7.5)
+    return "orange";
+  
   switch (status.toLowerCase()) {
     case "eligible":
     case "qualified":
@@ -185,7 +193,7 @@ export default function StudentsReport(props){
                         INTERVIEW STATUS
                       </Typography>
                       <div className={classes.cardChip}>
-                        <Chip className={classes.colorChip} style={{backgroundColor: `${resolveColorByStatus(props.peData.interviewStatus)}`}} label={props.peData.interviewStatus}/>
+                        <Chip className={classes.colorChip} style={{backgroundColor: `${resolveColorByValue(props.peData.interviewStatus)}`}} label={props.peData.interviewStatus}/>
                       </div>
                     </CardContent>
                   </Card>
@@ -225,7 +233,7 @@ export default function StudentsReport(props){
                         <Chip className={`${colorCH} ${classes.colorIndicator}`} label={props.peData.colorCH.toUpperCase()} style={{backgroundColor: `${color[props.peData.colorCH]}`, color: `${color[props.peData.colorCH]}`, borderColor: `${color[props.peData.colorCH]}`}}/>
                       </div>
                       <div className={classes.cardChip}>
-                        <Chip className={classes.colorChip} style={{backgroundColor: `${resolveColorByStatus(props.peData.colorCH)}`}} label={(props.peData.colorCH === 'red')?"Orange or above color group needed":"Eligible"}/>
+                        <Chip className={classes.colorChip} style={{backgroundColor: `${resolveColorByValue(props.peData.colorCH)}`}} label={(props.peData.colorCH === 'red')?"Orange or above color group needed":"Eligible"}/>
                       </div>
                     </CardContent>
                   </Card>
@@ -236,7 +244,7 @@ export default function StudentsReport(props){
                           SOFT SKILLS
                         </Typography>
                         <div className={classes.cardChip}>
-                          <Chip className={classes.colorChip} style={{backgroundColor: `${resolveColorByStatus(props.peData.softSkillsStatus)}`}} label={props.peData.softSkillsStatus}/>
+                          <Chip className={classes.colorChip} style={{backgroundColor: `${resolveColorByValue(props.peData.softSkillsStatus)}`}} label={props.peData.softSkillsStatus}/>
                         </div>
                       </CardContent>
                     </Card>
@@ -245,9 +253,9 @@ export default function StudentsReport(props){
                         <Typography className={classes.header} gutterBottom>
                           RESUME SCORE
                         </Typography>
-                        <Typography className={classes.details} variant="h5" component="h3">
-                          {props.peData.resumeScore}
-                        </Typography>
+                        <div className={classes.cardChip}>
+                          <Chip className={classes.colorChip} style={{backgroundColor: `${resolveColorByValue(props.peData.resumeScore)}`}} label={props.peData.resumeScore}/>
+                        </div>
                       </CardContent>
                     </Card>
                   </div>
