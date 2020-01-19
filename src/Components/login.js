@@ -93,7 +93,7 @@ export default function Login(props){
     else{
       /*TODO Check db, differentiate student vs faculty, appropriate component rendering */
       //for testing
-      const user = {authenticated: false, name: '', peData:null};
+      const user = {authenticated: false, peData:null};
       // console.log(username.search(/[^A-Za-z]+$/g) !== -1);
       // console.log(username.search(/[0-9]/g) === -1 && username.search(/[.]/g) === -1);
       if(username.search(/[^A-Za-z]+$/g) !== -1){
@@ -105,16 +105,44 @@ export default function Login(props){
             batch: "CS",
             semester: "S6"
           }
+          let evalData = [{
+              status: 'Completed',
+              date: '18 January 2020',
+              avg: 31.0,
+              va: 29.0,
+              na: 33.0
+            }, {
+              status: 'Scheduled',
+              date:'20 January 2020',
+              avg: 0.0,
+              va: 0.0,
+              na: 0.0
+            }, {
+              status: 'TBD',
+              date: 'TBD',
+              avg: 0.0,
+              va: 0.0,
+              na: 0.0
+            }, {
+              status: 'TBD',
+              date: 'TBD',
+              avg: 0.0,
+              va: 0.0,
+              na: 0.0
+            }, {
+              status: 'TBD',
+              date: 'TBD',
+              avg: 0.0,
+              va: 0.0,
+              na: 0.0
+            }
+          ];
           let peData = {
             resumeScore: 8.5,
             interviewStatus: 'Pending',
             softSkillsStatus: 'Qualified',
             colorCH: 'red',
-            e1: '',
-            e2: '',
-            e3: '',
-            e4: '',
-            e5: ''
+            eligibility: {avgScore: 31.0, eval: evalData}
           }; //post successful auth; for testing; actual- responsedata[0]
           user.profile = profile;
           user.peData = peData;
