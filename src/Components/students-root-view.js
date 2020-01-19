@@ -1,9 +1,15 @@
 import React from 'react';
 import StudentsReport from './students-report';
+import Profile from './profile';
 
 export default function StudentsRootView(props){
 
-  return (
-    <StudentsReport profile={props.student.profile} peData={props.student.peData}/>
-  );
+  switch(props.view){
+    case "report":
+      return <StudentsReport profile={props.student.profile} peData={props.student.peData}/>
+    case "profile":
+      return <Profile profile={props.student.profile}/>;
+    default:
+      return <div>TODO Error page</div>
+  }
 }

@@ -6,8 +6,12 @@ import StudentsRootView from './Components/students-root-view';
 
 function App() {
 
-  const [user, setUser] = useState({authenticated: false, profile: {name:""}, peData: null});
   const [view, setView] = useState('report');
+  const [user, setUser] = useState({authenticated: false, profile: {name:"", phone: "", email: ""}, peData: null});
+
+  const changeView = (newView)=>{
+    setView(newView);
+  }
 
   const handleUserAuth = (authData)=>{
     setUser(authData);
@@ -19,10 +23,10 @@ function App() {
   }
   return(
     <React.Fragment>
-      <NavBar authenticated={user.authenticated} username={user.profile.name} onLogout={handleLogout}/>
+      <NavBar authenticated={user.authenticated} username={user.profile.name} onMenuClick={changeView} onLogout={handleLogout}/>
       {(!user.authenticated)? <Login onLogin={handleUserAuth}/>:
        (user.peData === null)? <div><h1>TODO faculty view</h1></div>:
-       <StudentsRootView student={user}/>}
+       <StudentsRootView student={user} view={view} />}
     </React.Fragment>
   );
 }

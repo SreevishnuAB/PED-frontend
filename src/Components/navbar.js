@@ -89,12 +89,16 @@ export default function NavBar(props) {
     props.onLogout();
   }
 
+  const handleViewProfile = ()=>{
+    handleOpenMenu();
+    props.onMenuClick("profile");
+  }
   return (
   <div className={classes.root}>
     <MenuDialog onClose={handleOpenMenu} aria-labelledby="user-menu" open={openMenu}>
       <MenuDialogTitle className={classes.dialogTitle} id="user-menu-title"><AccountCircleIcon fontSize="large" className={classes.logoutBtn}/><span>{props.username}</span></MenuDialogTitle>
       <DialogContent className={classes.menuContent}>
-        <Button className={classes.menuButton}>Edit Profile</Button>
+        <Button className={classes.menuButton} onClick={handleViewProfile}>View Profile</Button>
         <Button className={classes.menuButton}>Change Password</Button>
         <Button className={classes.menuButton} onClick={handleLogout}>Logout</Button>
       </DialogContent>

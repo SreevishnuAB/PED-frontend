@@ -27,6 +27,7 @@ const useStyles = makeStyles((theme)=>({
     height: 'inherit',
   },
   sectionBounds: {
+    flex: '1',
     border: "1px solid",
     borderRadius: '3px',
     width: 'inherit',

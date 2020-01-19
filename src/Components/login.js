@@ -103,7 +103,9 @@ export default function Login(props){
             id: 'AM.EN.U4CSE17001',
             name: "Aakash K O",
             batch: "CS",
-            semester: "S6"
+            semester: "S6",
+            phone: "1234569870",
+            email: 'asd@qwe.com'
           }
           let evalData = [{
               status: 'Completed',
@@ -118,7 +120,7 @@ export default function Login(props){
               va: 0.0,
               na: 0.0
             }, {
-              status: 'Completed',
+              status: 'TBD',
               date: 'TBD',
               avg: 0.0,
               va: 0.0,
@@ -130,7 +132,7 @@ export default function Login(props){
               va: 0.0,
               na: 0.0
             }, {
-              status: 'Scheduled',
+              status: 'TBD',
               date: 'TBD',
               avg: 0.0,
               va: 0.0,
