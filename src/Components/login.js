@@ -118,7 +118,7 @@ export default function Login(props){
               va: 0.0,
               na: 0.0
             }, {
-              status: 'TBD',
+              status: 'Completed',
               date: 'TBD',
               avg: 0.0,
               va: 0.0,
@@ -130,7 +130,7 @@ export default function Login(props){
               va: 0.0,
               na: 0.0
             }, {
-              status: 'TBD',
+              status: 'Scheduled',
               date: 'TBD',
               avg: 0.0,
               va: 0.0,
