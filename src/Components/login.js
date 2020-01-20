@@ -52,7 +52,7 @@ const useStyles = makeStyles((theme)=>({
     borderWidth: '1px',
     borderColor: '#00adb5',
     height: '200px',
-    width: '300px',
+    maxWidth: '300px',
     padding: '75px 100px 70px 100px',
     display:'flex',
     flexDirection: 'column',
