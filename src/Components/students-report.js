@@ -401,11 +401,11 @@ export default function StudentsReport(props){
                     <div className={classes.innerCardColumns}>
                       {evalObj[0].status === "Completed" && 
                       <div className={`${classes.blockChip} ${classes.chipGeneric}`}>
-                        {`Numerical Aptitude: ${evalObj[0].na} %`}
+                        {`Numerical Apt.: ${evalObj[0].na} %`}
                       </div>} 
                       {evalObj[0].status === "Completed" && 
                       <div className={`${classes.blockChip} ${classes.chipGeneric}`}>
-                        {`Verbal Aptitude: ${evalObj[0].va} %`}
+                        {`Verbal Apt.: ${evalObj[0].va} %`}
                       </div>}
                     </div>
                   </div>
@@ -474,11 +474,11 @@ export default function StudentsReport(props){
                     <div className={classes.innerCardColumns}>
                       {object.status === "Completed" && 
                       <div className={`${classes.blockChip} ${classes.chipGeneric}`}>
-                        {`Numerical Aptitude: ${object.na} %`}
+                        {`Numerical Apt.: ${object.na} %`}
                       </div>}
                       {object.status === "Completed" && 
                       <div className={`${classes.blockChip} ${classes.chipGeneric}`}>
-                        {`Verbal Aptitude: ${object.va} %`}
+                        {`Verbal Apt.: ${object.va} %`}
                       </div>}
                     </div>
                   </div>

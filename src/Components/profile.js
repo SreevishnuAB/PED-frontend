@@ -5,6 +5,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
 import EditIcon from '@material-ui/icons/Edit';
+import EditDialog from './dialog';
 
 const useStyles = makeStyles((theme)=>({
   sectionBounds: {
@@ -16,7 +17,7 @@ const useStyles = makeStyles((theme)=>({
   },
   cards: {
     minWidth: '270px',
-    backgroundColor: '#393e46',
+    backgroundColor: '#181818',
     border: '1px solid #00fff5',
     margin: '5px',
     flex: '1',
@@ -45,64 +46,88 @@ const useStyles = makeStyles((theme)=>({
     marginRight: '7px',
     color: '#00fff5',
     '&:hover': {
-      backgroundColor: '#00fff5 !important',
+      backgroundColor: '#00adb5 !important',
       color: '#393e46'
     }
   },
 }));
 
+
 export default function Profile(props){
+
+  const [openDialog, setOpenDialog] = useState(false);
+  const [label, setLabel] = useState('');
+  const [change, setChange] = useState({field: '', value: ''});
 
   const classes = useStyles();
 
+  const handleEditDialog = (open)=>{
+    setOpenDialog(open);
+  }
+
+  const handleChange = (changeObj)=>{
+    setChange(changeObj);
+  }
+
+  const handleLabel = (currLabel)=>{
+    setLabel(currLabel);
+  }
+
+  const handleEdit = ()=>{
+    
+  }
+
   return(
-    <fieldset className={classes.sectionBounds}>
-      <legend>Overview</legend>
-      <div className={classes.cardContainer}>
-        <Card className={classes.cards}>
-          <CardContent>
-            <Typography className={classes.header} gutterBottom>
-              ID
-            </Typography>
-            <Typography className={classes.details} variant="h5" component="h3">
-              {props.profile.id}
-            </Typography>
-            <Typography className={classes.details} variant="h6" component="h4">
-              {props.profile.name}
-            </Typography>
-          </CardContent>
-        </Card>
-        <Card className={classes.cards}>
-          <CardContent>
-            <div className={classes.headerContainer}>
+    <React.Fragment>
+      <EditDialog open={openDialog} label={label} onValueChange={handleChange} onClose={handleEditDialog}/>
+      <fieldset className={classes.sectionBounds}>
+        <legend>Overview</legend>
+        <div className={classes.cardContainer}>
+          <Card className={classes.cards}>
+            <CardContent>
               <Typography className={classes.header} gutterBottom>
-                PHONE
+                ID
               </Typography>
-              <IconButton className={classes.headerBtn} edge="end" caria-label="edit">
-                <EditIcon/>
-              </IconButton>
-            </div>
-            <Typography className={classes.details} variant="h6" component="h4">
-              {props.profile.phone}
-            </Typography>
-          </CardContent>
-        </Card>
-        <Card className={classes.cards}>
-          <CardContent>
-            <div className={classes.headerContainer}>
-              <Typography className={classes.header} gutterBottom>
-                EMAIL
+              <Typography className={classes.details} variant="h5" component="h3">
+                {props.profile.id}
               </Typography>
-              <IconButton className={classes.headerBtn} edge="end" caria-label="edit">
-                <EditIcon/>
-              </IconButton>
-            </div>
-            <Typography className={classes.details} variant="h6" component="h4">
-              {props.profile.email}
-            </Typography>
-          </CardContent>
-        </Card>
-      </div>
-    </fieldset>
+              <Typography className={classes.details} variant="h6" component="h4">
+                {props.profile.name}
+              </Typography>
+            </CardContent>
+          </Card>
+          <Card className={classes.cards}>
+            <CardContent>
+              <div className={classes.headerContainer}>
+                <Typography className={classes.header} gutterBottom>
+                  PHONE
+                </Typography>
+                <IconButton className={classes.headerBtn} onClick={()=>{}} edge="end" caria-label="edit">
+                  <EditIcon/>
+                </IconButton>
+              </div>
+              <Typography className={classes.details} variant="h6" component="h4">
+                {props.profile.phone}
+              </Typography>
+            </CardContent>
+          </Card>
+          <Card className={classes.cards}>
+            <CardContent>
+              <div className={classes.headerContainer}>
+                <Typography className={classes.header} gutterBottom>
+                  EMAIL
+                </Typography>
+                <IconButton className={classes.headerBtn} edge="end" caria-label="edit">
+                  <EditIcon/>
+                </IconButton>
+              </div>
+              <Typography className={classes.details} variant="h6" component="h4">
+                {props.profile.email}
+              </Typography>
+            </CardContent>
+          </Card>
+        </div>
+      </fieldset>
+    </React.Fragment>
   );
 }
