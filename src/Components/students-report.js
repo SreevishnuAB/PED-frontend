@@ -122,6 +122,7 @@ const useStyles = makeStyles((theme)=>({
     justifyContent: 'space-evenly',
     alignItems: 'stretch',
     flexDirection: 'column',
+    flexWrap: 'wrap',
     [theme.breakpoints.up('lg')]: {
       flexDirection: 'row',
     },
