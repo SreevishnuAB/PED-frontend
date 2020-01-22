@@ -5,7 +5,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
 import EditIcon from '@material-ui/icons/Edit';
-import EditDialog from './dialog';
+import EditDialog from './edit-dialog';
 
 const useStyles = makeStyles((theme)=>({
   sectionBounds: {
@@ -57,7 +57,7 @@ export default function Profile(props){
 
   const [openDialog, setOpenDialog] = useState(false);
   const [label, setLabel] = useState('');
-  const [change, setChange] = useState({field: '', value: ''});
+  const [changedField, setChangedField] = useState('');
 
   const classes = useStyles();
 
@@ -65,16 +65,18 @@ export default function Profile(props){
     setOpenDialog(open);
   }
 
-  const handleChange = (changeObj)=>{
-    setChange(changeObj);
+  const handleChange = (newValue)=>{
+    setChangedField(newValue);
   }
 
-  const handleLabel = (currLabel)=>{
-    setLabel(currLabel);
+  const handleEditPhone = ()=>{
+    setLabel("Phone");
+    setOpenDialog(true);
   }
 
-  const handleEdit = ()=>{
-    
+  const handleEditEmail = ()=>{
+    setLabel("Email");
+    setOpenDialog(true);
   }
 
   return(
@@ -102,7 +104,7 @@ export default function Profile(props){
                 <Typography className={classes.header} gutterBottom>
                   PHONE
                 </Typography>
-                <IconButton className={classes.headerBtn} onClick={()=>{}} edge="end" caria-label="edit">
+                <IconButton className={classes.headerBtn} onClick={handleEditPhone} edge="end" aria-label="edit">
                   <EditIcon/>
                 </IconButton>
               </div>
@@ -117,7 +119,7 @@ export default function Profile(props){
                 <Typography className={classes.header} gutterBottom>
                   EMAIL
                 </Typography>
-                <IconButton className={classes.headerBtn} edge="end" caria-label="edit">
+                <IconButton className={classes.headerBtn} onClick={handleEditEmail} edge="end" caria-label="edit">
                   <EditIcon/>
                 </IconButton>
               </div>

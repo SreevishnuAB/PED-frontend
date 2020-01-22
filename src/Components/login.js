@@ -1,26 +1,9 @@
 import React, { useState } from 'react';
-import { makeStyles, withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import '../App.css';
-import Button from '@material-ui/core/Button';
+import CustomButton from './custom-button';
 import ToastNotification from './toast';
 import CustomTextField from './custom-text-input';
-
-
-const LoginButton = withStyles({
-  root: {
-    backgroundColor: '#222831',
-    color: '#00fff5',
-    borderColor: '#00adb5',
-    borderWidth: '1px',
-    borderStyle: 'solid',
-    width: '50px',
-    padding: '5px 35px 5px 35px',
-    '&:hover':{
-      backgroundColor: '#00adb5',
-      color: '#222831',
-    }
-  }
-})(Button);
 
 const useStyles = makeStyles((theme)=>({
   root: {
@@ -194,7 +177,7 @@ export default function Login(props){
           value={password}
           onChange={(e)=>{setPassword(e.target.value)}}
         />
-        <LoginButton onClick={handleSubmit}>Submit</LoginButton>
+        <CustomButton onClick={handleSubmit}>Submit</CustomButton>
       </div>
       <ToastNotification open={openToast} onClose={handleToast} message={toastMessage}/>
     </div>
