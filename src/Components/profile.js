@@ -57,19 +57,11 @@ export default function Profile(props){
 
   const [openDialog, setOpenDialog] = useState(false);
   const [label, setLabel] = useState('');
-  const [changedField, setChangedField] = useState({phone: props.profile.phone, email: props.profile.email});
 
   const classes = useStyles();
 
   const handleEditDialog = (open)=>{
     setOpenDialog(open);
-  }
-
-  const handleChange = (newValue)=>{
-    let updatedValue = changedField;
-    updatedValue[newValue.field.toLowerCase()] = newValue.value;
-    console.log(updatedValue);
-    setChangedField(updatedValue);
   }
 
   const handleEditPhone = ()=>{
@@ -84,9 +76,9 @@ export default function Profile(props){
 
   return(
     <React.Fragment>
-      <EditDialog open={openDialog} label={label} onValueChange={handleChange} onClose={handleEditDialog}/>
+      <EditDialog open={openDialog} label={label} onProfileChange={props.onProfileChange} onClose={handleEditDialog}/>
       <fieldset className={classes.sectionBounds}>
-        <legend>Overview</legend>
+        <legend>Profile</legend>
         <div className={classes.cardContainer}>
           <Card className={classes.cards}>
             <CardContent>
@@ -112,7 +104,7 @@ export default function Profile(props){
                 </IconButton>
               </div>
               <Typography className={classes.details} variant="h6" component="h4">
-                {changedField.phone}
+                {props.profile.phone}
               </Typography>
             </CardContent>
           </Card>
@@ -127,7 +119,7 @@ export default function Profile(props){
                 </IconButton>
               </div>
               <Typography className={classes.details} variant="h6" component="h4">
-                {changedField.email}
+                {props.profile.email}
               </Typography>
             </CardContent>
           </Card>
