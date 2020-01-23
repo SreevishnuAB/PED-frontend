@@ -10,6 +10,12 @@ import MenuDialog from './dialog';
 import MenuDialogTitle from './dialog-title';
 import DialogContent from '@material-ui/core/DialogContent';
 import { Button } from '@material-ui/core';
+import CustomButton from './custom-button';
+import DialogActions from '@material-ui/core/DialogActions';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import { useTheme } from '@material-ui/core/styles';
+import CustomTextField from './custom-text-input';
+import ToastNotification from './toast';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -60,7 +66,14 @@ const useStyles = makeStyles(theme => ({
 
 export default function NavBar(props) {
   const classes = useStyles();
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down('xs'));
+
   const [openMenu, setOpenMenu] = useState(false);
+  const [openPwd, setOpenPwd] = useState(false);
+  const [pwd, setPwd] = useState('');
+  const [openToast, setOpenToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState({error: false, messageText: ''});
 
   const handleOpenMenu = ()=>{
     setOpenMenu(!openMenu);
@@ -71,6 +84,16 @@ export default function NavBar(props) {
     props.onLogout();
   }
 
+  const handleSave = ()=>{
+    /*TODO* backend integration*/
+    setPwd('');
+    handleOpenPwd();
+  }
+
+  const handleOpenPwd = ()=>{
+    setOpenPwd(!openPwd);
+    setOpenMenu(false);
+  }
   const handleViewProfile = ()=>{
     handleOpenMenu();
     props.onMenuClick("profile");
@@ -81,10 +104,28 @@ export default function NavBar(props) {
       <MenuDialogTitle className={classes.dialogTitle} id="user-menu-title"><AccountCircleIcon fontSize="large" className={classes.logoutBtn}/><span>{props.username}</span></MenuDialogTitle>
       <DialogContent className={classes.menuContent}>
         <Button className={classes.menuButton} onClick={handleViewProfile}>View Profile</Button>
-        <Button className={classes.menuButton}>Change Password</Button>
+        <Button className={classes.menuButton} onClick={handleOpenPwd}>Change Password</Button>
         <Button className={classes.menuButton} onClick={handleLogout}>Logout</Button>
       </DialogContent>
     </MenuDialog>
+
+    <MenuDialog fullScreen={fullScreen} open={openPwd} onClose={handleOpenPwd} aria-labelledby="responsive-dialog-title">
+      <MenuDialogTitle id="responsive-dialog-title">Change Password</MenuDialogTitle>
+      <DialogContent>
+        <CustomTextField
+          label={`New password`}
+          onChange={(event)=>{setPwd(event.target.value)}}
+          variant="outlined"
+          value={pwd}
+        />
+      </DialogContent>
+      <DialogActions>
+        <CustomButton onClick={handleSave} autoFocus>
+          Save
+        </CustomButton>
+      </DialogActions>
+    </MenuDialog>
+    <ToastNotification open={openToast} onClose={(open)=>{setOpenToast(open)}} message={toastMessage}/>
 
     <AppBar position="static">
       <Toolbar className={classes.toolbar}>
