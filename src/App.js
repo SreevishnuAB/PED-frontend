@@ -18,15 +18,22 @@ function App() {
     console.log(authData);
   }
 
+  const handleProfileChange = (newField)=>{
+    let updatedUser = user;
+    updatedUser.profile[newField.field.toLowerCase()] = newField.value;
+    setUser(updatedUser);
+  }
+
   const handleLogout = ()=>{
     setUser({authenticated:false, profile: {name: ""}, peData: null});
   }
+
   return(
     <React.Fragment>
       <NavBar authenticated={user.authenticated} username={user.profile.name} onMenuClick={changeView} onLogout={handleLogout}/>
       {(!user.authenticated)? <Login onLogin={handleUserAuth}/>:
        (user.peData === null)? <div><h1>TODO faculty view</h1></div>:
-       <StudentsRootView student={user} view={view} />}
+       <StudentsRootView student={user} view={view} onProfileChange={handleProfileChange}/>}
     </React.Fragment>
   );
 }
