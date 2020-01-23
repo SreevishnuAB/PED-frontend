@@ -57,7 +57,7 @@ export default function Profile(props){
 
   const [openDialog, setOpenDialog] = useState(false);
   const [label, setLabel] = useState('');
-  const [changedField, setChangedField] = useState('');
+  const [changedField, setChangedField] = useState({phone: props.profile.phone, email: props.profile.email});
 
   const classes = useStyles();
 
@@ -66,7 +66,10 @@ export default function Profile(props){
   }
 
   const handleChange = (newValue)=>{
-    setChangedField(newValue);
+    let updatedValue = changedField;
+    updatedValue[newValue.field.toLowerCase()] = newValue.value;
+    console.log(updatedValue);
+    setChangedField(updatedValue);
   }
 
   const handleEditPhone = ()=>{
@@ -109,7 +112,7 @@ export default function Profile(props){
                 </IconButton>
               </div>
               <Typography className={classes.details} variant="h6" component="h4">
-                {props.profile.phone}
+                {changedField.phone}
               </Typography>
             </CardContent>
           </Card>
@@ -124,7 +127,7 @@ export default function Profile(props){
                 </IconButton>
               </div>
               <Typography className={classes.details} variant="h6" component="h4">
-                {props.profile.email}
+                {changedField.email}
               </Typography>
             </CardContent>
           </Card>

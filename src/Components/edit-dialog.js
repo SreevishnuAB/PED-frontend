@@ -14,9 +14,16 @@ export default function EditDialog(props) {
   const [value, setValue] = useState('');
 
   const handleClose = () => {
-    props.onValueChange(value)
     props.onClose(false);
   };
+
+  const handleSave = ()=>{
+    let changedField = {field: props.label, value: value};
+//    console.log(changedField);
+    props.onValueChange(changedField);
+    props.onClose(false);
+
+  }
 
 
   return (
@@ -31,7 +38,7 @@ export default function EditDialog(props) {
           />
       </DialogContent>
       <DialogActions>
-        <CustomButton onClick={handleClose} autoFocus>
+        <CustomButton onClick={handleSave} autoFocus>
           Save
         </CustomButton>
       </DialogActions>
