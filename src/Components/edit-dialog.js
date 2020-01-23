@@ -4,15 +4,11 @@ import MenuDialog from './dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import MenuDialogTitle from './dialog-title';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
-import { useTheme } from '@material-ui/core/styles';
 import CustomTextField from './custom-text-input';
 import ToastNotification from './toast';
 
-
 export default function EditDialog(props) {
-  const theme = useTheme();
-  const fullScreen = useMediaQuery(theme.breakpoints.down('xs'));
+
   const [value, setValue] = useState('');
   const [openToast,setOpenToast] = useState(false);
   const [toastMessage, setToastMessage] = useState({error:false,messageText:''});
@@ -41,7 +37,7 @@ export default function EditDialog(props) {
 
   return (
     <>
-      <MenuDialog fullScreen={fullScreen} open={props.open} onClose={handleClose} aria-labelledby="responsive-dialog-title">
+      <MenuDialog open={props.open} onClose={handleClose} aria-labelledby="responsive-dialog-title">
         <MenuDialogTitle id="responsive-dialog-title">{`New ${props.label}`}</MenuDialogTitle>
         <DialogContent>
             <CustomTextField

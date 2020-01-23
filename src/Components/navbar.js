@@ -12,8 +12,6 @@ import DialogContent from '@material-ui/core/DialogContent';
 import { Button } from '@material-ui/core';
 import CustomButton from './custom-button';
 import DialogActions from '@material-ui/core/DialogActions';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
-import { useTheme } from '@material-ui/core/styles';
 import CustomTextField from './custom-text-input';
 import ToastNotification from './toast';
 
@@ -61,17 +59,25 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'center',
     alignItems: 'stretch',
     padding: '0px !important',
+  },
+  dialogContent: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  textField: {
+    margin: '5px',
   }
 }));
 
 export default function NavBar(props) {
   const classes = useStyles();
-  const theme = useTheme();
-  const fullScreen = useMediaQuery(theme.breakpoints.down('xs'));
 
   const [openMenu, setOpenMenu] = useState(false);
   const [openPwd, setOpenPwd] = useState(false);
-  const [pwd, setPwd] = useState('');
+  const [pwdOld, setPwdOld] = useState('');
+  const [pwdNew, setPwdNew] = useState('');
   const [openToast, setOpenToast] = useState(false);
   const [toastMessage, setToastMessage] = useState({error: false, messageText: ''});
 
@@ -86,8 +92,16 @@ export default function NavBar(props) {
 
   const handleSave = ()=>{
     /*TODO* backend integration*/
-    setPwd('');
-    handleOpenPwd();
+
+    if(!pwdNew || !pwdOld){
+      setToastMessage({error: true, messageText: 'Enter a valid password'});
+      setOpenToast(true);
+    }
+    else{
+      handleOpenPwd();
+      setPwdOld('');
+      setPwdNew('');
+    }
   }
 
   const handleOpenPwd = ()=>{
@@ -109,14 +123,24 @@ export default function NavBar(props) {
       </DialogContent>
     </MenuDialog>
 
-    <MenuDialog fullScreen={fullScreen} open={openPwd} onClose={handleOpenPwd} aria-labelledby="responsive-dialog-title">
+    <MenuDialog open={openPwd} onClose={handleOpenPwd} aria-labelledby="responsive-dialog-title">
       <MenuDialogTitle id="responsive-dialog-title">Change Password</MenuDialogTitle>
-      <DialogContent>
+      <DialogContent className={classes.dialogContent}>
         <CustomTextField
-          label={`New password`}
-          onChange={(event)=>{setPwd(event.target.value)}}
+          className={classes.textField}
+          label={`Old password`}
+          onChange={(event)=>{setPwdOld(event.target.value)}}
           variant="outlined"
-          value={pwd}
+          value={pwdOld}
+          type="password"
+        />
+        <CustomTextField
+          className={classes.textField}
+          label={`New password`}
+          onChange={(event)=>{setPwdNew(event.target.value)}}
+          variant="outlined"
+          value={pwdNew}
+          type="password"
         />
       </DialogContent>
       <DialogActions>
