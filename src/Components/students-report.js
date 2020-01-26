@@ -119,7 +119,7 @@ const useStyles = makeStyles((theme)=>({
   },
   cardContainerRow: {
     display: 'flex',
-    justifyContent: 'space-evenly',
+    justifyContent: 'space-between',
     alignItems: 'stretch',
     flexDirection: 'column',
     flexWrap: 'wrap',
