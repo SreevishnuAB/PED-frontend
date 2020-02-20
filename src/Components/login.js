@@ -61,11 +61,11 @@ export default function Login(props){
     else{
       /*TODO Check db, differentiate student vs faculty, appropriate component rendering */
       //for testing
-      const user = {authenticated: false, peData:null};
+      const user = {authenticated: false, pedData:null};
       // console.log(username.search(/[^A-Za-z]+$/g) !== -1);
       // console.log(username.search(/[0-9]/g) === -1 && username.search(/[.]/g) === -1);
       if(username.search(/[^A-Za-z]+$/g) !== -1){
-        /* retrieve data from student db; if data, set authenticated and PEData */
+        /* retrieve data from student db; if data, set authenticated and pedData */
         if(username === "AM.EN.U4CSE17001"){
           let profile = {
             id: 'AM.EN.U4CSE17001',
@@ -107,7 +107,7 @@ export default function Login(props){
               na: 0.0
             }
           ];
-          let peData = {
+          let pedData = {
             resumeScore: 8.5,
             interviewStatus: 'Pending',
             softSkillsStatus: 'Qualified',
@@ -115,7 +115,7 @@ export default function Login(props){
             eligibility: {avgScore: 31.0, eval: evalData}
           }; //post successful auth; for testing; actual- responsedata[0]
           user.profile = profile;
-          user.peData = peData;
+          user.pedData = pedData;
           user.authenticated = true;
         }
         else{
@@ -125,7 +125,7 @@ export default function Login(props){
             batch: "CS",
             semester: "S6"
             }
-          let peData = {
+          let pedData = {
             resumeScore: 8,
             interviewStatus: 'Qualified',
             softSkillsStatus: 'Qualified',
@@ -137,7 +137,7 @@ export default function Login(props){
             e5: ''
           }
           user.profile = profile;
-          user.peData = peData;
+          user.pedData = pedData;
           user.authenticated = true;
         }
         props.onLogin(user);

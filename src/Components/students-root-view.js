@@ -6,7 +6,7 @@ export default function StudentsRootView(props){
 
   switch(props.view){
     case "report":
-      return <StudentsReport profile={props.student.profile} peData={props.student.peData}/>
+      return <StudentsReport profile={props.student.profile} pedData={props.student.pedData}/>
     case "profile":
       return <Profile profile={props.student.profile} onProfileChange={props.onProfileChange}/>;
     default:

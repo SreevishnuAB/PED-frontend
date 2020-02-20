@@ -251,15 +251,15 @@ const resolveColorByValue = (status, style)=>{
 
 export default function StudentsReport(props){
 
-  const evalObj = props.peData.eligibility.eval;
+  const evalObj = props.pedData.eligibility.eval;
   const classes = useStyles();  
 //  console.log(props);
-  const colorCH = resolveClassName(props.peData.colorCH, classes);
-  const colorStatus = resolveColorByValue(props.peData.interviewStatus, classes);
-  const colorCHStatus = resolveColorByValue(props.peData.colorCH, classes);
-  const colorSSStatus = resolveColorByValue(props.peData.softSkillsStatus, classes);
-  const colorResume = getColorByResume(props.peData.resumeScore, classes);
-  const colorScore = getColorByScore(props.peData.eligibility.avgScore, classes);
+  const colorCH = resolveClassName(props.pedData.colorCH, classes);
+  const colorStatus = resolveColorByValue(props.pedData.interviewStatus, classes);
+  const colorCHStatus = resolveColorByValue(props.pedData.colorCH, classes);
+  const colorSSStatus = resolveColorByValue(props.pedData.softSkillsStatus, classes);
+  const colorResume = getColorByResume(props.pedData.resumeScore, classes);
+  const colorScore = getColorByScore(props.pedData.eligibility.avgScore, classes);
   const colorEval1 = resolveColorByValue(evalObj[0].status, classes);
   const colorEval2 = resolveColorByValue(evalObj[1].status, classes);
 
@@ -292,7 +292,7 @@ export default function StudentsReport(props){
                     INTERVIEW STATUS
                   </Typography>
                   <div className={classes.cardChip}>
-                    <Chip className={`${classes.colorChip} ${colorStatus}`} label={props.peData.interviewStatus}/>
+                    <Chip className={`${classes.colorChip} ${colorStatus}`} label={props.pedData.interviewStatus}/>
                   </div>
                 </CardContent>
               </Card>
@@ -329,10 +329,10 @@ export default function StudentsReport(props){
                     <Typography className={classes.header} gutterBottom>
                       TECHNICAL: CODING
                     </Typography>
-                    <Chip className={`${colorCH} ${classes.colorIndicator}`} label={props.peData.colorCH.toUpperCase()} style={{backgroundColor: `${color[props.peData.colorCH]}`, color: `${color[props.peData.colorCH]}`, borderColor: `${color[props.peData.colorCH]}`}}/>
+                    <Chip className={`${colorCH} ${classes.colorIndicator}`} label={props.pedData.colorCH.toUpperCase()} style={{backgroundColor: `${color[props.pedData.colorCH]}`, color: `${color[props.pedData.colorCH]}`, borderColor: `${color[props.pedData.colorCH]}`}}/>
                   </div>
                   <div className={classes.cardChip}>
-                    <Chip className={`${classes.colorChip} ${colorCHStatus}`} label={(props.peData.colorCH === 'red')?"Orange or above color group needed":"Eligible"}/>
+                    <Chip className={`${classes.colorChip} ${colorCHStatus}`} label={(props.pedData.colorCH === 'red')?"Orange or above color group needed":"Eligible"}/>
                   </div>
                 </CardContent>
               </Card>
@@ -343,7 +343,7 @@ export default function StudentsReport(props){
                       SOFT SKILLS
                     </Typography>
                     <div className={classes.cardChip}>
-                      <Chip className={`${classes.colorChip} ${colorSSStatus}`} label={props.peData.softSkillsStatus}/>
+                      <Chip className={`${classes.colorChip} ${colorSSStatus}`} label={props.pedData.softSkillsStatus}/>
                     </div>
                   </CardContent>
                 </Card>
@@ -353,7 +353,7 @@ export default function StudentsReport(props){
                       RESUME SCORE
                     </Typography>
                     <div className={classes.cardChip}>
-                      <Chip className={`${classes.colorChip} ${colorResume}`} label={props.peData.resumeScore}/>
+                      <Chip className={`${classes.colorChip} ${colorResume}`} label={props.pedData.resumeScore}/>
                     </div>
                   </CardContent>
                 </Card>
@@ -371,8 +371,8 @@ export default function StudentsReport(props){
                     AVERAGE SCORE
                   </Typography>
                   <div className={classes.cardChip}>
-                    <Chip className={`${classes.colorChip} ${colorScore}`} label={`${props.peData.eligibility.avgScore} %`}/>
-                    <Chip className={`${classes.colorChip} ${colorScore}`} label={(parseFloat(props.peData.eligibility.avgScore) < 55 )?"Average score of 55 or above needed":"Eligible"}/>
+                    <Chip className={`${classes.colorChip} ${colorScore}`} label={`${props.pedData.eligibility.avgScore} %`}/>
+                    <Chip className={`${classes.colorChip} ${colorScore}`} label={(parseFloat(props.pedData.eligibility.avgScore) < 55 )?"Average score of 55 or above needed":"Eligible"}/>
                   </div>
                 </CardContent>
               </Card>
