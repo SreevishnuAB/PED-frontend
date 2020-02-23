@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Switch, Route, useHistory } from 'react-router-dom';
 import Login from './Components/login';
 import StudentsRootView from './Components/students-root-view';
-import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import './App.css'
 
 function App() {
@@ -45,38 +44,30 @@ function App() {
   // );
 
   return(
-    <TransitionGroup>
-      <CSSTransition
-        key={1}
-        classNames="fade"
-        timeout={300}
-      >
-        <Switch>
-          <Route
-            exact
-            path="/"
-            render={(routerProps)=>(
-              <Login
-                {...routerProps}
-                onLogin={handleUserAuth}
-              />
-            )}
+    <Switch>
+      <Route
+        exact
+        path="/"
+        render={(routerProps)=>(
+          <Login
+            {...routerProps}
+            onLogin={handleUserAuth}
           />
-        <Route
-          path="/student"
-          render={(routerProps)=>(
-            <StudentsRootView
-              {...routerProps}
-              student={user}
-              onProfileChange={handleProfileChange}
-              onMenuClick={changeView}
-              onLogout={handleLogout}
-            />
-          )}
+        )}
+      />
+      <Route
+        path="/student"
+        render={(routerProps)=>(
+          <StudentsRootView
+            {...routerProps}
+            student={user}
+            onProfileChange={handleProfileChange}
+            onMenuClick={changeView}
+            onLogout={handleLogout}
           />
-        </Switch>
-      </CSSTransition>
-    </TransitionGroup>
+        )}
+      />
+    </Switch>
   );
 }
 
