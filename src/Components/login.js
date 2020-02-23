@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import '../App.css';
+import NavBar from './navbar';
 import CustomButton from './custom-button';
 import ToastNotification from './toast';
 import CustomTextField from './custom-text-input';
@@ -12,7 +12,6 @@ const useStyles = makeStyles((theme)=>({
     justifyContent: 'center',
     alignItems: 'center',
     width: '100%',
-    marginLeft: '0',
   },
   form: {
     marginTop: '50px',
@@ -140,6 +139,7 @@ export default function Login(props){
           user.pedData = pedData;
           user.authenticated = true;
         }
+        props.history.push(`/student/${user.profile.id}`);
         props.onLogin(user);
 //        console.log(user);
       }
@@ -158,7 +158,8 @@ export default function Login(props){
   }
 
   return(
-    <div className={props.login?classes.fullWidthRoot:classes.root}>
+    <div className={classes.root}>
+      <NavBar authenticated={false}/>
       <div className={classes.form}>
         <CustomTextField
           id="outlined-username-input"

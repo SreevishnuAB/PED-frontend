@@ -6,6 +6,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
 import EditIcon from '@material-ui/icons/Edit';
 import EditDialog from './edit-dialog';
+import NavBar from './navbar';
 
 const useStyles = makeStyles((theme)=>({
   sectionBounds: {
@@ -77,6 +78,12 @@ export default function Profile(props){
   return(
     <React.Fragment>
       <EditDialog open={openDialog} label={label} onProfileChange={props.onProfileChange} onClose={handleEditDialog}/>
+      <NavBar
+        authenticated={props.student.authenticated}
+        username={props.profile.name}
+        onMenuClick={props.onMenuClick}
+        onLogout={props.onLogout}
+      />
       <fieldset className={classes.sectionBounds}>
         <legend>Profile</legend>
         <div className={classes.cardContainer}>

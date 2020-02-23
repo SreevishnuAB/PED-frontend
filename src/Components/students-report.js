@@ -1,5 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import NavBar from './navbar';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
@@ -11,7 +12,7 @@ const useStyles = makeStyles((theme)=>({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'stretch',
-    margin: "10px 10px",
+    margin: "10px 0px",
   },
   sections: {
     margin: "10px 0px",   
@@ -251,6 +252,8 @@ const resolveColorByValue = (status, style)=>{
 
 export default function StudentsReport(props){
 
+  console.log(props);
+  
   const evalObj = props.pedData.eligibility.eval;
   const classes = useStyles();  
 //  console.log(props);
@@ -267,6 +270,12 @@ export default function StudentsReport(props){
 
   return(
     <div className={classes.reportRoot}>
+      <NavBar
+        authenticated={props.student.authenticated}
+        username={props.profile.name}
+        onMenuClick={props.onMenuClick}
+        onLogout={props.onLogout}
+      />
       <fieldset className={`${colorCH} ${classes.rootSectionBound}`}>
         <legend>Know Your Eligibility</legend>
         <div className={classes.cardContainerRow}>

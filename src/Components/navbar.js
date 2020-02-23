@@ -14,10 +14,12 @@ import CustomButton from './custom-button';
 import DialogActions from '@material-ui/core/DialogActions';
 import CustomTextField from './custom-text-input';
 import ToastNotification from './toast';
+import { useRouteMatch } from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
+    width: '100vw'
   },
   toolbar: {
     backgroundColor: '#393e46',
@@ -68,12 +70,17 @@ const useStyles = makeStyles(theme => ({
   },
   textField: {
     margin: '5px',
+  },
+  dialogTitle:{
+    width: '200px !important'
   }
 }));
 
 export default function NavBar(props) {
   const classes = useStyles();
 
+
+  const match = useRouteMatch();
   const [openMenu, setOpenMenu] = useState(false);
   const [openPwd, setOpenPwd] = useState(false);
   const [pwdOld, setPwdOld] = useState('');
@@ -110,7 +117,7 @@ export default function NavBar(props) {
   }
   const handleViewProfile = ()=>{
     handleOpenMenu();
-    props.onMenuClick("profile");
+    props.onMenuClick(match.url);
   }
   return (
   <div className={classes.root}>
