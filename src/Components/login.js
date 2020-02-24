@@ -4,6 +4,12 @@ import NavBar from './navbar';
 import CustomButton from './custom-button';
 import ToastNotification from './toast';
 import CustomTextField from './custom-text-input';
+import Backdrop from '@material-ui/core/Backdrop';
+import Typography from '@material-ui/core/Typography';
+import LinearProgress from '@material-ui/core/LinearProgress';
+
+
+const axios = require('axios').default;
 
 const useStyles = makeStyles((theme)=>({
   root: {
@@ -38,6 +44,13 @@ const useStyles = makeStyles((theme)=>({
     width: '50px',
     padding: '5px 35px 5px 35px',
   },
+  backdrop: {
+    zIndex: 5,
+    color: '#fff',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center'
+  },
 }));
 
 export default function Login(props){
@@ -46,7 +59,12 @@ export default function Login(props){
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [openToast,setOpenToast] = useState(false);
+  const [open, setOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState({error:false,messageText:''});
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   const handleToast = (open)=>{
     setOpenToast(open);
@@ -58,108 +76,31 @@ export default function Login(props){
       setOpenToast(!openToast);
     }
     else{
-      /*TODO Check db, differentiate student vs faculty, appropriate component rendering */
-      //for testing
-      const user = {authenticated: false, pedData:null};
-      // console.log(username.search(/[^A-Za-z]+$/g) !== -1);
-      // console.log(username.search(/[0-9]/g) === -1 && username.search(/[.]/g) === -1);
-      if(username.search(/[^A-Za-z]+$/g) !== -1){
-        /* retrieve data from student db; if data, set authenticated and pedData */
-        if(username === "AM.EN.U4CSE17001"){
-          let profile = {
-            id: 'AM.EN.U4CSE17001',
-            name: "Aakash K O",
-            batch: "CS",
-            semester: "S6",
-            phone: "1234569870",
-            email: 'asd@qwe.com'
-          }
-          let evalData = [{
-              status: 'Completed',
-              date: '18 January 2020',
-              avg: 31.0,
-              va: 29.0,
-              na: 33.0
-            }, {
-              status: 'Scheduled',
-              date:'20 January 2020',
-              avg: 0.0,
-              va: 0.0,
-              na: 0.0
-            }, {
-              status: 'TBD',
-              date: 'TBD',
-              avg: 0.0,
-              va: 0.0,
-              na: 0.0
-            }, {
-              status: 'TBD',
-              date: 'TBD',
-              avg: 0.0,
-              va: 0.0,
-              na: 0.0
-            }, {
-              status: 'TBD',
-              date: 'TBD',
-              avg: 0.0,
-              va: 0.0,
-              na: 0.0
-            }
-          ];
-          let pedData = {
-            resumeScore: 8.5,
-            interviewStatus: 'Pending',
-            softSkillsStatus: 'Qualified',
-            colorCH: 'red',
-            eligibility: {avgScore: 31.0, eval: evalData}
-          }; //post successful auth; for testing; actual- responsedata[0]
-          user.profile = profile;
-          user.pedData = pedData;
-          user.authenticated = true;
-        }
-        else{
-          let profile = {
-            id: 'AM.EN.U4CSE17002',
-            name: "Adarsh K",
-            batch: "CS",
-            semester: "S6"
-            }
-          let pedData = {
-            resumeScore: 8,
-            interviewStatus: 'Qualified',
-            softSkillsStatus: 'Qualified',
-            colorCH: 'blue',
-            e1: '',
-            e2: '',
-            e3: '',
-            e4: '',
-            e5: ''
-          }
-          user.profile = profile;
-          user.pedData = pedData;
-          user.authenticated = true;
-        }
-        props.history.push(`/student/${user.profile.id}`);
-        props.onLogin(user);
-//        console.log(user);
-      }
-      /*for testing, actual - check if faculty exists in db; else error */
-      else if(username.search(/[0-9]/g) === -1 && username.search(/[.]/g) === -1){
-        user.profile = {name: "faculty"};
-//      console.log(user);
-        user.authenticated = true;
-        props.onLogin(user);
-      }
-      else{
-        setToastMessage({error:true,messageText:"Invalid username or password"});
-        setOpenToast(!openToast);      
-      }
+      setOpen(true);
+      axios.post("https://ped-be.herokuapp.com/api/v1/login",{
+        id: username,
+        password: password
+      }).then((response)=>{
+        console.log(response);
+        setOpen(false);
+        props.onLogin(response.data);
+      //  props.history.push(`/student/${response.data.id}`)
+      }).catch((error)=>{
+        console.log(error.response.data);
+        setOpen(false);
+        setToastMessage({error: true, messageText: error.response.data.detail.error_text})
+        setOpenToast(true);
+      });
     }
   }
 
   return(
     <div className={classes.root}>
       <NavBar authenticated={false}/>
+      <Backdrop className={classes.backdrop} open={open} onClick={handleClose}>
+        <LinearProgress color="secondary" style={{width: '75vw', height: '3px'}}/>
+        <Typography variant="h4" component="h4">Please Wait</Typography>
+      </Backdrop>
       <div className={classes.form}>
         <CustomTextField
           id="outlined-username-input"

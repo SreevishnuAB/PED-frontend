@@ -7,7 +7,7 @@ import './App.css'
 function App() {
 
   const history = useHistory();
-  const [user, setUser] = useState({authenticated: false, profile: {name:"", phone: "", email: ""}, pedData: null});
+  const [user, setUser] = useState({authenticated: false, id:undefined, designation: undefined});
 
   const changeView = (newView)=>{
 //    setView(newView);
