@@ -19,7 +19,7 @@ function App() {
   const handleUserAuth = (authData)=>{
     setUser(authData);
    // history.push(`/student/${authData.profile.id}`)
-  //  console.log(authData);
+    console.log(authData);
   }
 
   const handleProfileChange = (newField)=>{

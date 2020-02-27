@@ -4,9 +4,7 @@ import NavBar from './navbar';
 import CustomButton from './custom-button';
 import ToastNotification from './toast';
 import CustomTextField from './custom-text-input';
-import Backdrop from '@material-ui/core/Backdrop';
-import Typography from '@material-ui/core/Typography';
-import LinearProgress from '@material-ui/core/LinearProgress';
+import ProgressBar from './progress-bar';
 
 
 const axios = require('axios').default;
@@ -81,7 +79,7 @@ export default function Login(props){
         id: username,
         password: password
       }).then((response)=>{
-        console.log(response);
+      //  console.log(response);
         setOpen(false);
         props.onLogin(response.data);
       //  props.history.push(`/student/${response.data.id}`)
@@ -97,10 +95,7 @@ export default function Login(props){
   return(
     <div className={classes.root}>
       <NavBar authenticated={false}/>
-      <Backdrop className={classes.backdrop} open={open} onClick={handleClose}>
-        <LinearProgress color="secondary" style={{width: '75vw', height: '3px'}}/>
-        <Typography variant="h4" component="h4">Please Wait</Typography>
-      </Backdrop>
+      <ProgressBar open={open} onClose={handleClose}/>
       <div className={classes.form}>
         <CustomTextField
           id="outlined-username-input"
