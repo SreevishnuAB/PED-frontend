@@ -86,7 +86,7 @@ export default function Login(props){
       }).catch((error)=>{
         console.log(error.response.data);
         setOpen(false);
-        setToastMessage({error: true, messageText: error.response.data.detail.error_text})
+        setToastMessage({error: true, messageText: error.response.data.detail})
         setOpenToast(true);
       });
     }
