@@ -26,8 +26,7 @@ export default function StudentsRootView(props){
         path={`${match.path}/:studentId`}
         render={(routerProps)=>(
             <StudentsReport
-              profile={props.student.profile}
-              pedData={props.student.pedData}
+              student={props.student}
               {...routerProps}
               {...props}
             />

@@ -256,11 +256,12 @@ const resolveColorByValue = (status, style)=>{
 export default function StudentsReport(props){
 
   const [pedData, setPedData] = React.useState
-
+  console.log("std id: "+props.student);
+  
   React.useEffect(()=>{
 
     axios.get(
-      `https://ped-be.herokuapp.com/api/v1/student/${props.profile.id}`, {
+      `https://ped-be.herokuapp.com/api/v1/student/${props.student.id}`, {
       withCredentials: true,
       headers: {'Access-Control-Allow-Origin': '*'}
     }).then((response)=>{
@@ -272,25 +273,26 @@ export default function StudentsReport(props){
         
     });
 
-  },[props.pedData, props.profile]);
+  },[props.student.id]);
 
   console.log(props);
   
   const evalObj = props.pedData.eligibility.eval;
   const classes = useStyles();  
 //  console.log(props);
-  const colorCH = resolveClassName(props.pedData.colorCH, classes);
-  const colorStatus = resolveColorByValue(props.pedData.interviewStatus, classes);
-  const colorCHStatus = resolveColorByValue(props.pedData.colorCH, classes);
-  const colorSSStatus = resolveColorByValue(props.pedData.softSkillsStatus, classes);
-  const colorResume = getColorByResume(props.pedData.resumeScore, classes);
-  const colorScore = getColorByScore(props.pedData.eligibility.avgScore, classes);
-  const colorEval1 = resolveColorByValue(evalObj[0].status, classes);
-  const colorEval2 = resolveColorByValue(evalObj[1].status, classes);
+  // const colorCH = resolveClassName(props.pedData.colorCH, classes);
+  // const colorStatus = resolveColorByValue(props.pedData.interviewStatus, classes);
+  // const colorCHStatus = resolveColorByValue(props.pedData.colorCH, classes);
+  // const colorSSStatus = resolveColorByValue(props.pedData.softSkillsStatus, classes);
+  // const colorResume = getColorByResume(props.pedData.resumeScore, classes);
+  // const colorScore = getColorByScore(props.pedData.eligibility.avgScore, classes);
+  // const colorEval1 = resolveColorByValue(evalObj[0].status, classes);
+  // const colorEval2 = resolveColorByValue(evalObj[1].status, classes);
 
   const color = {blue: "#4DC2FB", red: "red", green: "green", orange: "orange"};
 
-  return(
+  return(<div>Student</div>);
+/*  return(
     <div className={classes.reportRoot}>
       <NavBar
         authenticated={props.student.authenticated}
@@ -520,5 +522,5 @@ export default function StudentsReport(props){
         </div>
       </fieldset>
     </div>
-  );
+  );*/
 }

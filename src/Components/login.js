@@ -7,7 +7,9 @@ import CustomTextField from './custom-text-input';
 import ProgressBar from './progress-bar';
 
 
-const axios = require('axios').default;
+const axios = require('axios');
+
+axios.defaults.baseURL = "https://ped-be.herokuapp.com/api/v1";
 
 const useStyles = makeStyles((theme)=>({
   root: {
@@ -68,18 +70,10 @@ export default function Login(props){
     setOpenToast(open);
   }
 
-  const handleSubmit = async ()=>{
-    if(!username || !password){
-      setToastMessage({error:true,messageText:"Username and password cannot be empty"});
-      setOpenToast(!openToast);
-    }
-    else{
-      setOpen(true);
-      let formData = new FormData();
-      formData.append("username", username);
-      formData.append("password", password);
-      let url = "https://ped-be.herokuapp.com";
-      await axios.post(`${url}/api/v1/login`,
+  const sendLoginRequest = (formData)=>{
+//use axios-hooks
+    let auth = false;
+    axios.post('/login',
         formData, {
           withCredenetials: true,
           headers: {
@@ -89,16 +83,35 @@ export default function Login(props){
       ).then((response)=>{
         console.log("response");
         
-        console.log(response);
+        //console.log(response);
         setOpen(false);
         props.onLogin(response.data);
-        props.history.push(`/student/${response.data.id}`)
+        auth = true;
       }).catch((error)=>{
-        console.log(error?.response);
+        console.log(error.response);
         setOpen(false);
-        //setToastMessage({error: true, messageText: error.response.data.detail})
-        //setOpenToast(true);
+        setToastMessage({error: true, messageText: error.response.data.detail})
+        setOpenToast(true);
       });
+      return auth;
+  }
+  const handleSubmit = ()=>{
+    if(!username || !password){
+      setToastMessage({error:true,messageText:"Username and password cannot be empty"});
+      setOpenToast(!openToast);
+    }
+    else{
+      setOpen(true);
+      let formData = new FormData();
+      formData.append("username", username);
+      formData.append("password", password);
+//      let url = "https://ped-be.herokuapp.com";
+      let id = sendLoginRequest(formData);
+      console.log(id);
+      
+      if(id !== undefined)
+        props.history.push(`/student/${id}`);
+      
     }
   }
 
