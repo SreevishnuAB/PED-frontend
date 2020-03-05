@@ -68,26 +68,36 @@ export default function Login(props){
     setOpenToast(open);
   }
 
-  const handleSubmit = ()=>{
+  const handleSubmit = async ()=>{
     if(!username || !password){
       setToastMessage({error:true,messageText:"Username and password cannot be empty"});
       setOpenToast(!openToast);
     }
     else{
       setOpen(true);
-      axios.post("https://ped-be.herokuapp.com/api/v1/login",{
-        id: username,
-        password: password
-      }).then((response)=>{
-      //  console.log(response);
+      let formData = new FormData();
+      formData.append("username", username);
+      formData.append("password", password);
+      let url = "https://ped-be.herokuapp.com";
+      await axios.post(`${url}/api/v1/login`,
+        formData, {
+          withCredenetials: true,
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+          },
+        }
+      ).then((response)=>{
+        console.log("response");
+        
+        console.log(response);
         setOpen(false);
         props.onLogin(response.data);
-      //  props.history.push(`/student/${response.data.id}`)
+        props.history.push(`/student/${response.data.id}`)
       }).catch((error)=>{
-        console.log(error.response.data);
+        console.log(error?.response);
         setOpen(false);
-        setToastMessage({error: true, messageText: error.response.data.detail})
-        setOpenToast(true);
+        //setToastMessage({error: true, messageText: error.response.data.detail})
+        //setOpenToast(true);
       });
     }
   }

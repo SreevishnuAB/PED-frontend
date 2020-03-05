@@ -6,6 +6,9 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import Chip from '@material-ui/core/Chip';
 
+
+const axios = require('axios').default;
+
 const useStyles = makeStyles((theme)=>({
   reportRoot:{
     display: 'flex',
@@ -251,6 +254,25 @@ const resolveColorByValue = (status, style)=>{
 }
 
 export default function StudentsReport(props){
+
+  const [pedData, setPedData] = React.useState
+
+  React.useEffect(()=>{
+
+    axios.get(
+      `https://ped-be.herokuapp.com/api/v1/student/${props.profile.id}`, {
+      withCredentials: true,
+      headers: {'Access-Control-Allow-Origin': '*'}
+    }).then((response)=>{
+        console.log(response.data);
+        
+
+    }).catch((error)=>{
+        console.log(JSON.stringify(error));
+        
+    });
+
+  },[props.pedData, props.profile]);
 
   console.log(props);
   
