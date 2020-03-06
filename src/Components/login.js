@@ -6,7 +6,6 @@ import ToastNotification from './toast';
 import CustomTextField from './custom-text-input';
 import ProgressBar from './progress-bar';
 
-
 const axios = require('axios');
 
 axios.defaults.baseURL = "https://ped-be.herokuapp.com/api/v1";
@@ -54,10 +53,11 @@ const useStyles = makeStyles((theme)=>({
 }));
 
 export default function Login(props){
-
+  
   const classes = useStyles();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  
   const [openToast,setOpenToast] = useState(false);
   const [open, setOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState({error:false,messageText:''});
@@ -70,47 +70,47 @@ export default function Login(props){
     setOpenToast(open);
   }
 
-  const sendLoginRequest = (formData)=>{
-//use axios-hooks
-    let auth = false;
-    axios.post('/login',
-        formData, {
-          withCredenetials: true,
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
-          },
-        }
-      ).then((response)=>{
-        console.log("response");
-        
-        //console.log(response);
-        setOpen(false);
-        props.onLogin(response.data);
-        auth = true;
-      }).catch((error)=>{
-        console.log(error.response);
-        setOpen(false);
-        setToastMessage({error: true, messageText: error.response.data.detail})
-        setOpenToast(true);
-      });
-      return auth;
-  }
+
   const handleSubmit = ()=>{
     if(!username || !password){
       setToastMessage({error:true,messageText:"Username and password cannot be empty"});
       setOpenToast(!openToast);
     }
     else{
-      setOpen(true);
+      //console.log("loading"+loading);
+      
       let formData = new FormData();
       formData.append("username", username);
       formData.append("password", password);
-//      let url = "https://ped-be.herokuapp.com";
-      let id = sendLoginRequest(formData);
-      console.log(id);
+      // executePost({
+      //   data: formData
+      // });
+
+      axios.post(
+        '/login',
+        formData, {
+          withCredentials: true,
+          headers: {
+            'Access-Control-Allow-Origin': '*',
+            crossDomain: true,
+            Accept: '*/*',
+          }
+        }
+      ).then((response)=>{
+        props.onLogin(response.data);
+        //props.history.push(`/${response.data.designation}/${response.data.id}`)
+      }).catch((error)=>{
+        setToastMessage({error: true, messageText: error.response.data.detail});
+        setOpenToast(true);
+        setOpen(false);
+      });
       
-      if(id !== undefined)
-        props.history.push(`/student/${id}`);
+        
+      //console.log("here id: "+props.user.id);
+      // if(id !== undefined){
+      //   console.log("here");
+      //   props.history.push(`/student/${id}`);
+      // }
       
     }
   }
@@ -118,6 +118,7 @@ export default function Login(props){
   return(
     <div className={classes.root}>
       <NavBar authenticated={false}/>
+      {/*<ProgressBar open={loading||open} onClose={handleClose}/>*/}
       <ProgressBar open={open} onClose={handleClose}/>
       <div className={classes.form}>
         <CustomTextField

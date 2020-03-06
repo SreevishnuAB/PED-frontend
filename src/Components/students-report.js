@@ -255,15 +255,19 @@ const resolveColorByValue = (status, style)=>{
 
 export default function StudentsReport(props){
 
-  const [pedData, setPedData] = React.useState
-  console.log("std id: "+props.student);
+  //const [pedData, setPedData] = React.useState
+  //console.log("std id: "+props.student);
   
   React.useEffect(()=>{
 
     axios.get(
       `https://ped-be.herokuapp.com/api/v1/student/${props.student.id}`, {
       withCredentials: true,
-      headers: {'Access-Control-Allow-Origin': '*'}
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'crossDomain': true,
+        'Accept': '*/*',
+      }
     }).then((response)=>{
         console.log(response.data);
         
@@ -277,7 +281,7 @@ export default function StudentsReport(props){
 
   console.log(props);
   
-  const evalObj = props.pedData.eligibility.eval;
+  //const evalObj = props.pedData.eligibility.eval;
   const classes = useStyles();  
 //  console.log(props);
   // const colorCH = resolveClassName(props.pedData.colorCH, classes);
