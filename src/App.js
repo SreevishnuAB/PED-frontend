@@ -3,6 +3,7 @@ import { Switch, Route, useHistory } from 'react-router-dom';
 import Login from './Components/login';
 import StudentsRootView from './Components/students-root-view';
 import './App.css'
+import NavBar from './Components/navbar';
 
 function App() {
 
@@ -29,6 +30,7 @@ function App() {
   }
 
   const handleLogout = ()=>{
+
     history.push("/");
     setUser({authenticated:false, profile: {name: ""}, pedData: null});
   }
@@ -44,6 +46,13 @@ function App() {
   // );
 
   return(
+    <>
+    <NavBar
+      authenticated={user.authenticated}
+      username={user.id}
+      onMenuClick={changeView}
+      onLogout={handleLogout}
+      />
     <Switch>
       <Route
         exact
@@ -68,6 +77,7 @@ function App() {
         )}
       />
     </Switch>
+    </>
   );
 }
 

@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme)=>({
   },
   toastContent:{
     backgroundColor: '#23C94A',
-    color: '#001215',
+    color: '#ffffff',
   },
   errorToast:{
     backgroundColor: '#FF0000',

@@ -5,6 +5,11 @@ import Profile from './profile';
 
 export default function StudentsRootView(props){
 
+  const [profile, setProfile] = React.useState({});
+
+  const handleProfile = React.useCallback((prof)=>{
+    setProfile(prof)
+  }, []);
   // switch(props.view){
   //   case "report":
   //     return <StudentsReport profile={props.student.profile} pedData={props.student.pedData}/>
@@ -16,7 +21,7 @@ export default function StudentsRootView(props){
 
   let match = useRouteMatch();
 
-  console.log(props.student);
+  //console.log(props.student);
   if(props.student.authenticated === false)
     return <Redirect to="/"/>;
   return(
@@ -27,8 +32,8 @@ export default function StudentsRootView(props){
         render={(routerProps)=>(
             <StudentsReport
               student={props.student}
+              onGet={handleProfile}
               {...routerProps}
-              {...props}
             />
         )}
       />
@@ -36,7 +41,7 @@ export default function StudentsRootView(props){
         path={`${match.path}/:studentId/profile`}
         render={(routerProps)=>(
             <Profile
-              profile={props.student.profile}
+              profile={profile}
               {...routerProps}
               {...props}
             />

@@ -5,10 +5,8 @@ import CustomButton from './custom-button';
 import ToastNotification from './toast';
 import CustomTextField from './custom-text-input';
 import ProgressBar from './progress-bar';
-
-const axios = require('axios');
-
-axios.defaults.baseURL = "https://ped-be.herokuapp.com/api/v1";
+import axiosPreset from '../axios/config';
+//const axios = require('axios');
 
 const useStyles = makeStyles((theme)=>({
   root: {
@@ -78,7 +76,7 @@ export default function Login(props){
     }
     else{
       //console.log("loading"+loading);
-      
+      setOpen(true);
       let formData = new FormData();
       formData.append("username", username);
       formData.append("password", password);
@@ -86,19 +84,13 @@ export default function Login(props){
       //   data: formData
       // });
 
-      axios.post(
+      axiosPreset.post(
         '/login',
-        formData, {
-          withCredentials: true,
-          headers: {
-            'Access-Control-Allow-Origin': '*',
-            crossDomain: true,
-            Accept: '*/*',
-          }
-        }
+        formData,
       ).then((response)=>{
+        setOpen(false);
         props.onLogin(response.data);
-        //props.history.push(`/${response.data.designation}/${response.data.id}`)
+        props.history.push(`/${response.data.designation}/${response.data.id}`)
       }).catch((error)=>{
         setToastMessage({error: true, messageText: error.response.data.detail});
         setOpenToast(true);
@@ -117,8 +109,6 @@ export default function Login(props){
 
   return(
     <div className={classes.root}>
-      <NavBar authenticated={false}/>
-      {/*<ProgressBar open={loading||open} onClose={handleClose}/>*/}
       <ProgressBar open={open} onClose={handleClose}/>
       <div className={classes.form}>
         <CustomTextField
