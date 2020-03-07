@@ -72,7 +72,7 @@ const useStyles = makeStyles(theme => ({
     margin: '5px',
   },
   dialogTitle:{
-    width: '200px !important'
+    width: '250px !important'
   }
 }));
 

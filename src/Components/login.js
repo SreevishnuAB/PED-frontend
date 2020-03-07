@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import NavBar from './navbar';
 import CustomButton from './custom-button';
 import ToastNotification from './toast';
 import CustomTextField from './custom-text-input';

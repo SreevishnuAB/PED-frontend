@@ -8,7 +8,7 @@ import NavBar from './Components/navbar';
 function App() {
 
   const history = useHistory();
-  const [user, setUser] = useState({authenticated: false, id:undefined, designation: undefined});
+  const [user, setUser] = useState({authenticated: false, id:'', designation: undefined});
 
   const changeView = (newView)=>{
 //    setView(newView);
@@ -32,7 +32,7 @@ function App() {
   const handleLogout = ()=>{
 
     history.push("/");
-    setUser({authenticated:false, profile: {name: ""}, pedData: null});
+    setUser({authenticated: false, id:undefined, designation: undefined});
   }
 
 
@@ -49,7 +49,7 @@ function App() {
     <>
     <NavBar
       authenticated={user.authenticated}
-      username={user.id}
+      username={user.id.toUpperCase()}
       onMenuClick={changeView}
       onLogout={handleLogout}
       />

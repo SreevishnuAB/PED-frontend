@@ -1,6 +1,5 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import NavBar from './navbar';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
@@ -321,7 +320,7 @@ export default function StudentsReport(props){
                     ID
                   </Typography>
                   <Typography className={classes.details} variant="h5" component="h3">
-                    {profile.id}
+                    {profile.id.toUpperCase()}
                   </Typography>
                   <Typography className={classes.details} variant="h6" component="h4">
                     {profile.name}
