@@ -6,7 +6,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
 import EditIcon from '@material-ui/icons/Edit';
 import EditDialog from './edit-dialog';
-import NavBar from './navbar';
 
 const useStyles = makeStyles((theme)=>({
   sectionBounds: {
@@ -58,8 +57,14 @@ export default function Profile(props){
 
   const [openDialog, setOpenDialog] = useState(false);
   const [label, setLabel] = useState('');
-
+  const [profile, setProfile] = useState(props.profile);
   const classes = useStyles();
+
+  const handleProfileChange = (newField)=>{
+    let updatedProf = profile;
+    updatedProf[newField.field.toLowerCase()] = newField.value;
+    setProfile(updatedProf);
+  }
 
   const handleEditDialog = (open)=>{
     setOpenDialog(open);
@@ -77,13 +82,7 @@ export default function Profile(props){
 
   return(
     <React.Fragment>
-      <EditDialog open={openDialog} label={label} onProfileChange={props.onProfileChange} onClose={handleEditDialog}/>
-      <NavBar
-        authenticated={props.student.authenticated}
-        username={props.profile.name}
-        onMenuClick={props.onMenuClick}
-        onLogout={props.onLogout}
-      />
+      <EditDialog open={openDialog} label={label} user={props.student} onProfileChange={handleProfileChange} onClose={handleEditDialog}/>
       <fieldset className={classes.sectionBounds}>
         <legend>Profile</legend>
         <div className={classes.cardContainer}>
@@ -93,10 +92,10 @@ export default function Profile(props){
                 ID
               </Typography>
               <Typography className={classes.details} variant="h5" component="h3">
-                {props.profile.id}
+                {profile.id}
               </Typography>
               <Typography className={classes.details} variant="h6" component="h4">
-                {props.profile.name}
+                {profile.name}
               </Typography>
             </CardContent>
           </Card>
@@ -111,7 +110,7 @@ export default function Profile(props){
                 </IconButton>
               </div>
               <Typography className={classes.details} variant="h6" component="h4">
-                {props.profile.phone}
+                {profile.phone}
               </Typography>
             </CardContent>
           </Card>
@@ -126,7 +125,7 @@ export default function Profile(props){
                 </IconButton>
               </div>
               <Typography className={classes.details} variant="h6" component="h4">
-                {props.profile.email}
+                {profile.email}
               </Typography>
             </CardContent>
           </Card>

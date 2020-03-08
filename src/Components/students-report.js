@@ -1,10 +1,12 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import NavBar from './navbar';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import Chip from '@material-ui/core/Chip';
+import ProgressBar from './progress-bar';
+import { useRouteMatch } from 'react-router-dom';
+import axiosPreset from '../axios/config';
 
 const useStyles = makeStyles((theme)=>({
   reportRoot:{
@@ -252,30 +254,64 @@ const resolveColorByValue = (status, style)=>{
 
 export default function StudentsReport(props){
 
-  console.log(props);
+  const [pedData, setPedData] = React.useState(undefined);
+  const [profile, setProfile] = React.useState(undefined);
+  const [open, setOpen] = React.useState(true);
+
+  const onGet = props.onGet;
+  const id = props.student.id;
   
-  const evalObj = props.pedData.eligibility.eval;
+  React.useEffect(()=>{
+
+    axiosPreset.get(
+      `/student/${id}`, {
+    }).then((response)=>{
+        console.log("response");
+        setProfile(response.data.profile);
+        setPedData(response.data.pedData);
+        onGet(response.data.profile);
+        setOpen(false);
+
+    }).catch((error)=>{
+        console.log(error.response.data);
+        
+    });
+
+  },[onGet, id]);
+
+//  console.log(pedData);
+  
   const classes = useStyles();  
+  let evalObj = '', colorCH = '', colorStatus = '', colorSSStatus = '', colorCHStatus = '', colorResume = '', colorScore = '', colorEval1 = '', colorEval2 = '';
 //  console.log(props);
-  const colorCH = resolveClassName(props.pedData.colorCH, classes);
-  const colorStatus = resolveColorByValue(props.pedData.interviewStatus, classes);
-  const colorCHStatus = resolveColorByValue(props.pedData.colorCH, classes);
-  const colorSSStatus = resolveColorByValue(props.pedData.softSkillsStatus, classes);
-  const colorResume = getColorByResume(props.pedData.resumeScore, classes);
-  const colorScore = getColorByScore(props.pedData.eligibility.avgScore, classes);
-  const colorEval1 = resolveColorByValue(evalObj[0].status, classes);
-  const colorEval2 = resolveColorByValue(evalObj[1].status, classes);
+  if(pedData !== undefined){
+//    console.log(pedData);
+    
+    evalObj = pedData.eligibility.eval;
+    colorCH = resolveClassName(pedData.colorCH, classes);
+    colorStatus = resolveColorByValue(pedData.interviewStatus, classes);
+    colorCHStatus = resolveColorByValue(pedData.colorCH, classes);
+    colorSSStatus = resolveColorByValue(pedData.softskillsStatus, classes);
+    colorResume = getColorByResume(pedData.resumeScore, classes);
+    colorScore = getColorByScore(pedData.eligibility.avgScore, classes);
+    colorEval1 = resolveColorByValue(evalObj[0].status, classes);
+    colorEval2 = resolveColorByValue(evalObj[1].status, classes);
+  }
 
   const color = {blue: "#4DC2FB", red: "red", green: "green", orange: "orange"};
+  const match = useRouteMatch();
+  const handleClose = () => {
+    setOpen(false);
+  };
+  
+  console.log(match.url);
+  props.onNav(match.url);
 
+  //return(<div>Student</div>);
   return(
     <div className={classes.reportRoot}>
-      <NavBar
-        authenticated={props.student.authenticated}
-        username={props.profile.name}
-        onMenuClick={props.onMenuClick}
-        onLogout={props.onLogout}
-      />
+      <ProgressBar open={open} onClose={handleClose}/>
+      {!open && <>
       <fieldset className={`${colorCH} ${classes.rootSectionBound}`}>
         <legend>Know Your Eligibility</legend>
         <div className={classes.cardContainerRow}>
@@ -288,10 +324,10 @@ export default function StudentsReport(props){
                     ID
                   </Typography>
                   <Typography className={classes.details} variant="h5" component="h3">
-                    {props.profile.id}
+                    {profile.id.toUpperCase()}
                   </Typography>
                   <Typography className={classes.details} variant="h6" component="h4">
-                    {props.profile.name}
+                    {profile.name}
                   </Typography>
                 </CardContent>
               </Card>
@@ -301,7 +337,7 @@ export default function StudentsReport(props){
                     INTERVIEW STATUS
                   </Typography>
                   <div className={classes.cardChip}>
-                    <Chip className={`${classes.colorChip} ${colorStatus}`} label={props.pedData.interviewStatus}/>
+                    <Chip className={`${classes.colorChip} ${colorStatus}`} label={pedData.interviewStatus}/>
                   </div>
                 </CardContent>
               </Card>
@@ -312,7 +348,7 @@ export default function StudentsReport(props){
                       BATCH
                     </Typography>
                     <Typography className={classes.details} variant="h5" component="h3">
-                      {props.profile.batch.toUpperCase()}
+                      {profile.batch.toUpperCase()}
                     </Typography>
                   </CardContent>
                 </Card>
@@ -322,7 +358,7 @@ export default function StudentsReport(props){
                       SEMESTER
                     </Typography>
                     <Typography className={classes.details} variant="h5" component="h3">
-                      {props.profile.semester.toUpperCase()}
+                      {profile.semester.toUpperCase()}
                     </Typography>
                   </CardContent>
                 </Card>
@@ -338,10 +374,10 @@ export default function StudentsReport(props){
                     <Typography className={classes.header} gutterBottom>
                       TECHNICAL: CODING
                     </Typography>
-                    <Chip className={`${colorCH} ${classes.colorIndicator}`} label={props.pedData.colorCH.toUpperCase()} style={{backgroundColor: `${color[props.pedData.colorCH]}`, color: `${color[props.pedData.colorCH]}`, borderColor: `${color[props.pedData.colorCH]}`}}/>
+                    <Chip className={`${colorCH} ${classes.colorIndicator}`} label={pedData.colorCH.toUpperCase()} style={{backgroundColor: `${color[pedData.colorCH]}`, color: `${color[pedData.colorCH]}`, borderColor: `${color[pedData.colorCH]}`}}/>
                   </div>
                   <div className={classes.cardChip}>
-                    <Chip className={`${classes.colorChip} ${colorCHStatus}`} label={(props.pedData.colorCH === 'red')?"Orange or above color group needed":"Eligible"}/>
+                    <Chip className={`${classes.colorChip} ${colorCHStatus}`} label={(pedData.colorCH === 'red')?"Orange or above color group needed":"Eligible"}/>
                   </div>
                 </CardContent>
               </Card>
@@ -352,7 +388,7 @@ export default function StudentsReport(props){
                       SOFT SKILLS
                     </Typography>
                     <div className={classes.cardChip}>
-                      <Chip className={`${classes.colorChip} ${colorSSStatus}`} label={props.pedData.softSkillsStatus}/>
+                      <Chip className={`${classes.colorChip} ${colorSSStatus}`} label={pedData.softskillsStatus}/>
                     </div>
                   </CardContent>
                 </Card>
@@ -362,7 +398,7 @@ export default function StudentsReport(props){
                       RESUME SCORE
                     </Typography>
                     <div className={classes.cardChip}>
-                      <Chip className={`${classes.colorChip} ${colorResume}`} label={props.pedData.resumeScore}/>
+                      <Chip className={`${classes.colorChip} ${colorResume}`} label={pedData.resumeScore}/>
                     </div>
                   </CardContent>
                 </Card>
@@ -380,8 +416,8 @@ export default function StudentsReport(props){
                     AVERAGE SCORE
                   </Typography>
                   <div className={classes.cardChip}>
-                    <Chip className={`${classes.colorChip} ${colorScore}`} label={`${props.pedData.eligibility.avgScore} %`}/>
-                    <Chip className={`${classes.colorChip} ${colorScore}`} label={(parseFloat(props.pedData.eligibility.avgScore) < 55 )?"Average score of 55 or above needed":"Eligible"}/>
+                    <Chip className={`${classes.colorChip} ${colorScore}`} label={`${pedData.eligibility.avgScore} %`}/>
+                    <Chip className={`${classes.colorChip} ${colorScore}`} label={(parseFloat(pedData.eligibility.avgScore) < 55 )?"Average score of 55 or above needed":"Eligible"}/>
                   </div>
                 </CardContent>
               </Card>
@@ -403,7 +439,7 @@ export default function StudentsReport(props){
                           {evalObj[0].status}
                         </div>
                         <div className={`${classes.blockChip} ${colorEval1}`}>
-                          {evalObj[0].date}
+                          {(evalObj[0].date === null)?"TBD":evalObj[0].date}
                         </div> 
                       </div>
                     </div>
@@ -438,7 +474,7 @@ export default function StudentsReport(props){
                           {evalObj[1].status}
                         </div>
                         <div className={`${classes.blockChip} ${colorEval2}`}>
-                          {evalObj[1].date}
+                          {(evalObj[1].date === null)?"TBD":evalObj[1].date}
                         </div>
                       </div>
                     </div>
@@ -476,7 +512,7 @@ export default function StudentsReport(props){
                           {object.status}
                         </div>
                         <div className={`${classes.blockChip} ${resolveColorByValue(object.status, classes)}`}>
-                          {object.date}
+                          {(object.date === null)?"TBD":object.date}
                         </div>
                       </div>
                     </div>
@@ -496,7 +532,7 @@ export default function StudentsReport(props){
             </div>
           </fieldset>
         </div>
-      </fieldset>
+      </fieldset></>}
     </div>
   );
 }
