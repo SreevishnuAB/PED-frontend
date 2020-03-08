@@ -5,8 +5,8 @@ const axiosPreset = axios.create({
   withCredentials: true,
   headers: {
     'Access-Control-Allow-Origin': '*',
-      crossDomain: false,
-      Accept: '*/*',
+    crossDomain: false,
+    Accept: '*/*',
   }
 });
 

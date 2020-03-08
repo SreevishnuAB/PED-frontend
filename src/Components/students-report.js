@@ -5,6 +5,7 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import Chip from '@material-ui/core/Chip';
 import ProgressBar from './progress-bar';
+import { useRouteMatch } from 'react-router-dom';
 import axiosPreset from '../axios/config';
 
 const useStyles = makeStyles((theme)=>({
@@ -298,10 +299,13 @@ export default function StudentsReport(props){
   }
 
   const color = {blue: "#4DC2FB", red: "red", green: "green", orange: "orange"};
-
+  const match = useRouteMatch();
   const handleClose = () => {
     setOpen(false);
   };
+  
+  console.log(match.url);
+  props.onNav(match.url);
 
   //return(<div>Student</div>);
   return(

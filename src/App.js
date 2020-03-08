@@ -4,24 +4,33 @@ import Login from './Components/login';
 import StudentsRootView from './Components/students-root-view';
 import './App.css'
 import NavBar from './Components/navbar';
+import Fade from '@material-ui/core/Fade';
+import ToastNotification from './Components/toast';
+import axiosPreset from './axios/config';
 
 function App() {
 
   const history = useHistory();
   const [user, setUser] = useState({authenticated: false, id:'', designation: undefined});
+  const [url, setUrl] = useState('/');
+  const [toastMessage, setToastMessage] = useState({error: false, messageText: ''});
+  const [open, setOpen] = useState(false);
 
-  const changeView = (newView)=>{
+  const changeView = ()=>{
 //    setView(newView);
-    console.log(newView);
-    history.push(`${newView}/profile`)
+    console.log(url);
+    history.push(`${url}/profile`)
     
   }
 
-  const handleUserAuth = (authData)=>{
-    setUser(authData);
-   // history.push(`/student/${authData.profile.id}`)
-    console.log(authData);
+  const handlePath = (path)=>{
+    setUrl(path);
   }
+
+  const handleUserAuth = React.useCallback((authData)=>{
+    setUser(authData);
+    console.log(authData);
+  }, []);
 
   const handleProfileChange = (newField)=>{
     let updatedUser = user;
@@ -31,52 +40,59 @@ function App() {
 
   const handleLogout = ()=>{
 
-    history.push("/");
-    setUser({authenticated: false, id:undefined, designation: undefined});
+    axiosPreset.get(
+      '/logout'
+    ).then((response)=>{
+      setToastMessage({error: false, messageText: response.data})
+      setUser({authenticated: false, id:"", designation: undefined});
+      history.push("/");
+      setOpen(true);
+    }).catch((error)=>{
+      setToastMessage({error: true, messageText: error.response.data});
+      setOpen(true);
+    });
+
   }
-
-
-  // return(
-  //   <React.Fragment>
-  //     <NavBar authenticated={user.authenticated} username={user.profile.name} onMenuClick={changeView} onLogout={handleLogout}/>
-  //     {(!user.authenticated)? <Login onLogin={handleUserAuth}/>:
-  //      (user.pedData === null)? <div><h1>TODO faculty view</h1></div>:
-  //      <StudentsRootView student={user} view={view} onProfileChange={handleProfileChange}/>}
-  //   </React.Fragment>
-  // );
 
   return(
     <>
-    <NavBar
-      authenticated={user.authenticated}
-      username={user.id.toUpperCase()}
-      onMenuClick={changeView}
-      onLogout={handleLogout}
-      />
-    <Switch>
-      <Route
-        exact
-        path="/"
-        render={(routerProps)=>(
-          <Login
-            {...routerProps}
-            onLogin={handleUserAuth}
+      <Fade timeout={100}>
+        <NavBar
+          authenticated={user.authenticated}
+          username={user.id.toUpperCase()}
+          onProfileClick={changeView}
+          onLogout={handleLogout}
           />
-        )}
-      />
-      <Route
-        path="/student"
-        render={(routerProps)=>(
-          <StudentsRootView
-            {...routerProps}
-            student={user}
-            onProfileChange={handleProfileChange}
-            onMenuClick={changeView}
-            onLogout={handleLogout}
+       </Fade> 
+       <Fade timeout={100}>
+        <Switch>
+          <Route
+            exact
+            path="/"
+            render={(routerProps)=>(
+              <Login
+                {...routerProps}
+                onLogin={handleUserAuth}
+                user={user}
+              />
+            )}
           />
-        )}
-      />
-    </Switch>
+          <Route
+            path="/student"
+            render={(routerProps)=>(
+              <StudentsRootView
+                {...routerProps}
+                student={user}
+                onNav={handlePath}
+                onProfileChange={handleProfileChange}
+                onMenuClick={changeView}
+                onLogout={handleLogout}
+              />
+            )}
+          />
+        </Switch>
+      </Fade>
+      <ToastNotification open={open} onClose={()=>{setOpen(false)}} message={toastMessage}/>
     </>
   );
 }

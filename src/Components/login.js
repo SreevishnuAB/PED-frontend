@@ -5,6 +5,7 @@ import ToastNotification from './toast';
 import CustomTextField from './custom-text-input';
 import ProgressBar from './progress-bar';
 import axiosPreset from '../axios/config';
+import { Redirect } from 'react-router-dom';
 //const axios = require('axios');
 
 const useStyles = makeStyles((theme)=>({
@@ -79,9 +80,6 @@ export default function Login(props){
       let formData = new FormData();
       formData.append("username", username);
       formData.append("password", password);
-      // executePost({
-      //   data: formData
-      // });
 
       axiosPreset.post(
         '/login',
@@ -105,7 +103,11 @@ export default function Login(props){
       
     }
   }
-
+    //console.log(match.url);
+    
+  // if(props.user.authenticated)
+  //   return <Redirect to={`/student/${props.user.id}`}/>;
+  
   return(
     <div className={classes.root}>
       <ProgressBar open={open} onClose={handleClose}/>

@@ -33,6 +33,7 @@ export default function StudentsRootView(props){
             <StudentsReport
               student={props.student}
               onGet={handleProfile}
+              onNav={props.onNav}
               {...routerProps}
             />
         )}
