@@ -92,7 +92,7 @@ export default function Profile(props){
                 ID
               </Typography>
               <Typography className={classes.details} variant="h5" component="h3">
-                {profile.id}
+                {profile.id.toUpperCase()}
               </Typography>
               <Typography className={classes.details} variant="h6" component="h4">
                 {profile.name}
