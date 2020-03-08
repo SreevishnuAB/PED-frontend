@@ -14,6 +14,8 @@ import CustomButton from './custom-button';
 import DialogActions from '@material-ui/core/DialogActions';
 import CustomTextField from './custom-text-input';
 import ToastNotification from './toast';
+import ProgressBar from './progress-bar';
+import axiosPreset from '../axios/config';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -79,9 +81,10 @@ export default function NavBar(props) {
   const classes = useStyles();
   const [openMenu, setOpenMenu] = useState(false);
   const [openPwd, setOpenPwd] = useState(false);
-  const [pwdOld, setPwdOld] = useState('');
+  const [pwdCur, setPwdCur] = useState('');
   const [pwdNew, setPwdNew] = useState('');
   const [openToast, setOpenToast] = useState(false);
+  const [openProg, setOpenProg] = useState(false);
   const [toastMessage, setToastMessage] = useState({error: false, messageText: ''});
 
   const handleOpenMenu = ()=>{
@@ -96,14 +99,32 @@ export default function NavBar(props) {
   const handleSave = ()=>{
     /*TODO* backend integration*/
 
-    if(!pwdNew || !pwdOld){
+    if(!pwdNew || !pwdCur){
       setToastMessage({error: true, messageText: 'Enter a valid password'});
       setOpenToast(true);
     }
     else{
+      const payload = {
+        id: props.username,
+        cur_pwd: pwdCur,
+        new_pwd: pwdNew
+      };
       handleOpenPwd();
-      setPwdOld('');
+      setPwdCur('');
       setPwdNew('');
+      setOpenProg(true);
+      axiosPreset.patch(
+        `/${props.username}/password`,
+        payload
+      ).then((response)=>{
+        setToastMessage({error: false, messageText: response.data});
+        setOpenProg(false);
+        setOpenToast(true);
+      }).catch((error)=>{
+        setToastMessage({error: false, messageText: error.response.data});
+        setOpenProg(false);
+        setOpenToast(true);
+      });
     }
   }
 
@@ -111,6 +132,7 @@ export default function NavBar(props) {
     setOpenPwd(!openPwd);
     setOpenMenu(false);
   }
+
   const handleViewProfile = ()=>{
     handleOpenMenu();
     props.onProfileClick();
@@ -133,9 +155,9 @@ export default function NavBar(props) {
         <CustomTextField
           className={classes.textField}
           label={`Old password`}
-          onChange={(event)=>{setPwdOld(event.target.value)}}
+          onChange={(event)=>{setPwdCur(event.target.value)}}
           variant="outlined"
-          value={pwdOld}
+          value={pwdCur}
           type="password"
         />
         <CustomTextField
@@ -165,6 +187,7 @@ export default function NavBar(props) {
         </IconButton>}
       </Toolbar>
     </AppBar>
+    <ProgressBar open={openProg} onClose={()=>{setOpenProg(false)}}/>
   </div>
   );
 }

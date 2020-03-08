@@ -56,7 +56,7 @@ function App() {
 
   return(
     <>
-      <Fade timeout={100}>
+      <Fade timeout={150}>
         <NavBar
           authenticated={user.authenticated}
           username={user.id.toUpperCase()}
@@ -64,7 +64,7 @@ function App() {
           onLogout={handleLogout}
           />
        </Fade> 
-       <Fade timeout={100}>
+       <Fade timeout={150}>
         <Switch>
           <Route
             exact

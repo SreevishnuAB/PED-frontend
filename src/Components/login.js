@@ -105,8 +105,8 @@ export default function Login(props){
   }
     //console.log(match.url);
     
-  // if(props.user.authenticated)
-  //   return <Redirect to={`/student/${props.user.id}`}/>;
+  if(props.user.authenticated)
+    return <Redirect to={`/student/${props.user.id}`}/>;
   
   return(
     <div className={classes.root}>

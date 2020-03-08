@@ -6,30 +6,61 @@ import DialogContent from '@material-ui/core/DialogContent';
 import MenuDialogTitle from './dialog-title';
 import CustomTextField from './custom-text-input';
 import ToastNotification from './toast';
+import axiosPreset from '../axios/config';
+import ProgressBar from './progress-bar';
 
 export default function EditDialog(props) {
 
   const [value, setValue] = useState('');
   const [openToast,setOpenToast] = useState(false);
   const [toastMessage, setToastMessage] = useState({error:false,messageText:''});
+  const [openProg, setOpenProg] = useState(false);
 
   const handleClose = () => {
     props.onClose(false);
   };
 
   const handleSave = ()=>{
-    let changedField = {field: props.label, value: value};
+
     if(props.label.toLowerCase() === "phone" && (value.length !== 10 || value.search(/[0-9]/) === -1 )){
       setToastMessage({error: true, messageText: 'Enter a valid phone number'});
       setOpenToast(true);
     }
-    else if(props.label.toLowerCase() === "email" && (value.search(/[@]/) === -1 || value.charAt(0) === '.')){
-      setToastMessage({error: true, messageText: 'Enter a valid email'});
-      setOpenToast(true);
-    }
     else{
-      props.onProfileChange(changedField);
-      props.onClose(false);
+      //console.log(props.label.toLowerCase());      
+      let newValue = {field: props.label.toLowerCase(), value: value};
+      setOpenProg(true);
+      let endpoint = (props.user.designation === "student")?
+          `/student/${props.user.id}/profile/`:
+          `/faculty/${props.user.id}/profile/`;
+
+      endpoint = (props.label.toLowerCase() === "phone")?
+                  endpoint+"phone":
+                  endpoint+"email";
+
+      console.log(endpoint);
+      const payload = {
+        id: props.user.id,
+      };
+
+      payload[`${props.label.toLowerCase()}`] = value;
+
+      axiosPreset.patch(
+        endpoint,
+        payload
+      ).then((response)=>{
+        setToastMessage({error: false, messageText: response.data});
+        props.onProfileChange(newValue);
+        setOpenProg(false);
+        setOpenToast(true);
+        props.onClose(false);
+        
+      }).catch((error)=>{
+        console.log(error);
+        setToastMessage({error: true, messageText: error.response.data.detail[0].msg});
+        setOpenProg(false);
+        setOpenToast(true);
+      });
       setValue('');
     }
   }
@@ -54,6 +85,7 @@ export default function EditDialog(props) {
         </DialogActions>
       </MenuDialog>
       <ToastNotification open={openToast} onClose={(open)=>{setOpenToast(open)}} message={toastMessage}/>
+      <ProgressBar open={openProg} onClose={()=>{setOpenProg(false)}}/>
     </>
   );
 }

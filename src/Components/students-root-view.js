@@ -43,6 +43,7 @@ export default function StudentsRootView(props){
         render={(routerProps)=>(
             <Profile
               profile={profile}
+              user={props.user}
               {...routerProps}
               {...props}
             />
