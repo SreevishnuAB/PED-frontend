@@ -3,16 +3,16 @@ import { withStyles } from '@material-ui/core/styles';
 
 const CustomButton = withStyles({
     root: {
-      backgroundColor: '#222831',
-      color: '#00fff5',
-      borderColor: '#00adb5',
+      backgroundColor: '#0d0021',
+      color: '#b39ddb',
+      borderColor: '#562b73',
       borderWidth: '1px',
       borderStyle: 'solid',
       width: '50px',
       padding: '5px 35px 5px 35px',
       '&:hover':{
-        backgroundColor: '#00adb5',
-        color: '#222831',
+        backgroundColor: '#b39ddb',
+        color: '#0d0021',
       }
     }
   })(Button);

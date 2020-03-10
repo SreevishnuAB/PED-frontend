@@ -23,21 +23,28 @@ const useStyles = makeStyles(theme => ({
     width: '100vw'
   },
   toolbar: {
-    backgroundColor: '#393e46',
+    backgroundColor: '#290147',
     borderStyle: 'solid',
     borderWidth: '1px 0px',
-    borderColor: '#00fff5',
+    borderColor: '#562b73',
     display: 'flex',
     flexDirection:'row',
     justifyContent: 'space-between',
-    alignItems: 'center'
+    alignItems: 'center',
+    boxShadow: '0px 1px 5px 3px #000000'
   },
   menuButton: {
-    color: '#00fff5',
-    backgroundColor: '#222831',
+    color: '#b39ddb',
+    backgroundColor: '#0d0021',
+    transition: '0.5s',
+    '&:hover': {
+      transition: '0.5s',
+      color: '#0d0021',
+      backgroundColor: '#b39ddb',
+    }
   },
   title: {
-    color: '#00fff5'
+    color: '#ffffff'
   },
   condRend:{
     visibility: 'hidden',
@@ -56,7 +63,7 @@ const useStyles = makeStyles(theme => ({
   },
   menuContent: {
     backgroundColor: '#222831',
-    color: '##00adb5',
+    color: '#00adb5',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',

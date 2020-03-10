@@ -20,17 +20,17 @@ const useStyles = makeStyles((theme)=>({
     marginTop: '50px',
     borderStyle: 'solid',
     borderWidth: '1px',
-    borderColor: '#00adb5',
+    borderColor: '#562b73',
     height: '200px',
     maxWidth: '300px',
-    padding: '75px 100px 70px 100px',
+    padding: '75px 100px 70px',
     display:'flex',
     flexDirection: 'column',
     justifyContent: 'space-around',
     alignItems:'center',
-    backgroundColor: '#393E46',
-    borderRadius: '5px'
-
+    backgroundColor: 'rgba(41,1,61,0.95)',
+    borderRadius: '5px',
+    boxShadow: '0px 1px 5px 3px #000000'
   },
   submitBtn:{
     color: '#23C94A',
