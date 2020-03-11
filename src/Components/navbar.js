@@ -31,7 +31,7 @@ const useStyles = makeStyles(theme => ({
     flexDirection:'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    boxShadow: '0px 1px 5px 3px #000000'
+    boxShadow: '0px 2px 5px #121212'
   },
   menuButton: {
     color: '#b39ddb',

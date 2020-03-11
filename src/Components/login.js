@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme)=>({
     alignItems:'center',
     backgroundColor: 'rgba(41,1,61,0.95)',
     borderRadius: '5px',
-    boxShadow: '0px 1px 5px 3px #000000'
+    boxShadow: '0px 2px 5px #121212'
   },
   submitBtn:{
     color: '#23C94A',
