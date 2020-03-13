@@ -3,8 +3,8 @@ import { withStyles } from '@material-ui/core/styles';
 
 const MenuDialog = withStyles({
     paper:{
-      backgroundColor: '#562b73',
-      color: '#b39ddb'
+      backgroundColor: '#1a4051',
+      color: '#bbd7e5'
     }
   })(Dialog);
 

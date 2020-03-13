@@ -20,13 +20,12 @@ import axiosPreset from '../axios/config';
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
-    width: '100vw'
   },
   toolbar: {
-    backgroundColor: '#290147',
+    backgroundColor: '#1a4051',
     borderStyle: 'solid',
     borderWidth: '1px 0px',
-    borderColor: '#562b73',
+    borderColor: '#779eb3',
     display: 'flex',
     flexDirection:'row',
     justifyContent: 'space-between',
@@ -34,13 +33,13 @@ const useStyles = makeStyles(theme => ({
     boxShadow: '0px 2px 5px #121212'
   },
   menuButton: {
-    color: '#b39ddb',
-    backgroundColor: '#0d0021',
+    color: '#bbd7e5',
+    backgroundColor: '#001a29',
     transition: '0.5s',
     '&:hover': {
       transition: '0.5s',
-      color: '#0d0021',
-      backgroundColor: '#b39ddb',
+      color: '#001a29',
+      backgroundColor: '#bbd7e5',
     }
   },
   title: {
@@ -54,16 +53,16 @@ const useStyles = makeStyles(theme => ({
   },
   user: {
     height: '45px',
-    color:'#00fff5',
+    color:'#bbd7e5',
     padding: '2px',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#222831'
+    backgroundColor: '#1a4051'
   },
   menuContent: {
-    backgroundColor: '#222831',
-    color: '#00adb5',
+    backgroundColor: '#1a4051',
+    color: '#bbd7e5',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
@@ -81,6 +80,9 @@ const useStyles = makeStyles(theme => ({
   },
   dialogTitle:{
     width: '250px !important'
+  },
+  menuBtnOptions:{
+    borderRadius: '0px !important'
   }
 }));
 
@@ -150,9 +152,9 @@ export default function NavBar(props) {
     <MenuDialog onClose={handleOpenMenu} aria-labelledby="user-menu" open={openMenu}>
       <MenuDialogTitle className={classes.dialogTitle} id="user-menu-title"><AccountCircleIcon fontSize="large" className={classes.logoutBtn}/><span>{props.username}</span></MenuDialogTitle>
       <DialogContent className={classes.menuContent}>
-        <Button className={classes.menuButton} onClick={handleViewProfile}>View Profile</Button>
-        <Button className={classes.menuButton} onClick={handleOpenPwd}>Change Password</Button>
-        <Button className={classes.menuButton} onClick={handleLogout}>Logout</Button>
+        <Button className={`${classes.menuButton} ${classes.menuBtnOptions}`} onClick={handleViewProfile}>View Profile</Button>
+        <Button className={`${classes.menuButton} ${classes.menuBtnOptions}`} onClick={handleOpenPwd}>Change Password</Button>
+        <Button className={`${classes.menuButton} ${classes.menuBtnOptions}`} onClick={handleLogout}>Logout</Button>
       </DialogContent>
     </MenuDialog>
 

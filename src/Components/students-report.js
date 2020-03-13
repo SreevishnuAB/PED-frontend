@@ -2,6 +2,7 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
+import CardCustom from './card';
 import Typography from '@material-ui/core/Typography';
 import Chip from '@material-ui/core/Chip';
 import ProgressBar from './progress-bar';
@@ -28,19 +29,22 @@ const useStyles = makeStyles((theme)=>({
     borderRadius: '3px',
     width:'inherit',
     height: 'inherit',
-    borderColor: '#562b73',
-    backgroundColor: '#290147',
-    boxShadow: '0px 2px 5px #121212'
+    borderColor: '#779eb3',
+    backgroundColor: '#102d3f',
+    boxShadow: '0px 0px 5px #121212'
   },
   sectionBounds: {
     flex: '1',
     border: "1px solid",
     borderRadius: '3px',
-    borderColor: '#562b73',
+    borderColor: '#779eb3',
     width: 'inherit',
     height: 'inherit',
-    backgroundColor: '#391a5e',
-    boxShadow: '0px 3px 5px #121212'
+    backgroundColor: '#1e3f54',
+    boxShadow: '0px 0px 5px #121212'
+  },
+  legend: {
+    color: '#dfebfa'
   },
   CHOrange: {
     color: "orange",
@@ -68,22 +72,26 @@ const useStyles = makeStyles((theme)=>({
     backgroundColor: 'green'
   },
   cards: {
-    minWidth: '270px',
-    backgroundColor: 'rgb(86,43,119)',
+    backgroundColor: 'rgba(82,68,136,0.5)',
     margin: '5px',
-    flex: '1',
-    boxShadow: '0px 2px 5px #121212',
+//    flex: '1',
+    boxShadow: '0px 0px 5px #121212',
     color: '#ffffff'
+  },
+  cardWide:{
+    width: '250px'
   },
   cardContainer: {
     display: 'flex',
-    alignItems: 'stretch', 
     justifyContent: 'center',
     flexDirection: 'column',
-    flex: '1',
+    //flex: '1',
     [theme.breakpoints.up('md')]: {
       flexDirection: 'row',
-      flex: '1'
+      justifyContent: 'center',
+      alignItems: 'center',
+      flexWrap: 'wrap'
+      //flex: '1'
     },
   },
   colorIndicator: {
@@ -111,7 +119,9 @@ const useStyles = makeStyles((theme)=>({
     color: "#ffffff",
     borderRadius: '4px !important',
     margin: '10px 0px 5px 10px !important' ,
-    minWidth: '150px !important'
+    minWidth: '150px !important',
+    height: '75px',
+    width: '50px'
   },
   cardColumn: {
     display:'flex',
@@ -130,7 +140,6 @@ const useStyles = makeStyles((theme)=>({
   cardContainerRow: {
     display: 'flex',
     justifyContent: 'space-between',
-    alignItems: 'stretch',
     flexDirection: 'column',
     flexWrap: 'wrap',
     [theme.breakpoints.up('lg')]: {
@@ -320,13 +329,14 @@ export default function StudentsReport(props){
       <ProgressBar open={open} onClose={handleClose}/>
       {!open && <>
       <fieldset className={classes.rootSectionBound}>
-        <legend style={{color: '#b39ddb'}}>Know Your Eligibility</legend>
+        <legend className={classes.legend}>Know Your Eligibility</legend>
         <div className={classes.cardContainerRow}>
           <fieldset className={classes.sectionBounds}>
-            <legend style={{color: '#b39ddb'}}>Overview</legend>
+            <legend className={classes.legend}>Overview</legend>
             <div className={classes.cardContainer}>
-              <Card className={classes.cards}>
-                <CardContent>
+              <CardCustom className={classes.cards}>
+              {/* <Card className={`${classes.cards} ${classes.cardWide}`}>
+                <CardContent> */}
                   <Typography className={classes.header} gutterBottom>
                     ID
                   </Typography>
@@ -336,8 +346,9 @@ export default function StudentsReport(props){
                   <Typography className={classes.details} variant="h6" component="h4">
                     {profile.name}
                   </Typography>
-                </CardContent>
-              </Card>
+              </CardCustom>
+                {/* </CardContent>
+              </Card> */}
               <Card className={`${colorCH} ${classes.cards}`}>
                 <CardContent>
                   <Typography className={classes.header} gutterBottom>
@@ -373,7 +384,7 @@ export default function StudentsReport(props){
             </div>
           </fieldset>
           <fieldset className={classes.sectionBounds}>
-            <legend style={{color: '#b39ddb'}}>Technical & Soft Skills</legend>
+            <legend className={classes.legend}>Technical & Soft Skills</legend>
             <div className={classes.cardContainer}>
               <Card className={classes.cards}>
                 <CardContent>
@@ -415,7 +426,7 @@ export default function StudentsReport(props){
         </div>
         <div className={classes.sections}>
           <fieldset className={classes.sectionBounds}>
-            <legend style={{color: '#b39ddb'}}>Verbal & Aptitude</legend>
+            <legend className={classes.legend}>Verbal & Aptitude</legend>
             <div className={classes.cardContainer}>
               <Card className={classes.cards}>
                 <CardContent className={classes.cardContent}>
