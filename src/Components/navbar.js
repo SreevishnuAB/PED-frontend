@@ -141,18 +141,12 @@ export default function NavBar(props) {
     setOpenPwd(!openPwd);
     setOpenMenu(false);
   }
-
-  const handleViewProfile = ()=>{
-    handleOpenMenu();
-    props.onProfileClick();
-    //props.onMenuClick(match.url);
-  }
+  
   return (
   <div className={classes.root}>
     <MenuDialog onClose={handleOpenMenu} aria-labelledby="user-menu" open={openMenu}>
       <MenuDialogTitle className={classes.dialogTitle} id="user-menu-title"><AccountCircleIcon fontSize="large" className={classes.logoutBtn}/><span>{props.username}</span></MenuDialogTitle>
       <DialogContent className={classes.menuContent}>
-        <Button className={`${classes.menuButton} ${classes.menuBtnOptions}`} onClick={handleViewProfile}>View Profile</Button>
         <Button className={`${classes.menuButton} ${classes.menuBtnOptions}`} onClick={handleOpenPwd}>Change Password</Button>
         <Button className={`${classes.menuButton} ${classes.menuBtnOptions}`} onClick={handleLogout}>Logout</Button>
       </DialogContent>

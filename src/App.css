@@ -1,8 +1,10 @@
-.fade-enter {
-  opacity: 0;
-  z-index: 1;
+:root{
+  --background-body: #001a29;
+  --color-body: #ffffff;
 }
-.fade-enter.fade-enter-active {
-  opacity: 1;
-  transition: opacity 250ms ease-in;
+
+.root-body{
+  background-color: var(--background-body);
+  color: var(--color-body);
+  font-family:'Roboto';
 }

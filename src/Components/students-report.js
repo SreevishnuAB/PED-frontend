@@ -1,13 +1,12 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import CardCustom from './card';
+import Card from './card';
 import Typography from '@material-ui/core/Typography';
 import Chip from '@material-ui/core/Chip';
 import ProgressBar from './progress-bar';
 import { useRouteMatch } from 'react-router-dom';
 import axiosPreset from '../axios/config';
+import Profile from './profile';
 
 const useStyles = makeStyles((theme)=>({
   reportRoot:{
@@ -18,7 +17,7 @@ const useStyles = makeStyles((theme)=>({
     margin: "10px 0px",
   },
   sections: {
-    margin: "10px 0px",   
+    margin: "10px 10px",   
   },
   sectionFill: {
     display: 'flex',
@@ -35,12 +34,13 @@ const useStyles = makeStyles((theme)=>({
   },
   sectionBounds: {
     flex: '1',
+    margin: '10px 5px 10px 10px',
     border: "1px solid",
     borderRadius: '3px',
     borderColor: '#779eb3',
     width: 'inherit',
     height: 'inherit',
-    backgroundColor: '#1e3f54',
+    backgroundColor: '#102d3f',
     boxShadow: '0px 0px 5px #121212'
   },
   legend: {
@@ -72,27 +72,24 @@ const useStyles = makeStyles((theme)=>({
     backgroundColor: 'green'
   },
   cards: {
-    backgroundColor: 'rgba(82,68,136,0.5)',
+    backgroundColor: '#375e79',
     margin: '5px',
 //    flex: '1',
     boxShadow: '0px 0px 5px #121212',
-    color: '#ffffff'
+    color: '#ffffff',
+    padding: '3px'
   },
   cardWide:{
     width: '250px'
   },
   cardContainer: {
     display: 'flex',
-    justifyContent: 'center',
-    flexDirection: 'column',
-    //flex: '1',
-    [theme.breakpoints.up('md')]: {
-      flexDirection: 'row',
-      justifyContent: 'center',
-      alignItems: 'center',
-      flexWrap: 'wrap'
-      //flex: '1'
-    },
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    flexWrap: 'wrap',
+    [theme.breakpoints.up('lg')]:{
+        maxWidth: '33vw'
+    }
   },
   colorIndicator: {
     borderRadius: '4px !important',
@@ -119,9 +116,7 @@ const useStyles = makeStyles((theme)=>({
     color: "#ffffff",
     borderRadius: '4px !important',
     margin: '10px 0px 5px 10px !important' ,
-    minWidth: '150px !important',
-    height: '75px',
-    width: '50px'
+    width: '50px !important'
   },
   cardColumn: {
     display:'flex',
@@ -145,6 +140,9 @@ const useStyles = makeStyles((theme)=>({
     [theme.breakpoints.up('lg')]: {
       flexDirection: 'row',
     },
+  },
+  profile:{
+    flex: '1'
   },
   scoreCard: {
     width: '100px',
@@ -328,97 +326,78 @@ export default function StudentsReport(props){
     <div className={classes.reportRoot}>
       <ProgressBar open={open} onClose={handleClose}/>
       {!open && <>
-      <fieldset className={classes.rootSectionBound}>
-        <legend className={classes.legend}>Know Your Eligibility</legend>
         <div className={classes.cardContainerRow}>
+          <Profile className={classes.cardContainer} profile={profile}/>
           <fieldset className={classes.sectionBounds}>
             <legend className={classes.legend}>Overview</legend>
             <div className={classes.cardContainer}>
-              <CardCustom className={classes.cards}>
-              {/* <Card className={`${classes.cards} ${classes.cardWide}`}>
-                <CardContent> */}
-                  <Typography className={classes.header} gutterBottom>
-                    ID
-                  </Typography>
-                  <Typography className={classes.details} variant="h5" component="h3">
-                    {profile.id.toUpperCase()}
-                  </Typography>
-                  <Typography className={classes.details} variant="h6" component="h4">
-                    {profile.name}
-                  </Typography>
-              </CardCustom>
-                {/* </CardContent>
-              </Card> */}
-              <Card className={`${colorCH} ${classes.cards}`}>
-                <CardContent>
-                  <Typography className={classes.header} gutterBottom>
-                    INTERVIEW STATUS
-                  </Typography>
-                  <div className={classes.cardChip}>
-                    <Chip className={`${classes.colorChip} ${colorStatus}`} label={pedData.interviewStatus}/>
-                  </div>
-                </CardContent>
+              <Card className={classes.cards}>
+                <Typography className={classes.header} gutterBottom>
+                  ID
+                </Typography>
+                <Typography className={classes.details} variant="h5" component="h3">
+                  {profile.id.toUpperCase()}
+                </Typography>
+                <Typography className={classes.details} variant="h6" component="h4">
+                  {profile.name}
+                </Typography>
               </Card>
-              <div className={classes.cardColumn}>
-                <Card className={classes.cards}>
-                  <CardContent>
-                    <Typography className={classes.header} gutterBottom>
-                      BATCH
-                    </Typography>
-                    <Typography className={classes.details} variant="h5" component="h3">
-                      {profile.batch.toUpperCase()}
-                    </Typography>
-                  </CardContent>
-                </Card>
-                <Card className={classes.cards}>
-                  <CardContent>
-                    <Typography className={classes.header} gutterBottom>
-                      SEMESTER
-                    </Typography>
-                    <Typography className={classes.details} variant="h5" component="h3">
-                      {profile.semester.toUpperCase()}
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </div>
+              <Card className={`${colorCH} ${classes.cards}`}>
+                <Typography className={classes.header} gutterBottom>
+                  INTERVIEW STATUS
+                </Typography>
+                <div className={classes.cardChip}>
+                  <Chip className={`${classes.colorChip} ${colorStatus}`} label={pedData.interviewStatus}/>
+                </div>
+              </Card>
+              <Card className={classes.cards}>
+                <Typography className={classes.header} gutterBottom>
+                  BATCH
+                </Typography>
+                <Typography className={classes.details} variant="h5" component="h3">
+                  {profile.batch.toUpperCase()}
+                </Typography>
+              </Card>
+              <Card className={classes.cards}>
+                <Typography className={classes.header} gutterBottom>
+                  SEMESTER
+                </Typography>
+                <Typography className={classes.details} variant="h5" component="h3">
+                  {profile.semester.toUpperCase()}
+                </Typography>
+              </Card>
             </div>
           </fieldset>
           <fieldset className={classes.sectionBounds}>
             <legend className={classes.legend}>Technical & Soft Skills</legend>
             <div className={classes.cardContainer}>
               <Card className={classes.cards}>
-                <CardContent>
-                  <div className={classes.headerContainer}>
-                    <Typography className={classes.header} gutterBottom>
-                      TECHNICAL: CODING
-                    </Typography>
-                    <Chip className={classes.colorIndicator} label={pedData.colorCH.toUpperCase()} style={{backgroundColor: `${color[pedData.colorCH]}`, color: `${color[pedData.colorCH]}`, borderColor: `${color[pedData.colorCH]}`}}/>
-                  </div>
-                  <div className={classes.cardChip}>
-                    <Chip className={`${classes.colorChip} ${colorCHStatus}`} label={(pedData.colorCH === 'red')?"Orange or above color group needed":"Eligible"}/>
-                  </div>
-                </CardContent>
+                <div className={classes.headerContainer}>
+                  <Typography className={classes.header} gutterBottom>
+                    TECHNICAL: CODING
+                  </Typography>
+                  <Chip className={classes.colorIndicator} label={pedData.colorCH.toUpperCase()} style={{backgroundColor: `${color[pedData.colorCH]}`, color: `${color[pedData.colorCH]}`, borderColor: `${color[pedData.colorCH]}`}}/>
+                </div>
+                <div className={classes.cardChip}>
+                  <Chip className={`${classes.colorChip} ${colorCHStatus}`} label={(pedData.colorCH === 'red')?"Orange or above color group needed":"Eligible"}/>
+                </div>
               </Card>
               <div className={classes.cardColumn}>
                 <Card className={classes.cards}>
-                  <CardContent>
-                    <Typography className={classes.header} gutterBottom>
-                      SOFT SKILLS
-                    </Typography>
-                    <div className={classes.cardChip}>
-                      <Chip className={`${classes.colorChip} ${colorSSStatus}`} label={pedData.softskillsStatus}/>
-                    </div>
-                  </CardContent>
+                  <Typography className={classes.header} gutterBottom>
+                    SOFT SKILLS
+                  </Typography>
+                  <div className={classes.cardChip}>
+                    <Chip className={`${classes.colorChip} ${colorSSStatus}`} label={pedData.softskillsStatus}/>
+                  </div>
                 </Card>
                 <Card className={classes.cards}>
-                  <CardContent className={classes.cardContent}>
-                    <Typography className={classes.header} gutterBottom>
-                      RESUME SCORE
-                    </Typography>
-                    <div className={classes.cardChip}>
-                      <Chip className={`${classes.colorChip} ${colorResume}`} label={pedData.resumeScore}/>
-                    </div>
-                  </CardContent>
+                  <Typography className={classes.header} gutterBottom>
+                    RESUME SCORE
+                  </Typography>
+                  <div className={classes.cardChip}>
+                    <Chip className={`${classes.colorChip} ${colorResume}`} label={pedData.resumeScore}/>
+                  </div>
                 </Card>
               </div>
             </div>
@@ -429,128 +408,120 @@ export default function StudentsReport(props){
             <legend className={classes.legend}>Verbal & Aptitude</legend>
             <div className={classes.cardContainer}>
               <Card className={classes.cards}>
-                <CardContent className={classes.cardContent}>
+                <Typography className={classes.header} gutterBottom>
+                  AVERAGE SCORE
+                </Typography>
+                <div className={classes.cardChip}>
+                  <Chip className={`${classes.colorChip} ${colorScore}`} label={`${pedData.eligibility.avgScore} %`}/>
+                  <Chip className={`${classes.colorChip} ${colorScore}`} label={(parseFloat(pedData.eligibility.avgScore) < 55 )?"Average score of 55 or above needed":"Eligible"}/>
+                </div>
+              </Card>
+              <Card className={classes.cards}>
+                <div className={classes.headerContainer}>
                   <Typography className={classes.header} gutterBottom>
-                    AVERAGE SCORE
+                    E1
                   </Typography>
-                  <div className={classes.cardChip}>
-                    <Chip className={`${classes.colorChip} ${colorScore}`} label={`${pedData.eligibility.avgScore} %`}/>
-                    <Chip className={`${classes.colorChip} ${colorScore}`} label={(parseFloat(pedData.eligibility.avgScore) < 55 )?"Average score of 55 or above needed":"Eligible"}/>
+                  {evalObj[0].status === "Completed" &&
+                  <div className={`${classes.blockChip} ${classes.chipGeneric} ${classes.headerChip}`}>
+                    {`Average: ${evalObj[0].avg} %`}
+                  </div>}
+                </div>
+                <div className={classes.innerCards}>
+                  <div className={classes.innerCardColumns}>
+                    <div className={classes.headerChipContainer}>
+                      <div className={`${classes.blockChip} ${colorEval1}`}>
+                        {evalObj[0].status}
+                      </div>
+                      <div className={`${classes.blockChip} ${colorEval1}`}>
+                        {(evalObj[0].date === null)?"TBD":evalObj[0].date}
+                      </div> 
+                    </div>
                   </div>
-                </CardContent>
-              </Card>
-              <Card className={classes.cards}>
-                <CardContent className={classes.cardContent}>
-                  <div className={classes.headerContainer}>
-                    <Typography className={classes.header} gutterBottom>
-                      E1
-                    </Typography>
-                    {evalObj[0].status === "Completed" &&
-                    <div className={`${classes.blockChip} ${classes.chipGeneric} ${classes.headerChip}`}>
-                      {`Average: ${evalObj[0].avg} %`}
+                  <div className={classes.innerCardColumns}>
+                    {evalObj[0].status === "Completed" && 
+                    <div className={`${classes.blockChip} ${classes.chipGeneric}`}>
+                      {`Numerical Apt.: ${evalObj[0].na} %`}
+                    </div>} 
+                    {evalObj[0].status === "Completed" && 
+                    <div className={`${classes.blockChip} ${classes.chipGeneric}`}>
+                      {`Verbal Apt.: ${evalObj[0].va} %`}
                     </div>}
                   </div>
-                  <div className={classes.innerCards}>
-                    <div className={classes.innerCardColumns}>
-                      <div className={classes.headerChipContainer}>
-                        <div className={`${classes.blockChip} ${colorEval1}`}>
-                          {evalObj[0].status}
-                        </div>
-                        <div className={`${classes.blockChip} ${colorEval1}`}>
-                          {(evalObj[0].date === null)?"TBD":evalObj[0].date}
-                        </div> 
-                      </div>
-                    </div>
-                    <div className={classes.innerCardColumns}>
-                      {evalObj[0].status === "Completed" && 
-                      <div className={`${classes.blockChip} ${classes.chipGeneric}`}>
-                        {`Numerical Apt.: ${evalObj[0].na} %`}
-                      </div>} 
-                      {evalObj[0].status === "Completed" && 
-                      <div className={`${classes.blockChip} ${classes.chipGeneric}`}>
-                        {`Verbal Apt.: ${evalObj[0].va} %`}
-                      </div>}
-                    </div>
-                  </div>
-                </CardContent>
+                </div>
               </Card>
               <Card className={classes.cards}>
-                <CardContent className={classes.cardContent}>
-                  <div className={classes.headerContainer}>
-                    <Typography className={classes.header} gutterBottom>
-                      E2
-                    </Typography>
-                    {evalObj[1].status === "Completed" &&
-                    <div className={`${classes.blockChip} ${classes.chipGeneric} ${classes.headerChip}`}>
-                      {`Average: ${evalObj[1].avg} %`}
-                    </div>}
-                  </div>
-                  <div className={classes.innerCards}>
-                    <div className={classes.innerCardColumns}>
-                      <div className={classes.headerChipContainer}>
-                        <div className={`${classes.blockChip} ${colorEval2}`}>
-                          {evalObj[1].status}
-                        </div>
-                        <div className={`${classes.blockChip} ${colorEval2}`}>
-                          {(evalObj[1].date === null)?"TBD":evalObj[1].date}
-                        </div>
+                <div className={classes.headerContainer}>
+                  <Typography className={classes.header} gutterBottom>
+                    E2
+                  </Typography>
+                  {evalObj[1].status === "Completed" &&
+                  <div className={`${classes.blockChip} ${classes.chipGeneric} ${classes.headerChip}`}>
+                    {`Average: ${evalObj[1].avg} %`}
+                  </div>}
+                </div>
+                <div className={classes.innerCards}>
+                  <div className={classes.innerCardColumns}>
+                    <div className={classes.headerChipContainer}>
+                      <div className={`${classes.blockChip} ${colorEval2}`}>
+                        {evalObj[1].status}
+                      </div>
+                      <div className={`${classes.blockChip} ${colorEval2}`}>
+                        {(evalObj[1].date === null)?"TBD":evalObj[1].date}
                       </div>
                     </div>
-                    <div className={classes.innerCardColumns}>
-                      {evalObj[1].status === "Completed" && 
-                      <div className={`${classes.blockChip} ${classes.chipGeneric}`}>
-                        {`Numerical Aptitude: ${evalObj[1].na} %`}
-                      </div>}
-                      {evalObj[1].status === "Completed" && 
-                      <div className={`${classes.blockChip} ${classes.chipGeneric}`}>
-                        {`Verbal Aptitude: ${evalObj[1].va} %`}
-                      </div>}
-                    </div>
                   </div>
-                </CardContent>
+                  <div className={classes.innerCardColumns}>
+                    {evalObj[1].status === "Completed" && 
+                    <div className={`${classes.blockChip} ${classes.chipGeneric}`}>
+                      {`Numerical Aptitude: ${evalObj[1].na} %`}
+                    </div>}
+                    {evalObj[1].status === "Completed" && 
+                    <div className={`${classes.blockChip} ${classes.chipGeneric}`}>
+                      {`Verbal Aptitude: ${evalObj[1].va} %`}
+                    </div>}
+                  </div>
+                </div>
               </Card>
             </div>
             <div className={classes.cardContainer}>
               {evalObj.slice(2).map((object, index)=>(
               <Card key={`cards${index}`} className={`${colorCH} ${classes.cards}`}>
-                <CardContent className={classes.cardContent}>
-                  <div className={classes.headerContainer}>
-                    <Typography className={classes.header} gutterBottom>
-                      {`E${index+3}`}
-                    </Typography>
-                    {object.status === "Completed" &&
-                    <div className={`${classes.blockChip} ${classes.chipGeneric} ${classes.headerChip}`}>
-                      {`Average: ${object.avg} %`}
-                    </div>}
-                  </div>
-                  <div className={classes.innerCards}>
-                    <div className={classes.innerCardColumns}>
-                      <div className={classes.headerChipContainer}>
-                        <div className={`${classes.blockChip} ${resolveColorByValue(object.status, classes)}`}>
-                          {object.status}
-                        </div>
-                        <div className={`${classes.blockChip} ${resolveColorByValue(object.status, classes)}`}>
-                          {(object.date === null)?"TBD":object.date}
-                        </div>
+                <div className={classes.headerContainer}>
+                  <Typography className={classes.header} gutterBottom>
+                    {`E${index+3}`}
+                  </Typography>
+                  {object.status === "Completed" &&
+                  <div className={`${classes.blockChip} ${classes.chipGeneric} ${classes.headerChip}`}>
+                    {`Average: ${object.avg} %`}
+                  </div>}
+                </div>
+                <div className={classes.innerCards}>
+                  <div className={classes.innerCardColumns}>
+                    <div className={classes.headerChipContainer}>
+                      <div className={`${classes.blockChip} ${resolveColorByValue(object.status, classes)}`}>
+                        {object.status}
+                      </div>
+                      <div className={`${classes.blockChip} ${resolveColorByValue(object.status, classes)}`}>
+                        {(object.date === null)?"TBD":object.date}
                       </div>
                     </div>
-                    <div className={classes.innerCardColumns}>
-                      {object.status === "Completed" && 
-                      <div className={`${classes.blockChip} ${classes.chipGeneric}`}>
-                        {`Numerical Apt.: ${object.na} %`}
-                      </div>}
-                      {object.status === "Completed" && 
-                      <div className={`${classes.blockChip} ${classes.chipGeneric}`}>
-                        {`Verbal Apt.: ${object.va} %`}
-                      </div>}
-                    </div>
                   </div>
-                </CardContent>
+                  <div className={classes.innerCardColumns}>
+                    {object.status === "Completed" && 
+                    <div className={`${classes.blockChip} ${classes.chipGeneric}`}>
+                      {`Numerical Apt.: ${object.na} %`}
+                    </div>}
+                    {object.status === "Completed" && 
+                    <div className={`${classes.blockChip} ${classes.chipGeneric}`}>
+                      {`Verbal Apt.: ${object.va} %`}
+                    </div>}
+                  </div>
+                </div>
               </Card>))}
             </div>
           </fieldset>
         </div>
-      </fieldset></>}
+      </>}
     </div>
   );
 }

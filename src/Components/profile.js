@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
+import Card from './card';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
@@ -12,23 +11,20 @@ const useStyles = makeStyles((theme)=>({
     border: "1px solid",
     borderRadius: '3px',
     width: 'inherit',
-    height: 'inherit',
-    margin: '15px'
+    margin: '10px 5px 10px 10px'
   },
   cards: {
-    minWidth: '270px',
-    backgroundColor: '#181818',
-    border: '1px solid #00fff5',
+    backgroundColor: '#375e79',
     margin: '5px',
-    flex: '1',
-    color: '#00fff5',
+//    flex: '1',
+    boxShadow: '0px 0px 5px #121212',
+    color: '#ffffff',
+    padding: '3px'
   },
   cardContainer: {
     display: 'flex',
-    alignItems: 'stretch', 
-    justifyContent: 'center',
-    flex: '1',
-    flexWrap: 'wrap'
+    justifyContent: 'flex-start',
+    flexWrap: 'wrap',
   },
   details: {
     textAlign: 'right',
@@ -81,56 +77,29 @@ export default function Profile(props){
   }
 
   return(
-    <React.Fragment>
+    <div className={props.className}>
       <EditDialog open={openDialog} label={label} user={props.student} onProfileChange={handleProfileChange} onClose={handleEditDialog}/>
       <fieldset className={classes.sectionBounds}>
         <legend>Profile</legend>
         <div className={classes.cardContainer}>
-          <Card className={classes.cards}>
-            <CardContent>
-              <Typography className={classes.header} gutterBottom>
-                ID
-              </Typography>
-              <Typography className={classes.details} variant="h5" component="h3">
-                {profile.id}
-              </Typography>
-              <Typography className={classes.details} variant="h6" component="h4">
-                {profile.name}
-              </Typography>
-            </CardContent>
-          </Card>
-          <Card className={classes.cards}>
-            <CardContent>
-              <div className={classes.headerContainer}>
-                <Typography className={classes.header} gutterBottom>
-                  PHONE
-                </Typography>
-                <IconButton className={classes.headerBtn} onClick={handleEditPhone} edge="end" aria-label="edit">
-                  <EditIcon/>
-                </IconButton>
-              </div>
-              <Typography className={classes.details} variant="h6" component="h4">
-                {profile.phone}
-              </Typography>
-            </CardContent>
-          </Card>
-          <Card className={classes.cards}>
-            <CardContent>
-              <div className={classes.headerContainer}>
-                <Typography className={classes.header} gutterBottom>
-                  EMAIL
-                </Typography>
-                <IconButton className={classes.headerBtn} onClick={handleEditEmail} edge="end" caria-label="edit">
-                  <EditIcon/>
-                </IconButton>
-              </div>
-              <Typography className={classes.details} variant="h6" component="h4">
-                {profile.email}
-              </Typography>
-            </CardContent>
-          </Card>
+          {Object.keys(profile).map((key,index)=>(
+          <Card key={index} className={classes.cards}>
+            {(["phone", "email"].includes(key.toLowerCase()))?(<div className={classes.headerContainer}>
+            <Typography className={classes.header} gutterBottom>
+              {key.toUpperCase()}
+            </Typography>
+            <IconButton className={classes.headerBtn} onClick={(key.toLowerCase() === "phone")?handleEditPhone:handleEditEmail} edge="end" caria-label="edit">
+              <EditIcon/>
+            </IconButton>
+            </div>):(<Typography className={classes.header} gutterBottom>
+              {key.toUpperCase()}
+            </Typography>)}
+            <Typography className={classes.details} variant="h6" component="h4">
+              {profile[key]}
+            </Typography>
+          </Card>))}
         </div>
       </fieldset>
-    </React.Fragment>
+    </div>
   );
 }

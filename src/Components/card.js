@@ -5,11 +5,11 @@ const style = {
   maxHeight: '210px',
   minHeight: '100px',
   minWidth: '100px',
-  padding: '10px',
+  padding: '15px',
   borderRadius: '3px'
 }
 
-const CardCustom = (props)=>{
+const Card = (props)=>{
   return(
     <div className={props.className} style={style}>
       {props.children}
@@ -17,4 +17,4 @@ const CardCustom = (props)=>{
   );
 }
 
-export default CardCustom;
+export default Card;
