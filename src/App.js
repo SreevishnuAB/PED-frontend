@@ -56,42 +56,38 @@ function App() {
 
   return(
     <>
-      <Fade timeout={150}>
-        <NavBar
-          authenticated={user.authenticated}
-          username={user.id.toUpperCase()}
-          onProfileClick={changeView}
-          onLogout={handleLogout}
-          />
-       </Fade> 
-       <Fade timeout={150}>
-        <Switch>
-          <Route
-            exact
-            path="/"
-            render={(routerProps)=>(
-              <Login
-                {...routerProps}
-                onLogin={handleUserAuth}
-                user={user}
-              />
-            )}
-          />
-          <Route
-            path="/student"
-            render={(routerProps)=>(
-              <StudentsRootView
-                {...routerProps}
-                student={user}
-                onNav={handlePath}
-                onProfileChange={handleProfileChange}
-                onMenuClick={changeView}
-                onLogout={handleLogout}
-              />
-            )}
-          />
-        </Switch>
-      </Fade>
+      <NavBar
+        authenticated={user.authenticated}
+        username={user.id.toUpperCase()}
+        onProfileClick={changeView}
+        onLogout={handleLogout}
+        />
+      <Switch>
+        <Route
+          exact
+          path="/"
+          render={(routerProps)=>(
+            <Login
+              {...routerProps}
+              onLogin={handleUserAuth}
+              user={user}
+            />
+          )}
+        />
+        <Route
+          path="/student"
+          render={(routerProps)=>(
+            <StudentsRootView
+              {...routerProps}
+              student={user}
+              onNav={handlePath}
+              onProfileChange={handleProfileChange}
+              onMenuClick={changeView}
+              onLogout={handleLogout}
+            />
+          )}
+        />
+      </Switch>
       <ToastNotification open={open} onClose={()=>{setOpen(false)}} message={toastMessage}/>
     </>
   );

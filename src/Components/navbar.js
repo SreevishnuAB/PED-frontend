@@ -16,6 +16,7 @@ import CustomTextField from './custom-text-input';
 import ToastNotification from './toast';
 import ProgressBar from './progress-bar';
 import axiosPreset from '../axios/config';
+import Fade from '@material-ui/core/Fade';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -143,54 +144,56 @@ export default function NavBar(props) {
   }
   
   return (
-  <div className={classes.root}>
-    <MenuDialog onClose={handleOpenMenu} aria-labelledby="user-menu" open={openMenu}>
-      <MenuDialogTitle className={classes.dialogTitle} id="user-menu-title"><AccountCircleIcon fontSize="large" className={classes.logoutBtn}/><span>{props.username}</span></MenuDialogTitle>
-      <DialogContent className={classes.menuContent}>
-        <Button className={`${classes.menuButton} ${classes.menuBtnOptions}`} onClick={handleOpenPwd}>Change Password</Button>
-        <Button className={`${classes.menuButton} ${classes.menuBtnOptions}`} onClick={handleLogout}>Logout</Button>
-      </DialogContent>
-    </MenuDialog>
+    <Fade in={true}>
+      <div className={classes.root}>
+        <MenuDialog onClose={handleOpenMenu} aria-labelledby="user-menu" open={openMenu}>
+          <MenuDialogTitle className={classes.dialogTitle} id="user-menu-title"><AccountCircleIcon fontSize="large" className={classes.logoutBtn}/><span>{props.username}</span></MenuDialogTitle>
+          <DialogContent className={classes.menuContent}>
+            <Button className={`${classes.menuButton} ${classes.menuBtnOptions}`} onClick={handleOpenPwd}>Change Password</Button>
+            <Button className={`${classes.menuButton} ${classes.menuBtnOptions}`} onClick={handleLogout}>Logout</Button>
+          </DialogContent>
+        </MenuDialog>
 
-    <MenuDialog open={openPwd} onClose={handleOpenPwd} aria-labelledby="responsive-dialog-title">
-      <MenuDialogTitle id="responsive-dialog-title">Change Password</MenuDialogTitle>
-      <DialogContent className={classes.dialogContent}>
-        <CustomTextField
-          className={classes.textField}
-          label={`Old password`}
-          onChange={(event)=>{setPwdCur(event.target.value)}}
-          variant="outlined"
-          value={pwdCur}
-          type="password"
-        />
-        <CustomTextField
-          className={classes.textField}
-          label={`New password`}
-          onChange={(event)=>{setPwdNew(event.target.value)}}
-          variant="outlined"
-          value={pwdNew}
-          type="password"
-        />
-      </DialogContent>
-      <DialogActions>
-        <CustomButton onClick={handleSave} autoFocus>
-          Save
-        </CustomButton>
-      </DialogActions>
-    </MenuDialog>
-    <ToastNotification open={openToast} onClose={(open)=>{setOpenToast(open)}} message={toastMessage}/>
+        <MenuDialog open={openPwd} onClose={handleOpenPwd} aria-labelledby="responsive-dialog-title">
+          <MenuDialogTitle id="responsive-dialog-title">Change Password</MenuDialogTitle>
+          <DialogContent className={classes.dialogContent}>
+            <CustomTextField
+              className={classes.textField}
+              label={`Old password`}
+              onChange={(event)=>{setPwdCur(event.target.value)}}
+              variant="outlined"
+              value={pwdCur}
+              type="password"
+            />
+            <CustomTextField
+              className={classes.textField}
+              label={`New password`}
+              onChange={(event)=>{setPwdNew(event.target.value)}}
+              variant="outlined"
+              value={pwdNew}
+              type="password"
+            />
+          </DialogContent>
+          <DialogActions>
+            <CustomButton onClick={handleSave} autoFocus>
+              Save
+            </CustomButton>
+          </DialogActions>
+        </MenuDialog>
+        <ToastNotification open={openToast} onClose={(open)=>{setOpenToast(open)}} message={toastMessage}/>
 
-    <AppBar position="static">
-      <Toolbar className={classes.toolbar}>
-        <Typography variant="h6" className={classes.title}>
-          Placement Eligibility Dashboard
-        </Typography>
-        {props.authenticated && <IconButton edge="end" className={classes.menuButton} color="inherit" aria-label="logout" onClick={handleOpenMenu}>
-          <AccountCircleIcon className={classes.logoutBtn}/>
-        </IconButton>}
-      </Toolbar>
-    </AppBar>
-    <ProgressBar open={openProg} onClose={()=>{setOpenProg(false)}}/>
-  </div>
+        <AppBar position="static">
+          <Toolbar className={classes.toolbar}>
+            <Typography variant="h6" className={classes.title}>
+              Placement Eligibility Dashboard
+            </Typography>
+            {props.authenticated && <IconButton edge="end" className={classes.menuButton} color="inherit" aria-label="logout" onClick={handleOpenMenu}>
+              <AccountCircleIcon className={classes.logoutBtn}/>
+            </IconButton>}
+          </Toolbar>
+        </AppBar>
+        <ProgressBar open={openProg} onClose={()=>{setOpenProg(false)}}/>
+      </div>
+    </Fade>
   );
 }

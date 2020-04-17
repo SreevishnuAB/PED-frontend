@@ -6,6 +6,8 @@ import CustomTextField from './custom-text-input';
 import ProgressBar from './progress-bar';
 import axiosPreset from '../axios/config';
 import { Redirect } from 'react-router-dom';
+import Fade from '@material-ui/core/Fade';
+
 //const axios = require('axios');
 
 const useStyles = makeStyles((theme)=>({
@@ -109,29 +111,31 @@ export default function Login(props){
     return <Redirect to={`/student/${props.user.id}`}/>;
   
   return(
-    <div className={classes.root}>
-      <ProgressBar open={open} onClose={handleClose}/>
-      <div className={classes.form}>
-        <CustomTextField
-          id="outlined-username-input"
-          label="Username"
-          variant="outlined"
-          size="small"
-          value={username}
-          onChange={(e)=>{setUsername(e.target.value)}}
-        />
-        <CustomTextField
-          id="outlined-password-input"
-          label="Password"
-          type="password"
-          variant="outlined"
-          size="small"
-          value={password}
-          onChange={(e)=>{setPassword(e.target.value)}}
-        />
-        <CustomButton onClick={handleSubmit}>Submit</CustomButton>
+    <Fade in={true}>
+      <div className={classes.root}>
+        <ProgressBar open={open} onClose={handleClose}/>
+        <div className={classes.form}>
+          <CustomTextField
+            id="outlined-username-input"
+            label="Username"
+            variant="outlined"
+            size="small"
+            value={username}
+            onChange={(e)=>{setUsername(e.target.value)}}
+          />
+          <CustomTextField
+            id="outlined-password-input"
+            label="Password"
+            type="password"
+            variant="outlined"
+            size="small"
+            value={password}
+            onChange={(e)=>{setPassword(e.target.value)}}
+          />
+          <CustomButton onClick={handleSubmit}>Submit</CustomButton>
+        </div>
+        <ToastNotification open={openToast} onClose={handleToast} message={toastMessage}/>
       </div>
-      <ToastNotification open={openToast} onClose={handleToast} message={toastMessage}/>
-    </div>
+    </Fade>
   );
 }
