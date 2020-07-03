@@ -50,7 +50,7 @@ const useStyles = makeStyles(theme => ({
     visibility: 'hidden',
   },
   logoutBtn: {
-    padding:'2px !important'
+    padding:'0.5px !important'
   },
   user: {
     height: '45px',

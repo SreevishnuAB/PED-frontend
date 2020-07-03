@@ -14,17 +14,27 @@ const useStyles = makeStyles((theme)=>({
     margin: '10px 5px 10px 10px'
   },
   cards: {
-    backgroundColor: '#375e79',
+    width: '95%',
+    // backgroundColor: '#375e79',
     margin: '5px',
 //    flex: '1',
-    boxShadow: '0px 0px 5px #121212',
-    color: '#ffffff',
+    // boxShadow: '0px 0px 5px #121212',
+    // color: '#ffffff',
     padding: '3px'
   },
   cardContainer: {
+    borderRadius: '4px',
+    width: '20vw',
+    height: '100%',
     display: 'flex',
-    justifyContent: 'flex-start',
-    flexWrap: 'wrap',
+    flexDirection: 'column',
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
+    // flexWrap: 'wrap',
+    boxShadow: '0px 0px 5px #121212',
+    backgroundColor: '#286790',
+    margin: '5px'
+    
   },
   details: {
     textAlign: 'right',
@@ -33,10 +43,14 @@ const useStyles = makeStyles((theme)=>({
     display: 'flex',
     justifyContent:'space-between',
     alignItems: 'center !important',
-    marginBottom: '20px'
+    marginBottom: '15px'
   },
   header: {
     flex: '2'
+  },
+  editIcon:{
+    width: '15px',
+    height: '15px'
   },
   headerBtn: {
     marginRight: '7px',
@@ -44,8 +58,27 @@ const useStyles = makeStyles((theme)=>({
     '&:hover': {
       backgroundColor: '#00adb5 !important',
       color: '#393e46'
-    }
+    },
+  width: '18px',
+  height: '18px'
   },
+  avatar:{
+    margin: '10px 0px 10px 0px',
+    height: '150px !important',
+    width: '150px !important',
+    borderRadius: '50%',
+    border: '2.5px solid #00F7FF',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  subContainer:{
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'stretch',
+    width: '100%'
+  }
 }));
 
 
@@ -79,27 +112,31 @@ export default function Profile(props){
   return(
     <div className={props.className}>
       <EditDialog open={openDialog} label={label} user={props.student} onProfileChange={handleProfileChange} onClose={handleEditDialog}/>
-      <fieldset className={classes.sectionBounds}>
-        <legend>Profile</legend>
-        <div className={classes.cardContainer}>
-          {Object.keys(profile).map((key,index)=>(
-          <Card key={index} className={classes.cards}>
+      <div className={classes.cardContainer}>
+        <div className={classes.avatar}>
+          <Typography className={classes.details} variant="h6" component="h4">
+            {profile.name}
+          </Typography> 
+        </div>
+        <div className={classes.subContainer}>
+          {Object.keys(profile).filter(key => key !== "name").map((key, index)=>(
+          <div key={index} className={classes.cards}>
             {(["phone", "email"].includes(key.toLowerCase()))?(<div className={classes.headerContainer}>
             <Typography className={classes.header} gutterBottom>
               {key.toUpperCase()}
             </Typography>
             <IconButton className={classes.headerBtn} onClick={(key.toLowerCase() === "phone")?handleEditPhone:handleEditEmail} edge="end" caria-label="edit">
-              <EditIcon/>
+              <EditIcon className={classes.editIcon}/>
             </IconButton>
             </div>):(<Typography className={classes.header} gutterBottom>
               {key.toUpperCase()}
             </Typography>)}
             <Typography className={classes.details} variant="h6" component="h4">
-              {profile[key]}
+              {(key !== "email")?profile[key].toUpperCase():profile[key]}
             </Typography>
-          </Card>))}
+          </div>))}
         </div>
-      </fieldset>
+      </div>
     </div>
   );
 }
