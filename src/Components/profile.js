@@ -23,8 +23,8 @@ const useStyles = makeStyles((theme)=>({
     padding: '3px'
   },
   cardContainer: {
-    borderRadius: '4px',
-    width: '20vw',
+    borderRadius: '5px',
+    width: '350px',
     height: '100%',
     display: 'flex',
     flexDirection: 'column',
@@ -33,8 +33,7 @@ const useStyles = makeStyles((theme)=>({
     // flexWrap: 'wrap',
     boxShadow: '0px 0px 5px #121212',
     backgroundColor: '#286790',
-    margin: '5px'
-    
+    margin: '5px',
   },
   details: {
     textAlign: 'right',
@@ -64,13 +63,14 @@ const useStyles = makeStyles((theme)=>({
   },
   avatar:{
     margin: '10px 0px 10px 0px',
-    height: '150px !important',
-    width: '150px !important',
+    height: '250px !important',
+    width: '250px !important',
     borderRadius: '50%',
     border: '2.5px solid #00F7FF',
     display: 'flex',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    backgroundColor: '#1a4051'
   },
   subContainer:{
     display: 'flex',
@@ -78,7 +78,29 @@ const useStyles = makeStyles((theme)=>({
     justifyContent: 'center',
     alignItems: 'stretch',
     width: '100%'
-  }
+  },
+  // subContainer1:{
+  //   width: '350px',
+  //   height: '350px',
+  //   display: 'flex',
+  //   justifyContent: 'center',
+  //   alignItems: 'center',
+  //   boxShadow: '5px #121212',
+  //   backgroundColor: '#286790',
+  //   borderRadius: '5px',
+  //   marginBottom: '7.5px'
+  // },
+  // subContainer2:{
+  //   marginTop: '7.5px',
+  //   display: 'flex',
+  //   flexDirection: 'column',
+  //   justifyContent: 'center',
+  //   alignItems: 'stretch',
+  //   width: '100%',
+  //   boxShadow: '5px #121212',
+  //   backgroundColor: '#286790',
+  //   borderRadius: '5px'
+  // }
 }));
 
 
@@ -114,7 +136,7 @@ export default function Profile(props){
       <EditDialog open={openDialog} label={label} user={props.student} onProfileChange={handleProfileChange} onClose={handleEditDialog}/>
       <div className={classes.cardContainer}>
         <div className={classes.avatar}>
-          <Typography className={classes.details} variant="h6" component="h4">
+          <Typography className={classes.details} variant="h4" component="h4">
             {profile.name}
           </Typography> 
         </div>

@@ -12,6 +12,7 @@ import Fade from '@material-ui/core/Fade';
 
 const useStyles = makeStyles((theme)=>({
   root: {
+    marginTop: '100px',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',

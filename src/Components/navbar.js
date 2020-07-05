@@ -21,6 +21,9 @@ import Fade from '@material-ui/core/Fade';
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
+    position: 'fixed',
+    top: 0,
+    width: '100%'
   },
   toolbar: {
     backgroundColor: '#1a4051',

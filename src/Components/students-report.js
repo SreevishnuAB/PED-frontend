@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme)=>({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'stretch',
-    margin: "10px 0px",
+    marginTop: "80px",
   },
   sections: {
     margin: "10px 10px",   
