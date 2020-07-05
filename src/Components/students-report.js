@@ -11,8 +11,9 @@ import Fade from '@material-ui/core/Fade';
 
 const useStyles = makeStyles((theme)=>({
   reportRoot:{
+    width: '95vw',
     display: 'flex',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     alignItems: 'stretch',
     marginTop: "80px",
   },
@@ -73,11 +74,10 @@ const useStyles = makeStyles((theme)=>({
   },
   cards: {
     backgroundColor: '#375e79',
-    margin: '5px',
+    margin: '7.5px',
 //    flex: '1',
-    boxShadow: '0px 0px 5px #121212',
+    boxShadow: '0px 0px 10px 1.5px #121212',
     color: '#ffffff',
-    padding: '3px'
   },
   cardWide:{
     width: '250px'
@@ -209,6 +209,10 @@ const useStyles = makeStyles((theme)=>({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'stretch'
+  },
+  profilePane: {
+    height: "100%",
+    overflow: "clip"
   }
 }));
 
@@ -334,97 +338,45 @@ export default function StudentsReport(props){
       <div className={classes.reportRoot}>
         <ProgressBar open={open} onClose={handleClose}/>
         {!open && <>
-          <Profile className={classes.cardContainer} profile={profile}/>
+          <div className={classes.profilePane}>
+            <Profile className={classes.cardContainer} profile={profile}/>
+          </div>
           <div className={classes.mainPanel}>
-            <div className={classes.cardContainerRow}>
-              <fieldset className={classes.sectionBounds}>
-                <legend className={classes.legend}>Overview</legend>
-                <div className={classes.cardContainer}>
-                  <Card className={classes.cards}>
-                    <Typography className={classes.header} gutterBottom>
-                      ID
-                    </Typography>
-                    <Typography className={classes.details} variant="h5" component="h3">
-                      {profile.id.toUpperCase()}
-                    </Typography>
-                    <Typography className={classes.details} variant="h6" component="h4">
-                      {profile.name}
-                    </Typography>
-                  </Card>
-                  <Card className={`${colorCH} ${classes.cards}`}>
-                    <Typography className={classes.header} gutterBottom>
-                      INTERVIEW STATUS
-                    </Typography>
-                    <div className={classes.cardChip}>
-                      <Chip className={`${classes.colorChip} ${colorStatus}`} label={pedData.interviewStatus}/>
-                    </div>
-                  </Card>
-                  <Card className={classes.cards}>
-                    <Typography className={classes.header} gutterBottom>
-                      BATCH
-                    </Typography>
-                    <Typography className={classes.details} variant="h5" component="h3">
-                      {profile.batch.toUpperCase()}
-                    </Typography>
-                  </Card>
-                  <Card className={classes.cards}>
-                    <Typography className={classes.header} gutterBottom>
-                      SEMESTER
-                    </Typography>
-                    <Typography className={classes.details} variant="h5" component="h3">
-                      {profile.semester.toUpperCase()}
-                    </Typography>
-                  </Card>
+            <div className={classes.cardContainer}>
+              <Card className={`${colorCH} ${classes.cards}`} size={"1x1"} title={"Interview Status"}>
+                <div className={classes.cardChip}>
+                  <Chip className={`${classes.colorChip} ${colorStatus}`} label={pedData.interviewStatus}/>
                 </div>
-              </fieldset>
-              <fieldset className={classes.sectionBounds}>
-                <legend className={classes.legend}>Technical & Soft Skills</legend>
-                <div className={classes.cardContainer}>
-                  <Card className={classes.cards}>
-                    <div className={classes.headerContainer}>
-                      <Typography className={classes.header} gutterBottom>
-                        TECHNICAL: CODING
-                      </Typography>
-                      <Chip className={classes.colorIndicator} label={pedData.colorCH.toUpperCase()} style={{backgroundColor: `${color[pedData.colorCH]}`, color: `${color[pedData.colorCH]}`, borderColor: `${color[pedData.colorCH]}`}}/>
-                    </div>
-                    <div className={classes.cardChip}>
-                      <Chip className={`${classes.colorChip} ${colorCHStatus}`} label={(pedData.colorCH === 'red')?"Orange or above color group needed":"Eligible"}/>
-                    </div>
-                  </Card>
-                  <div className={classes.cardColumn}>
-                    <Card className={classes.cards}>
-                      <Typography className={classes.header} gutterBottom>
-                        SOFT SKILLS
-                      </Typography>
-                      <div className={classes.cardChip}>
-                        <Chip className={`${classes.colorChip} ${colorSSStatus}`} label={pedData.softskillsStatus}/>
-                      </div>
-                    </Card>
-                    <Card className={classes.cards}>
-                      <Typography className={classes.header} gutterBottom>
-                        RESUME SCORE
-                      </Typography>
-                      <div className={classes.cardChip}>
-                        <Chip className={`${classes.colorChip} ${colorResume}`} label={pedData.resumeScore}/>
-                      </div>
-                    </Card>
-                  </div>
+              </Card>
+              <Card className={classes.cards} size={"1x2"} title={"Technical - Coding"}>
+                <div className={classes.headerContainer}>
+                  <Chip className={classes.colorIndicator} label={pedData.colorCH.toUpperCase()} style={{backgroundColor: `${color[pedData.colorCH]}`, color: `${color[pedData.colorCH]}`, borderColor: `${color[pedData.colorCH]}`}}/>
                 </div>
-              </fieldset>
+                <div className={classes.cardChip}>
+                  <Chip className={`${classes.colorChip} ${colorCHStatus}`} label={(pedData.colorCH === 'red')?"Orange or above color group needed":"Eligible"}/>
+                </div>
+              </Card>
+              <Card className={classes.cards} size={"1x1"} title={"Soft Skills"}>
+                <div className={classes.cardChip}>
+                  <Chip className={`${classes.colorChip} ${colorSSStatus}`} label={pedData.softskillsStatus}/>
+                </div>
+              </Card>
+              <Card className={classes.cards} size={"1x1"} title={"Resume Score"}>
+                <div className={classes.cardChip}>
+                  <Chip className={`${classes.colorChip} ${colorResume}`} label={pedData.resumeScore}/>
+                </div>
+              </Card>
+              <Card className={classes.cards} size={"1x1"} title={"Average Score"}>
+                <div className={classes.cardChip}>
+                  <Chip className={`${classes.colorChip} ${colorScore}`} label={`${pedData.eligibility.avgScore} %`}/>
+                  <Chip className={`${classes.colorChip} ${colorScore}`} label={(parseFloat(pedData.eligibility.avgScore) < 55 )?"Average score of 55 or above needed":"Eligible"}/>
+                </div>
+              </Card>
             </div>
             <div className={classes.sections}>
               <fieldset className={classes.sectionBounds}>
                 <legend className={classes.legend}>Verbal & Aptitude</legend>
                 <div className={classes.cardContainer}>
-                  <Card className={classes.cards}>
-                    <Typography className={classes.header} gutterBottom>
-                      AVERAGE SCORE
-                    </Typography>
-                    <div className={classes.cardChip}>
-                      <Chip className={`${classes.colorChip} ${colorScore}`} label={`${pedData.eligibility.avgScore} %`}/>
-                      <Chip className={`${classes.colorChip} ${colorScore}`} label={(parseFloat(pedData.eligibility.avgScore) < 55 )?"Average score of 55 or above needed":"Eligible"}/>
-                    </div>
-                  </Card>
                   <Card className={classes.cards}>
                     <div className={classes.headerContainer}>
                       <Typography className={classes.header} gutterBottom>

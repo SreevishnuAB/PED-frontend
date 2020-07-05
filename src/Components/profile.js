@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme)=>({
     justifyContent: 'space-evenly',
     alignItems: 'center',
     // flexWrap: 'wrap',
-    boxShadow: '0px 0px 5px #121212',
+    boxShadow: '0px 0px 10px 1.5px #121212',
     backgroundColor: '#286790',
     margin: '5px',
   },
@@ -48,8 +48,8 @@ const useStyles = makeStyles((theme)=>({
     flex: '2'
   },
   editIcon:{
-    width: '15px',
-    height: '15px'
+    width: '17.5px',
+    height: '17.5px'
   },
   headerBtn: {
     marginRight: '7px',
@@ -58,19 +58,20 @@ const useStyles = makeStyles((theme)=>({
       backgroundColor: '#00adb5 !important',
       color: '#393e46'
     },
-  width: '18px',
-  height: '18px'
+    width: '20px',
+    height: '20px'
   },
   avatar:{
     margin: '10px 0px 10px 0px',
-    height: '250px !important',
-    width: '250px !important',
+    height: '200px !important',
+    width: '200px !important',
     borderRadius: '50%',
     border: '2.5px solid #00F7FF',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#1a4051'
+    backgroundColor: '#1a4051',
+    boxShadow: '0px 0px 10px 1.5px #121212',
   },
   subContainer:{
     display: 'flex',
@@ -136,7 +137,7 @@ export default function Profile(props){
       <EditDialog open={openDialog} label={label} user={props.student} onProfileChange={handleProfileChange} onClose={handleEditDialog}/>
       <div className={classes.cardContainer}>
         <div className={classes.avatar}>
-          <Typography className={classes.details} variant="h4" component="h4">
+          <Typography className={classes.details} variant="h5" component="h5">
             {profile.name}
           </Typography> 
         </div>
