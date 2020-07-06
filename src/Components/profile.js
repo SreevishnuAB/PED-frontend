@@ -7,12 +7,6 @@ import EditIcon from '@material-ui/icons/Edit';
 import EditDialog from './edit-dialog';
 
 const useStyles = makeStyles((theme)=>({
-  sectionBounds: {
-    border: "1px solid",
-    borderRadius: '3px',
-    width: 'inherit',
-    margin: '10px 5px 10px 10px'
-  },
   cards: {
     width: '95%',
     // backgroundColor: '#375e79',
@@ -34,6 +28,7 @@ const useStyles = makeStyles((theme)=>({
     boxShadow: '0px 0px 10px 1.5px #121212',
     backgroundColor: '#286790',
     margin: '5px',
+    maxHeight: "815px"
   },
   details: {
     textAlign: 'right',

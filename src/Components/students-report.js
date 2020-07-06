@@ -8,14 +8,19 @@ import { useRouteMatch } from 'react-router-dom';
 import axiosPreset from '../axios/config';
 import Profile from './profile';
 import Fade from '@material-ui/core/Fade';
+import QueryBuilderIcon from '@material-ui/icons/QueryBuilder';
+import CheckIcon from '@material-ui/icons/Check';
+import ClearIcon from '@material-ui/icons/Clear';
 
 const useStyles = makeStyles((theme)=>({
   reportRoot:{
-    width: '95vw',
+    // height: '100vh',
+    width: '100vw',
     display: 'flex',
     justifyContent: 'flex-start',
     alignItems: 'stretch',
     marginTop: "80px",
+    overflowY: 'hidden'
   },
   sections: {
     margin: "10px 10px",   
@@ -74,7 +79,7 @@ const useStyles = makeStyles((theme)=>({
   },
   cards: {
     backgroundColor: '#375e79',
-    margin: '7.5px',
+    margin: '5px',
 //    flex: '1',
     boxShadow: '0px 0px 10px 1.5px #121212',
     color: '#ffffff',
@@ -83,6 +88,7 @@ const useStyles = makeStyles((theme)=>({
     width: '250px'
   },
   cardContainer: {
+    height: "100%",
     display: 'flex',
     justifyContent: 'flex-start',
     alignItems: 'center',
@@ -143,7 +149,8 @@ const useStyles = makeStyles((theme)=>({
     },
   },
   profile:{
-    flex: '1'
+    flex: '1',
+    // height: '100%'
   },
   scoreCard: {
     width: '100px',
@@ -207,38 +214,50 @@ const useStyles = makeStyles((theme)=>({
   mainPanel: {
     display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'stretch'
+    justifyContent: 'flex-start',
+    alignItems: 'stretch',
+    overflowY: 'auto',
+    height: '90vh',
+    flex: 1
   },
   profilePane: {
-    height: "100%",
-    overflow: "clip"
+    // height: "100vh",
+    maxHeight: "815px",
+    overflowY: "clip"
+  },
+  iconContainer: {
+    height: '40px',
+    width: '40px',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#1a4051',
+    borderRadius: '50%',
+    padding: '7.5px',
+    marginBottom: '10px',
+    boxShadow: '0px 0px 5px 0.5px #121212',
+  },
+  statusText: {
+    width: "130px",
+    padding: '5px',
+    margin: '0px 10px',
+    backgroundColor: '#1a4051',
+    borderRadius: "5px",
+    textAlign: "center",
+    boxShadow: '0px 0px 5px 0.5px #121212',
+  },
+  cardContent1x1: {
+    height: "80%",
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+  },
+  statusText1x2: {
+    width: "310px !important"
   }
 }));
 
-
-
-const resolveClassName = (colorCodeHour, classes)=>{
-
-  let styleClass;
-  switch (colorCodeHour.toLowerCase()) {
-    case "orange":
-      styleClass = classes.CHOrange;
-      break;
-    case "green":
-      styleClass = classes.CHGreen;
-      break;
-    case "blue":
-      styleClass = classes.CHBlue;
-      break;
-    case 'red':
-      styleClass = classes.CHRed;
-      break;
-    default:
-      return "";
-  }
-  return styleClass;
-}
 
 const getColorByScore = (score, styles)=>{
   if(parseFloat(score) < 55)
@@ -252,11 +271,11 @@ const getColorByResume = (resume, style)=>{
   let score = parseFloat(resume);
 
   if(score >= 10)
-    return style.chipGreen;
+    return style.CHGreen;
   else if(score >= 7.5)
-    return style.chipOrange;
+    return style.CHOrange;
   else
-    return style.chipRed;
+    return style.CHRed;
 }
 
 const resolveColorByValue = (status, style)=>{
@@ -268,12 +287,42 @@ const resolveColorByValue = (status, style)=>{
     case "orange":
     case "blue":
     case "green":
-      return style.chipGreen;
+      return style.CHGreen;
     case "scheduled":
     case "pending":
-      return style.chipOrange;
+      return style.CHOrange;
     default:
-      return style.chipRed
+      return style.CHRed
+  }
+}
+
+const getIconByResume = (resume, style)=>{
+
+  let score = parseFloat(resume);
+
+  if(score >= 10)
+    return <CheckIcon className={style.CHGreen} fontSize="large"/>;
+  else if(score >= 7.5)
+    return <QueryBuilderIcon className={style.CHOrange} fontSize="large"/>;
+  else
+    return <ClearIcon className={style.CHRed} fontSize="large"/>;
+}
+
+const getIconByValue = (status, style)=>{
+ 
+  switch (status.toLowerCase()) {
+    case "completed":
+    case "eligible":
+    case "qualified":
+    case "orange":
+    case "blue":
+    case "green":
+      return <CheckIcon className={style.CHGreen} fontSize="large"/>;
+    case "scheduled":
+    case "pending":
+      return <QueryBuilderIcon className={style.CHOrange} fontSize="large"/>;
+    default:
+      return <ClearIcon className={style.CHRed} fontSize="large"/>;
   }
 }
 
@@ -296,10 +345,8 @@ export default function StudentsReport(props){
         setPedData(response.data.pedData);
         onGet(response.data.profile);
         setOpen(false);
-
     }).catch((error)=>{
         console.log(error.response.data);
-        
     });
 
   },[onGet, id]);
@@ -309,11 +356,12 @@ export default function StudentsReport(props){
   const classes = useStyles();  
   let evalObj = '', colorCH = '', colorStatus = '', colorSSStatus = '', colorCHStatus = '', colorResume = '', colorScore = '', colorEval1 = '', colorEval2 = '';
 //  console.log(props);
+
   if(pedData !== undefined){
 //    console.log(pedData);
     
     evalObj = pedData.eligibility.eval;
-    colorCH = resolveClassName(pedData.colorCH, classes);
+    colorCH = resolveColorByValue(pedData.colorCH, classes);
     colorStatus = resolveColorByValue(pedData.interviewStatus, classes);
     colorCHStatus = resolveColorByValue(pedData.colorCH, classes);
     colorSSStatus = resolveColorByValue(pedData.softskillsStatus, classes);
@@ -344,16 +392,23 @@ export default function StudentsReport(props){
           <div className={classes.mainPanel}>
             <div className={classes.cardContainer}>
               <Card className={`${colorCH} ${classes.cards}`} size={"1x1"} title={"Interview Status"}>
-                <div className={classes.cardChip}>
-                  <Chip className={`${classes.colorChip} ${colorStatus}`} label={pedData.interviewStatus}/>
+                <div className={classes.cardContent1x1}>
+                  <div className={`${classes.iconContainer} ${colorStatus}`}>
+                    {getIconByValue(pedData.interviewStatus, classes)}
+                  </div>
+                  <Typography className={`${classes.statusText} ${colorStatus}`} variant="h6" component="h6">
+                    {pedData.interviewStatus}
+                  </Typography>
                 </div>
               </Card>
-              <Card className={classes.cards} size={"1x2"} title={"Technical - Coding"}>
-                <div className={classes.headerContainer}>
-                  <Chip className={classes.colorIndicator} label={pedData.colorCH.toUpperCase()} style={{backgroundColor: `${color[pedData.colorCH]}`, color: `${color[pedData.colorCH]}`, borderColor: `${color[pedData.colorCH]}`}}/>
-                </div>
-                <div className={classes.cardChip}>
-                  <Chip className={`${classes.colorChip} ${colorCHStatus}`} label={(pedData.colorCH === 'red')?"Orange or above color group needed":"Eligible"}/>
+              <Card className={classes.cards} size={"1x2"} title={"Technical Skills - Coding"}>
+                <div className={classes.cardContent1x1}>
+                  <div className={`${classes.iconContainer} ${resolveColorByValue(pedData.colorCH, classes)}`}>
+                    {getIconByValue(pedData.colorCH, classes)}
+                  </div>
+                  <Typography className={`${classes.statusText} ${classes.statusText1x2} ${resolveColorByValue(pedData.colorCH, classes)}`} variant="h6" component="h6">
+                    {(pedData.colorCH === 'red')?"Orange or above required":"Eligible"}
+                  </Typography>
                 </div>
               </Card>
               <Card className={classes.cards} size={"1x1"} title={"Soft Skills"}>
@@ -366,7 +421,7 @@ export default function StudentsReport(props){
                   <Chip className={`${classes.colorChip} ${colorResume}`} label={pedData.resumeScore}/>
                 </div>
               </Card>
-              <Card className={classes.cards} size={"1x1"} title={"Average Score"}>
+              <Card className={classes.cards} size={"1x2"} title={"Average Score"}>
                 <div className={classes.cardChip}>
                   <Chip className={`${classes.colorChip} ${colorScore}`} label={`${pedData.eligibility.avgScore} %`}/>
                   <Chip className={`${classes.colorChip} ${colorScore}`} label={(parseFloat(pedData.eligibility.avgScore) < 55 )?"Average score of 55 or above needed":"Eligible"}/>
