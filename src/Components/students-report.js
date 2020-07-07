@@ -438,12 +438,12 @@ export default function StudentsReport(props){
                   <div className={classes.cardContent1x1}>
                     <div className={`${classes.iconContainer1x1} ${classes.iconContainer} ${colorScore}`}>
                       <Typography className={colorScore} variant="h6" component="h6">
-                        {`${pedData.eligibility.avgScore} %`}
+                        {`${pedData.eligibility.avgScore}%`}
                       </Typography>
                       {getIconByValue(pedData.eligibility.avgScore, classes, "score")}
                     </div>
                     <Typography className={`${classes.statusText} ${classes.statusText1x2} ${colorScore}`} variant="h6" component="h6">
-                      {(parseFloat(pedData.eligibility.avgScore) < 55 )?"Average above 55 required":"Eligible"}
+                      {(parseFloat(pedData.eligibility.avgScore) < 55 )?"Average above 55% required":"Eligible"}
                     </Typography>
                   </div>
                 </Card>
