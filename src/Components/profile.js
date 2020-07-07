@@ -27,8 +27,8 @@ const useStyles = makeStyles((theme)=>({
     // flexWrap: 'wrap',
     boxShadow: '0px 0px 10px 1.5px #121212',
     backgroundColor: '#286790',
-    margin: '5px',
-    maxHeight: "815px"
+    margin: '3px',
+    maxHeight: "900px"
   },
   details: {
     textAlign: 'right',

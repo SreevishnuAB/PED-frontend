@@ -9,8 +9,8 @@ import axiosPreset from '../axios/config';
 import Profile from './profile';
 import Fade from '@material-ui/core/Fade';
 import QueryBuilderIcon from '@material-ui/icons/QueryBuilder';
-import CheckIcon from '@material-ui/icons/Check';
-import ClearIcon from '@material-ui/icons/Clear';
+import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
+import CheckCircleOutlinedIcon from '@material-ui/icons/CheckCircleOutlined';
 
 const useStyles = makeStyles((theme)=>({
   reportRoot:{
@@ -19,8 +19,7 @@ const useStyles = makeStyles((theme)=>({
     display: 'flex',
     justifyContent: 'flex-start',
     alignItems: 'stretch',
-    marginTop: "80px",
-    overflowY: 'hidden'
+    marginTop: "70px",
   },
   sections: {
     margin: "10px 10px",   
@@ -57,7 +56,7 @@ const useStyles = makeStyles((theme)=>({
     borderColor:"orange"
   },
   CHGreen: {
-    color: "green",
+    color: "#0AB00A",
     borderColor:"green"
   },
   CHBlue: {
@@ -79,7 +78,7 @@ const useStyles = makeStyles((theme)=>({
   },
   cards: {
     backgroundColor: '#375e79',
-    margin: '5px',
+    margin: '3px',
 //    flex: '1',
     boxShadow: '0px 0px 10px 1.5px #121212',
     color: '#ffffff',
@@ -88,14 +87,18 @@ const useStyles = makeStyles((theme)=>({
     width: '250px'
   },
   cardContainer: {
-    height: "100%",
+    // height: "100%",
     display: 'flex',
     justifyContent: 'flex-start',
-    alignItems: 'center',
+    // alignItems: 'center',
     flexWrap: 'wrap',
-    [theme.breakpoints.up('lg')]:{
-        maxWidth: '33vw'
-    }
+    maxWidth: "38.125vw" //temporary
+    // [theme.breakpoints.up('lg')]:{
+    //     maxWidth: '33vw'
+    // }
+  },
+  cardContainerProfile:{
+    height: '100%',
   },
   colorIndicator: {
     borderRadius: '4px !important',
@@ -140,13 +143,9 @@ const useStyles = makeStyles((theme)=>({
   },
   cardContainerRow: {
     display: 'flex',
-    justifyContent: 'space-between',
-    flexDirection: 'column',
+    justifyContent: 'flex-start',
     flexWrap: 'wrap',
-    width: '95%',
-    [theme.breakpoints.up('lg')]: {
-      flexDirection: 'row',
-    },
+    width: '100%',
   },
   profile:{
     flex: '1',
@@ -217,15 +216,15 @@ const useStyles = makeStyles((theme)=>({
     justifyContent: 'flex-start',
     alignItems: 'stretch',
     overflowY: 'auto',
-    height: '90vh',
+    height: '92.5vh',
     flex: 1
   },
   profilePane: {
     // height: "100vh",
-    maxHeight: "815px",
+    maxHeight: "910px",
     overflowY: "clip"
   },
-  iconContainer: {
+  iconContainer1x1: {
     height: '40px',
     width: '40px',
     display: 'flex',
@@ -237,6 +236,13 @@ const useStyles = makeStyles((theme)=>({
     marginBottom: '10px',
     boxShadow: '0px 0px 5px 0.5px #121212',
   },
+  iconContainer:{
+    width: "120px !important",
+    justifyContent: 'space-around !important',
+    borderRadius: '30px !important',
+    padding: '7.5px 5px !important'
+  }
+  ,
   statusText: {
     width: "130px",
     padding: '5px',
@@ -255,32 +261,36 @@ const useStyles = makeStyles((theme)=>({
   },
   statusText1x2: {
     width: "310px !important"
+  },
+  //temporary
+  containerWide: {
+    width: "100% !important"
   }
 }));
 
-
-const getColorByScore = (score, styles)=>{
-  if(parseFloat(score) < 55)
-    return styles.chipRed;
-  else
-    return styles.chipGreen;
+const convertScoretoStatus = (value, type)=>{
+  if(type !== ""){
+    value =  parseFloat(value);
+    if(type === "resume"){
+      if(value >= 10)
+        return "qualified";
+      else if(value >= 7.5)
+        return "pending";
+    }
+    else if(type === "score"){
+      if(value >= 55)
+        return "qualified";
+    }
+    return "";
+  }
+  return value;
 }
 
-const getColorByResume = (resume, style)=>{
-
-  let score = parseFloat(resume);
-
-  if(score >= 10)
-    return style.CHGreen;
-  else if(score >= 7.5)
-    return style.CHOrange;
-  else
-    return style.CHRed;
-}
-
-const resolveColorByValue = (status, style)=>{
+const getColorByValue = (value, style, type = "")=>{
  
-  switch (status.toLowerCase()) {
+  value = convertScoretoStatus(value, type);
+
+  switch (value.toLowerCase()) {
     case "completed":
     case "eligible":
     case "qualified":
@@ -296,20 +306,9 @@ const resolveColorByValue = (status, style)=>{
   }
 }
 
-const getIconByResume = (resume, style)=>{
-
-  let score = parseFloat(resume);
-
-  if(score >= 10)
-    return <CheckIcon className={style.CHGreen} fontSize="large"/>;
-  else if(score >= 7.5)
-    return <QueryBuilderIcon className={style.CHOrange} fontSize="large"/>;
-  else
-    return <ClearIcon className={style.CHRed} fontSize="large"/>;
-}
-
-const getIconByValue = (status, style)=>{
+const getIconByValue = (value, style, type = "")=>{
  
+  let status = convertScoretoStatus(value, type)
   switch (status.toLowerCase()) {
     case "completed":
     case "eligible":
@@ -317,12 +316,12 @@ const getIconByValue = (status, style)=>{
     case "orange":
     case "blue":
     case "green":
-      return <CheckIcon className={style.CHGreen} fontSize="large"/>;
+      return <CheckCircleOutlinedIcon className={style.CHGreen} fontSize="large"/>;
     case "scheduled":
     case "pending":
       return <QueryBuilderIcon className={style.CHOrange} fontSize="large"/>;
     default:
-      return <ClearIcon className={style.CHRed} fontSize="large"/>;
+      return <CancelOutlinedIcon className={style.CHRed} fontSize="large"/>;
   }
 }
 
@@ -361,14 +360,14 @@ export default function StudentsReport(props){
 //    console.log(pedData);
     
     evalObj = pedData.eligibility.eval;
-    colorCH = resolveColorByValue(pedData.colorCH, classes);
-    colorStatus = resolveColorByValue(pedData.interviewStatus, classes);
-    colorCHStatus = resolveColorByValue(pedData.colorCH, classes);
-    colorSSStatus = resolveColorByValue(pedData.softskillsStatus, classes);
-    colorResume = getColorByResume(pedData.resumeScore, classes);
-    colorScore = getColorByScore(pedData.eligibility.avgScore, classes);
-    colorEval1 = resolveColorByValue(evalObj[0].status, classes);
-    colorEval2 = resolveColorByValue(evalObj[1].status, classes);
+    colorCH = getColorByValue(pedData.colorCH, classes);
+    colorStatus = getColorByValue(pedData.interviewStatus, classes);
+    colorCHStatus = getColorByValue(pedData.colorCH, classes);
+    colorSSStatus = getColorByValue(pedData.softskillsStatus, classes);
+    colorResume = getColorByValue(pedData.resumeScore, classes, "resume");
+    colorScore = getColorByValue(pedData.eligibility.avgScore, classes, "score");
+    colorEval2 = getColorByValue(evalObj[1].status, classes);
+    colorEval1 = getColorByValue(evalObj[0].status, classes);
   }
 
   const color = {blue: "#4DC2FB", red: "red", green: "green", orange: "orange"};
@@ -387,45 +386,76 @@ export default function StudentsReport(props){
         <ProgressBar open={open} onClose={handleClose}/>
         {!open && <>
           <div className={classes.profilePane}>
-            <Profile className={classes.cardContainer} profile={profile}/>
+            <Profile className={`${classes.cardContainer} ${classes.cardContainerProfile}`} profile={profile}/>
           </div>
           <div className={classes.mainPanel}>
-            <div className={classes.cardContainer}>
-              <Card className={`${colorCH} ${classes.cards}`} size={"1x1"} title={"Interview Status"}>
-                <div className={classes.cardContent1x1}>
-                  <div className={`${classes.iconContainer} ${colorStatus}`}>
-                    {getIconByValue(pedData.interviewStatus, classes)}
+            <div className={classes.cardContainerRow}>
+              <div className={classes.cardContainer}>
+                <Card className={`${colorCH} ${classes.cards}`} size={"1x1"} title={"Interview Status"}>
+                  <div className={classes.cardContent1x1}>
+                    <div className={`${classes.iconContainer1x1} ${colorStatus}`}>
+                      {getIconByValue(pedData.interviewStatus, classes)}
+                    </div>
+                    <Typography className={`${classes.statusText} ${colorStatus}`} variant="h6" component="h6">
+                      {pedData.interviewStatus}
+                    </Typography>
                   </div>
-                  <Typography className={`${classes.statusText} ${colorStatus}`} variant="h6" component="h6">
-                    {pedData.interviewStatus}
-                  </Typography>
-                </div>
-              </Card>
-              <Card className={classes.cards} size={"1x2"} title={"Technical Skills - Coding"}>
-                <div className={classes.cardContent1x1}>
-                  <div className={`${classes.iconContainer} ${resolveColorByValue(pedData.colorCH, classes)}`}>
-                    {getIconByValue(pedData.colorCH, classes)}
+                </Card>
+                <Card className={classes.cards} size={"1x2"} title={"Technical Skills - Coding"}>
+                  <div className={classes.cardContent1x1}>
+                    <div className={`${classes.iconContainer1x1} ${classes.iconContainer} ${getColorByValue(pedData.colorCH, classes)}`}>
+                      <Typography className={getColorByValue(pedData.colorCH, classes)} variant="h6" component="h6">
+                        {`${pedData.colorCH[0].toUpperCase()}${pedData.colorCH.substring(1)}`}
+                      </Typography>
+                      {getIconByValue(pedData.colorCH, classes)}
+                    </div>
+                    <Typography className={`${classes.statusText} ${classes.statusText1x2} ${getColorByValue(pedData.colorCH, classes)}`} variant="h6" component="h6">
+                      {(pedData.colorCH === 'red')?"Orange or above required":"Eligible"}
+                    </Typography>
                   </div>
-                  <Typography className={`${classes.statusText} ${classes.statusText1x2} ${resolveColorByValue(pedData.colorCH, classes)}`} variant="h6" component="h6">
-                    {(pedData.colorCH === 'red')?"Orange or above required":"Eligible"}
-                  </Typography>
-                </div>
-              </Card>
-              <Card className={classes.cards} size={"1x1"} title={"Soft Skills"}>
-                <div className={classes.cardChip}>
-                  <Chip className={`${classes.colorChip} ${colorSSStatus}`} label={pedData.softskillsStatus}/>
-                </div>
-              </Card>
-              <Card className={classes.cards} size={"1x1"} title={"Resume Score"}>
-                <div className={classes.cardChip}>
-                  <Chip className={`${classes.colorChip} ${colorResume}`} label={pedData.resumeScore}/>
-                </div>
-              </Card>
-              <Card className={classes.cards} size={"1x2"} title={"Average Score"}>
-                <div className={classes.cardChip}>
-                  <Chip className={`${classes.colorChip} ${colorScore}`} label={`${pedData.eligibility.avgScore} %`}/>
-                  <Chip className={`${classes.colorChip} ${colorScore}`} label={(parseFloat(pedData.eligibility.avgScore) < 55 )?"Average score of 55 or above needed":"Eligible"}/>
-                </div>
+                </Card>
+                <Card className={classes.cards} size={"1x1"} title={"Soft Skills"}>
+                  <div className={classes.cardContent1x1}>
+                    <div className={`${classes.iconContainer1x1} ${colorSSStatus}`}>
+                      {getIconByValue(pedData.softskillsStatus, classes)}
+                    </div>
+                    <Typography className={`${classes.statusText} ${colorSSStatus}`} variant="h6" component="h6">
+                      {pedData.softskillsStatus}
+                    </Typography>
+                  </div>
+                </Card>
+                <Card className={classes.cards} size={"1x1"} title={"Resume Score"}>
+                  <div className={classes.cardContent1x1}>
+                    <div className={`${classes.iconContainer1x1} ${colorResume}`}>
+                      {getIconByValue(pedData.resumeScore, classes, "resume")}
+                    </div>
+                    <Typography className={`${classes.statusText} ${colorResume}`} variant="h6" component="h6">
+                      {pedData.resumeScore}
+                    </Typography>
+                  </div>
+                </Card>
+                <Card className={classes.cards} size={"1x2"} title={"Average Score"}>
+                  <div className={classes.cardContent1x1}>
+                    <div className={`${classes.iconContainer1x1} ${classes.iconContainer} ${colorScore}`}>
+                      <Typography className={colorScore} variant="h6" component="h6">
+                        {`${pedData.eligibility.avgScore} %`}
+                      </Typography>
+                      {getIconByValue(pedData.eligibility.avgScore, classes, "score")}
+                    </div>
+                    <Typography className={`${classes.statusText} ${classes.statusText1x2} ${colorScore}`} variant="h6" component="h6">
+                      {(parseFloat(pedData.eligibility.avgScore) < 55 )?"Average above 55 required":"Eligible"}
+                    </Typography>
+                  </div>
+                </Card>
+              </div>
+              <div className={classes.cardContainer}>
+                <Card className={classes.cards} size={"2x4"} title={"Verbal & Aptitude - Visualization"}>
+
+                </Card>
+              </div>
+            </div>
+            <div className={`${classes.cardContainer} ${classes.containerWide}`}>
+              <Card className={classes.cards} size={"3x4"} title={"Verbal & Aptitude - Evaluation"}>
               </Card>
             </div>
             <div className={classes.sections}>
@@ -514,10 +544,10 @@ export default function StudentsReport(props){
                     <div className={classes.innerCards}>
                       <div className={classes.innerCardColumns}>
                         <div className={classes.headerChipContainer}>
-                          <div className={`${classes.blockChip} ${resolveColorByValue(object.status, classes)}`}>
+                          <div className={`${classes.blockChip} ${getColorByValue(object.status, classes)}`}>
                             {object.status}
                           </div>
-                          <div className={`${classes.blockChip} ${resolveColorByValue(object.status, classes)}`}>
+                          <div className={`${classes.blockChip} ${getColorByValue(object.status, classes)}`}>
                             {(object.date === null)?"TBD":object.date}
                           </div>
                         </div>

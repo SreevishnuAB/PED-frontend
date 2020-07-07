@@ -20,22 +20,52 @@ const useSizes = makeStyles(()=>({
     padding: "10px"
   },
   "1x2": {
-    maxWidth: "330px",
-    minWidth: "330px",
+    maxWidth: "326px",
+    minWidth: "326px",
     maxHeight: "150px",
     minHeight: "150px",
-    width: "330px",
+    width: "326px",
     height: "150px",
     borderRadius: "5px",
     padding: "10px"
   },
   "2x2": {
-    maxWidth: "330px",
-    minWidth: "330px",
-    maxHeight: "330px",
-    minHeight: "330px",
-    width: "330px",
-    height: "330px",
+    maxWidth: "326px",
+    minWidth: "326px",
+    maxHeight: "326px",
+    minHeight: "326px",
+    width: "326px",
+    height: "326px",
+    borderRadius: "5px",
+    padding: "10px"
+  },
+  "2x3": {
+    maxWidth: "503px",
+    minWidth: "503px",
+    maxHeight: "326px",
+    minHeight: "326px",
+    width: "503px",
+    height: "326px",
+    borderRadius: "5px",
+    padding: "10px"
+  },
+  "2x4": {
+    maxWidth: "676px",
+    minWidth: "676px",
+    maxHeight: "326px",
+    minHeight: "326px",
+    width: "676px",
+    height: "326px",
+    borderRadius: "5px",
+    padding: "10px"
+  },
+  "3x4": {
+    maxWidth: "676px",
+    minWidth: "676px",
+    maxHeight: "503px",
+    minHeight: "503px",
+    width: "676px",
+    height: "503px",
     borderRadius: "5px",
     padding: "10px"
   }
