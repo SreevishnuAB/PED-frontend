@@ -11,6 +11,10 @@ import Fade from '@material-ui/core/Fade';
 import QueryBuilderIcon from '@material-ui/icons/QueryBuilder';
 import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
 import CheckCircleOutlinedIcon from '@material-ui/icons/CheckCircleOutlined';
+import CalendarTodayOutlinedIcon from '@material-ui/icons/CalendarTodayOutlined';
+import KeyboardArrowLeftOutlinedIcon from '@material-ui/icons/KeyboardArrowLeftOutlined';
+import KeyboardArrowRightOutlinedIcon from '@material-ui/icons/KeyboardArrowRightOutlined';
+import { IconButton } from '@material-ui/core';
 
 const useStyles = makeStyles((theme)=>({
   reportRoot:{
@@ -160,21 +164,22 @@ const useStyles = makeStyles((theme)=>({
     alignItems: 'center',
     borderRadius: '4px'
   },
-  innerCards: {
+  innerContainer: {
+    width: '100%',
+    height: '100%',
     display: 'flex',
-    flexWrap: 'wrap',
-    marginTop: '10px',
-    flexDirection: 'column',
-    [theme.breakpoints.up('lg')]: {
-      flexDirection: 'row !important'
-    },
-    [theme.breakpoints.down('md')]: {
-      flexDirection: 'row'
-    },
-    [theme.breakpoints.up('sm')]: {
-      flexDirection: 'column'
-    },
-
+    justifyContent: 'space-evenly',
+    alignItems: 'center'
+  },
+  innerCards: {
+    backgroundColor: '#4481ab',
+    boxShadow: '0px 0px 10px 1.5px #121212',
+  },
+  innerCardsGrid: {
+    display: 'grid',
+    gridTemplateColumns: "1fr 1fr 190px 1fr 1fr",
+    gridTemplateRows: "10px 60px 1fr 60px 1fr",
+    gap: "10px 10px",
   },
   innerCardColumns: {
     flex: 1,
@@ -236,13 +241,18 @@ const useStyles = makeStyles((theme)=>({
     marginBottom: '10px',
     boxShadow: '0px 0px 5px 0.5px #121212',
   },
-  iconContainer:{
+  iconContainer1x2:{
     width: "120px !important",
     justifyContent: 'space-around !important',
     borderRadius: '30px !important',
     padding: '7.5px 5px !important'
-  }
-  ,
+  },
+  iconContainer1x3:{
+    width: "180px !important",
+    justifyContent: 'space-around !important',
+    borderRadius: '30px !important',
+    padding: '7.5px 5px !important'
+  },
   statusText: {
     width: "130px",
     padding: '5px',
@@ -265,6 +275,28 @@ const useStyles = makeStyles((theme)=>({
   //temporary
   containerWide: {
     width: "100% !important"
+  },
+  cardGridDate: {
+    gridColumn: "3 / 4",
+    gridRow: "2 / 3",
+    placeSelf: "stretch"
+  },
+  cardGridAvg:{
+    gridColumn: "3 / 4",
+    gridRow: '3 / 4',
+    placeSelf: 'center'
+  },
+  cardGridNA: {
+    gridColumn: "2 / 5",
+    gridRow: '4 / 5',
+    justifySelf: "stretch",
+    alignSelf: 'center'
+  },
+  cardGridVA: {
+    gridColumn: "2 / 5",
+    gridRow: '5 / 6',
+    justifySelf: "stretch",
+    alignSelf: 'center'
   }
 }));
 
@@ -403,11 +435,11 @@ export default function StudentsReport(props){
                 </Card>
                 <Card className={classes.cards} size={"1x2"} title={"Technical Skills - Coding"}>
                   <div className={classes.cardContent1x1}>
-                    <div className={`${classes.iconContainer1x1} ${classes.iconContainer} ${getColorByValue(pedData.colorCH, classes)}`}>
+                    <div className={`${classes.iconContainer1x1} ${classes.iconContainer1x2} ${getColorByValue(pedData.colorCH, classes)}`}>
+                      {getIconByValue(pedData.colorCH, classes)}
                       <Typography className={getColorByValue(pedData.colorCH, classes)} variant="h6" component="h6">
                         {`${pedData.colorCH[0].toUpperCase()}${pedData.colorCH.substring(1)}`}
                       </Typography>
-                      {getIconByValue(pedData.colorCH, classes)}
                     </div>
                     <Typography className={`${classes.statusText} ${classes.statusText1x2} ${getColorByValue(pedData.colorCH, classes)}`} variant="h6" component="h6">
                       {(pedData.colorCH === 'red')?"Orange or above required":"Eligible"}
@@ -436,11 +468,11 @@ export default function StudentsReport(props){
                 </Card>
                 <Card className={classes.cards} size={"1x2"} title={"Average Score"}>
                   <div className={classes.cardContent1x1}>
-                    <div className={`${classes.iconContainer1x1} ${classes.iconContainer} ${colorScore}`}>
+                    <div className={`${classes.iconContainer1x1} ${classes.iconContainer1x2} ${colorScore}`}>
+                      {getIconByValue(pedData.eligibility.avgScore, classes, "score")}
                       <Typography className={colorScore} variant="h6" component="h6">
                         {`${pedData.eligibility.avgScore}%`}
                       </Typography>
-                      {getIconByValue(pedData.eligibility.avgScore, classes, "score")}
                     </div>
                     <Typography className={`${classes.statusText} ${classes.statusText1x2} ${colorScore}`} variant="h6" component="h6">
                       {(parseFloat(pedData.eligibility.avgScore) < 55 )?"Average above 55% required":"Eligible"}
@@ -456,6 +488,37 @@ export default function StudentsReport(props){
             </div>
             <div className={`${classes.cardContainer} ${classes.containerWide}`}>
               <Card className={classes.cards} size={"3x4"} title={"Verbal & Aptitude - Evaluation"}>
+                <div className={classes.innerContainer}>
+                  <IconButton>
+                    <KeyboardArrowLeftOutlinedIcon/>
+                  </IconButton>
+                  <Card className={classes.innerCards} title={"E1"} size={"2x3"}>
+                    <div className={classes.innerCardsGrid}>
+                      <div className={`${classes.iconContainer1x1} ${classes.iconContainer1x3} ${classes.cardGridDate} ${getColorByValue(evalObj[0].status, classes)}`}>
+                        <CalendarTodayOutlinedIcon fontSize="large" className={getColorByValue(evalObj[0].status, classes)}/>
+                        <Typography variant="h6" component="h6">
+                          {(evalObj[0].date === null)?"TBD":evalObj[0].date}
+                        </Typography>
+                      </div>
+                      {evalObj[0].status === "Completed" && <>
+                      <div className={`${classes.iconContainer1x1} ${classes.iconContainer1x2} ${classes.cardGridAvg} ${getColorByValue(pedData.eligibility.avgScore, classes, "score")}`}>
+                        {getIconByValue(evalObj[0].avg, classes, "score")}
+                        <Typography variant="h6" component="h6">
+                          {`${evalObj[0].avg}%`}
+                        </Typography>
+                      </div>
+                      <Typography className={`${classes.statusText} ${classes.statusText1x2} ${classes.cardGridNA}`} variant="h6" component="h6">
+                        {`Numerical apt. : ${evalObj[0].na}%`}
+                      </Typography>
+                      <Typography className={`${classes.statusText} ${classes.statusText1x2} ${classes.cardGridVA}`} variant="h6" component="h6">
+                        {`Verbal apt. : ${evalObj[0].va}%`}
+                      </Typography></>}
+                    </div>
+                  </Card>
+                  <IconButton>
+                    <KeyboardArrowRightOutlinedIcon/>
+                  </IconButton>
+                </div>
               </Card>
             </div>
             <div className={classes.sections}>
