@@ -5,27 +5,28 @@ import Typography from '@material-ui/core/Typography';
 const useStyles = makeStyles(()=>({
   title: {
     width: "100%",
-    textAlign: 'center'
+    textAlign: 'center',
+    marginBottom: "5px"
   }
 }));
 const useSizes = makeStyles(()=>({
   "1x1": {
-    maxWidth: "150px",
+    // maxWidth: "150px",
     minWidth: "150px",
-    maxHeight: "150px",
+    // maxHeight: "150px",
     minHeight: "150px",
-    width: "150px",
-    height: "150px",
+    // width: "150px",
+    // height: "150px",
     borderRadius: "5px",
     padding: "10px"
   },
   "1x2": {
-    maxWidth: "324px",
+    // maxWidth: "324px",
     minWidth: "324px",
-    maxHeight: "150px",
+    // maxHeight: "150px",
     minHeight: "150px",
-    width: "324px",
-    height: "150px",
+    // width: "324px",
+    // height: "150px",
     borderRadius: "5px",
     padding: "10px"
   },
@@ -37,45 +38,46 @@ const useSizes = makeStyles(()=>({
     width: "324px",
     height: "324px",
     borderRadius: "5px",
-    padding: "10px"
+    padding: "10px",
+    overflow: 'hidden'
   },
   "2x3": {
-    maxWidth: "504px",
+    // maxWidth: "504px",
     minWidth: "504px",
-    maxHeight: "324px",
+    // maxHeight: "324px",
     minHeight: "324px",
-    width: "504px",
-    height: "324px",
+    // width: "504px",
+    // height: "324px",
     borderRadius: "5px",
     padding: "10px"
   },
   "2x4": {
-    maxWidth: "677px",
+    // maxWidth: "677px",
     minWidth: "677px",
-    maxHeight: "324px",
+    // maxHeight: "324px",
     minHeight: "324px",
-    width: "677px",
-    height: "324px",
+    // width: "677px",
+    // height: "324px",
     borderRadius: "5px",
     padding: "10px"
   },
   "3x3": {
-    maxWidth: "504px",
+    // maxWidth: "504px",
     minWidth: "504px",
-    maxHeight: "504px",
+    // maxHeight: "504px",
     minHeight: "504px",
-    width: "504px",
-    height: "504px",
+    // width: "504px",
+    // height: "504px",
     borderRadius: "5px",
-    padding: "10px"
+    padding: "10px",
   },
   "3x4": {
-    maxWidth: "677px",
+    // maxWidth: "677px",
     minWidth: "677px",
-    maxHeight: "504px",
+    // maxHeight: "504px",
     minHeight: "504px",
-    width: "677px",
-    height: "504px",
+    // width: "677px",
+    // height: "504px",
     borderRadius: "5px",
     padding: "10px"
   }

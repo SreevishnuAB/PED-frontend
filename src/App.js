@@ -12,20 +12,13 @@ function App() {
 
   const history = useHistory();
   const [user, setUser] = useState({authenticated: false, id:'', designation: undefined});
-  const [url, setUrl] = useState('/');
   const [toastMessage, setToastMessage] = useState({error: false, messageText: ''});
   const [open, setOpen] = useState(false);
 
-  const changeView = ()=>{
-//    setView(newView);
-    console.log(url);
-    history.push(`${url}/profile`)
-    
-  }
 
-  const handlePath = (path)=>{
-    setUrl(path);
-  }
+  // const handlePath = (path)=>{
+  //   setUrl(path);
+  // }
 
   const handleUserAuth = React.useCallback((authData)=>{
     setUser(authData);
@@ -59,7 +52,6 @@ function App() {
       <NavBar
         authenticated={user.authenticated}
         username={user.id.toUpperCase()}
-        onProfileClick={changeView}
         onLogout={handleLogout}
         />
       <Switch>
@@ -80,9 +72,7 @@ function App() {
             <StudentsRootView
               {...routerProps}
               student={user}
-              onNav={handlePath}
               onProfileChange={handleProfileChange}
-              onMenuClick={changeView}
               onLogout={handleLogout}
             />
           )}

@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme)=>({
     // flexWrap: 'wrap',
     boxShadow: '0px 0px 10px 1.5px #121212',
     backgroundColor: '#286790',
-    margin: '3px',
+    margin: '0px 0px 0px 3px',
     maxHeight: "900px"
   },
   details: {
@@ -47,14 +47,18 @@ const useStyles = makeStyles((theme)=>({
     height: '17.5px'
   },
   headerBtn: {
-    marginRight: '7px',
-    color: '#00fff5',
+    color: '#bbd7e5',
+    backgroundColor: '#001a29',
+    transition: '0.5s',
     '&:hover': {
-      backgroundColor: '#00adb5 !important',
-      color: '#393e46'
+      transition: '0.5s',
+      color: '#001a29',
+      backgroundColor: '#bbd7e5',
     },
-    width: '20px',
-    height: '20px'
+    width: '25px',
+    height: '25px',
+    margin: '7px',
+    padding: '2px'
   },
   avatar:{
     margin: '10px 0px 10px 0px',
