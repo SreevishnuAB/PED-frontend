@@ -16,7 +16,7 @@ import CustomTextField from './custom-text-input';
 import ToastNotification from './toast';
 import ProgressBar from './progress-bar';
 import axiosPreset from '../axios/config';
-import Fade from '@material-ui/core/Fade';
+import Fade from 'react-reveal/Fade';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -147,7 +147,7 @@ export default function NavBar(props) {
   }
   
   return (
-    <Fade in={true}>
+    <Fade>
       <div className={classes.root}>
         <MenuDialog onClose={handleOpenMenu} aria-labelledby="user-menu" open={openMenu}>
           <MenuDialogTitle className={classes.dialogTitle} id="user-menu-title"><AccountCircleIcon fontSize="large" className={classes.logoutBtn}/><span>{props.username}</span></MenuDialogTitle>

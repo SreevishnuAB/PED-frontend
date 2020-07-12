@@ -14,7 +14,7 @@ import CalendarTodayOutlinedIcon from '@material-ui/icons/CalendarTodayOutlined'
 import KeyboardArrowLeftOutlinedIcon from '@material-ui/icons/KeyboardArrowLeftOutlined';
 import KeyboardArrowRightOutlinedIcon from '@material-ui/icons/KeyboardArrowRightOutlined';
 import IconButton from '@material-ui/core/IconButton';
-import Slide from '@material-ui/core/Slide';
+
 
 const useStyles = makeStyles((theme)=>({
   reportRoot:{
@@ -543,84 +543,76 @@ export default function StudentsReport(props){
             <Profile className={`${classes.cardContainer} ${classes.cardContainerProfile}`} profile={profile}/>
           </div>
           <div className={classes.mainPanel}>
-            {/* <div className={classes.cardContainerRow}>
-              <div className={classes.cardContainer}> */}
-                <Card className={`${colorCH} ${classes.cards} ${classes.cardGridInterviewStatus}`} size={"1x1"} title={"Interview Status"}>
-                  <div className={classes.cardContent1x1}>
-                    <div className={`${classes.iconContainer1x1} ${colorStatus}`}>
-                      {getIconByValue(pedData.interviewStatus, classes)}
-                    </div>
-                    <Typography className={`${classes.statusText} ${colorStatus}`} variant="h6" component="h6">
-                      {pedData.interviewStatus}
-                    </Typography>
-                  </div>
-                </Card>
-                <Card className={`${classes.cards} ${classes.cardGridTechSkills}`} size={"1x2"} title={"Technical Skills - Coding"}>
-                  <div className={classes.cardContent1x1}>
-                    <div className={`${classes.iconContainer1x1} ${classes.iconContainer1x2} ${getColorByValue(pedData.colorCH, classes)}`}>
-                      {getIconByValue(pedData.colorCH, classes)}
-                      <Typography className={getColorByValue(pedData.colorCH, classes)} variant="h6" component="h6">
-                        {`${pedData.colorCH[0].toUpperCase()}${pedData.colorCH.substring(1)}`}
-                      </Typography>
-                    </div>
-                    <Typography className={`${classes.statusText} ${classes.statusText1x2} ${getColorByValue(pedData.colorCH, classes)}`} variant="h6" component="h6">
-                      {(pedData.colorCH === 'red')?"Orange or above required":"Eligible"}
-                    </Typography>
-                  </div>
-                </Card>
-                <Card className={`${classes.cards} ${classes.cardGridSoftSkills}`} size={"1x1"} title={"Soft Skills"}>
-                  <div className={classes.cardContent1x1}>
-                    <div className={`${classes.iconContainer1x1} ${colorSSStatus}`}>
-                      {getIconByValue(pedData.softskillsStatus, classes)}
-                    </div>
-                    <Typography className={`${classes.statusText} ${colorSSStatus}`} variant="h6" component="h6">
-                      {pedData.softskillsStatus}
-                    </Typography>
-                  </div>
-                </Card>
-                <Card className={`${classes.cards} ${classes.cardGridResume}`} size={"1x1"} title={"Resume Score"}>
-                  <div className={classes.cardContent1x1}>
-                    <div className={`${classes.iconContainer1x1} ${colorResume}`}>
-                      {getIconByValue(pedData.resumeScore, classes, "resume")}
-                    </div>
-                    <Typography className={`${classes.statusText} ${colorResume}`} variant="h6" component="h6">
-                      {pedData.resumeScore}
-                    </Typography>
-                  </div>
-                </Card>
-                <Card className={`${classes.cards} ${classes.cardGridAvgScore}`} size={"1x2"} title={"Average Score"}>
-                  <div className={classes.cardContent1x1}>
-                    <div className={`${classes.iconContainer1x1} ${classes.iconContainer1x2} ${colorScore}`}>
-                      {getIconByValue(pedData.eligibility.avgScore, classes, "score")}
-                      <Typography className={colorScore} variant="h6" component="h6">
-                        {`${pedData.eligibility.avgScore}%`}
-                      </Typography>
-                    </div>
-                    <Typography className={`${classes.statusText} ${classes.statusText1x2} ${colorScore}`} variant="h6" component="h6">
-                      {(parseFloat(pedData.eligibility.avgScore) < 55 )?"Average above 55% required":"Eligible"}
-                    </Typography>
-                  </div>
-                </Card>
-              {/* </div>
-              <div className={classes.cardContainer}> */}
-                <Card className={`${classes.cards} ${classes.cardGridVAV}`} size={"2x4"} title={"Verbal & Aptitude - Visualization"}>
-
-                </Card>
-              {/* </div>
-             </div>
-             <div className={`${classes.cardContainer} ${classes.containerWide}`}> */}
-              <Card className={`${classes.cards} ${classes.cardGridVAE}`} size={"3x4"} title={"Verbal & Aptitude - Evaluation"}>
-                <div className={classes.innerContainer}>
-                  <IconButton className={`${classes.navBtn} ${classes.navBtnLt}`} onClick={handlePrevious}>
-                    <KeyboardArrowLeftOutlinedIcon fontSize="large"/>
-                  </IconButton>
-                  <EvalCard evalObj={evalData[currCard]}/>
-                  <IconButton className={`${classes.navBtn} ${classes.navBtnRt}`} onClick={handleNext}>
-                    <KeyboardArrowRightOutlinedIcon fontSize="large"/>
-                  </IconButton>
+            <Card className={`${colorCH} ${classes.cards} ${classes.cardGridInterviewStatus}`} size={"1x1"} title={"Interview Status"}>
+              <div className={classes.cardContent1x1}>
+                <div className={`${classes.iconContainer1x1} ${colorStatus}`}>
+                  {getIconByValue(pedData.interviewStatus, classes)}
                 </div>
-              </Card>
-            {/* </div> */}
+                <Typography className={`${classes.statusText} ${colorStatus}`} variant="h6" component="h6">
+                  {pedData.interviewStatus}
+                </Typography>
+              </div>
+            </Card>
+            <Card className={`${classes.cards} ${classes.cardGridTechSkills}`} size={"1x2"} title={"Technical Skills - Coding"}>
+              <div className={classes.cardContent1x1}>
+                <div className={`${classes.iconContainer1x1} ${classes.iconContainer1x2} ${getColorByValue(pedData.colorCH, classes)}`}>
+                  {getIconByValue(pedData.colorCH, classes)}
+                  <Typography className={getColorByValue(pedData.colorCH, classes)} variant="h6" component="h6">
+                    {`${pedData.colorCH[0].toUpperCase()}${pedData.colorCH.substring(1)}`}
+                  </Typography>
+                </div>
+                <Typography className={`${classes.statusText} ${classes.statusText1x2} ${getColorByValue(pedData.colorCH, classes)}`} variant="h6" component="h6">
+                  {(pedData.colorCH === 'red')?"Orange or above required":"Eligible"}
+                </Typography>
+              </div>
+            </Card>
+            <Card className={`${classes.cards} ${classes.cardGridSoftSkills}`} size={"1x1"} title={"Soft Skills"}>
+              <div className={classes.cardContent1x1}>
+                <div className={`${classes.iconContainer1x1} ${colorSSStatus}`}>
+                  {getIconByValue(pedData.softskillsStatus, classes)}
+                </div>
+                <Typography className={`${classes.statusText} ${colorSSStatus}`} variant="h6" component="h6">
+                  {pedData.softskillsStatus}
+                </Typography>
+              </div>
+            </Card>
+            <Card className={`${classes.cards} ${classes.cardGridResume}`} size={"1x1"} title={"Resume Score"}>
+              <div className={classes.cardContent1x1}>
+                <div className={`${classes.iconContainer1x1} ${colorResume}`}>
+                  {getIconByValue(pedData.resumeScore, classes, "resume")}
+                </div>
+                <Typography className={`${classes.statusText} ${colorResume}`} variant="h6" component="h6">
+                  {pedData.resumeScore}
+                </Typography>
+              </div>
+            </Card>
+            <Card className={`${classes.cards} ${classes.cardGridAvgScore}`} size={"1x2"} title={"Average Score"}>
+              <div className={classes.cardContent1x1}>
+                <div className={`${classes.iconContainer1x1} ${classes.iconContainer1x2} ${colorScore}`}>
+                  {getIconByValue(pedData.eligibility.avgScore, classes, "score")}
+                  <Typography className={colorScore} variant="h6" component="h6">
+                    {`${pedData.eligibility.avgScore}%`}
+                  </Typography>
+                </div>
+                <Typography className={`${classes.statusText} ${classes.statusText1x2} ${colorScore}`} variant="h6" component="h6">
+                  {(parseFloat(pedData.eligibility.avgScore) < 55 )?"Average above 55% required":"Eligible"}
+                </Typography>
+              </div>
+            </Card>
+            <Card className={`${classes.cards} ${classes.cardGridVAV}`} size={"2x4"} title={"Verbal & Aptitude - Visualization"}>
+
+            </Card>
+            <Card className={`${classes.cards} ${classes.cardGridVAE}`} size={"3x4"} title={"Verbal & Aptitude - Evaluation"}>
+              <div className={classes.innerContainer}>
+                <IconButton className={`${classes.navBtn} ${classes.navBtnLt}`} onClick={handlePrevious}>
+                  <KeyboardArrowLeftOutlinedIcon fontSize="large"/>
+                </IconButton>
+                <EvalCard evalObj={evalData[currCard]}/>
+                <IconButton className={`${classes.navBtn} ${classes.navBtnRt}`} onClick={handleNext}>
+                  <KeyboardArrowRightOutlinedIcon fontSize="large"/>
+                </IconButton>
+              </div>
+            </Card>
           </div>
         </>}
       </div>
