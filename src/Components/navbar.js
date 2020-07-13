@@ -15,7 +15,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import CustomTextField from './custom-text-input';
 import ToastNotification from './toast';
 import ProgressBar from './progress-bar';
-import axiosPreset from '../axios/config';
+import Axios from '../axios/config';
 import Fade from 'react-reveal/Fade';
 
 const useStyles = makeStyles(theme => ({
@@ -126,7 +126,7 @@ export default function NavBar(props) {
       setPwdCur('');
       setPwdNew('');
       setOpenProg(true);
-      axiosPreset.patch(
+      Axios.patch(
         `/${props.username}/password`,
         payload
       ).then((response)=>{

@@ -4,7 +4,7 @@ import Card from './card';
 import Typography from '@material-ui/core/Typography';
 import ProgressBar from './progress-bar';
 import { useRouteMatch } from 'react-router-dom';
-import axiosPreset from '../axios/config';
+import Axios from '../axios/config';
 import Profile from './profile';
 import Fade from '@material-ui/core/Fade';
 import QueryBuilderIcon from '@material-ui/icons/QueryBuilder';
@@ -14,6 +14,7 @@ import CalendarTodayOutlinedIcon from '@material-ui/icons/CalendarTodayOutlined'
 import KeyboardArrowLeftOutlinedIcon from '@material-ui/icons/KeyboardArrowLeftOutlined';
 import KeyboardArrowRightOutlinedIcon from '@material-ui/icons/KeyboardArrowRightOutlined';
 import IconButton from '@material-ui/core/IconButton';
+import Graph from './graph';
 
 
 const useStyles = makeStyles((theme)=>({
@@ -355,6 +356,7 @@ const useStyles = makeStyles((theme)=>({
   },
   navBtn: {
     color: '#bbd7e5',
+    boxShadow: '0px 0px 5px 0.5px #121212',
     backgroundColor: '#001a29',
     transition: '0.5s',
     justifySelf: "center",
@@ -373,10 +375,14 @@ const useStyles = makeStyles((theme)=>({
     gridColumn: '4 / 5',
     gridRow: '2 / 3',
     alignSelf: 'end'
+  },
+  graph:{
+    width:'100%',
+    height: '100%'
   }
 }));
 
-const convertScoretoStatus = (value, type)=>{
+function convertScoretoStatus(value, type){
   if(type !== ""){
     value =  parseFloat(value);
     if(type === "resume"){
@@ -394,7 +400,7 @@ const convertScoretoStatus = (value, type)=>{
   return value;
 }
 
-const getColorByValue = (value, style, type = "")=>{
+function getColorByValue(value, style, type = ""){
  
   console.log(value);
   
@@ -418,7 +424,7 @@ const getColorByValue = (value, style, type = "")=>{
   }
 }
 
-const getIconByValue = (value, style, type = "")=>{
+function getIconByValue(value, style, type = ""){
  
   let status = convertScoretoStatus(value, type)
   switch (status.toLowerCase()) {
@@ -480,18 +486,23 @@ export default function StudentsReport(props){
   
   React.useEffect(()=>{
 
-    axiosPreset.get(
-      `/student/${id}`, {
-    }).then((response)=>{
-        console.log("response");
-        setProfile(response.data.profile);
-        setPedData(response.data.pedData);
-        //onGet(response.data.profile);
-        setOpen(false);
-    }).catch((error)=>{
-        console.log(error.response.data);
-    });
+    async function getData(){
+      await Axios.get(
+        `/student/${id}`)
+        .then((response)=>{
+          console.log("response");
+          setProfile(response.data.profile);
+          setPedData(response.data.pedData);
+          //onGet(response.data.profile);
+          setOpen(false);
+        })
+        .catch((error)=>{
+          console.log(error.response.data);
+        }
+      );
+    }
 
+    getData();
   },[id]);
 
 
@@ -600,7 +611,7 @@ export default function StudentsReport(props){
               </div>
             </Card>
             <Card className={`${classes.cards} ${classes.cardGridVAV}`} size={"2x4"} title={"Verbal & Aptitude - Visualization"}>
-
+              <Graph className={classes.graph} studentId={id}/>
             </Card>
             <Card className={`${classes.cards} ${classes.cardGridVAE}`} size={"3x4"} title={"Verbal & Aptitude - Evaluation"}>
               <div className={classes.innerContainer}>

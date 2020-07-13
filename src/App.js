@@ -6,7 +6,7 @@ import './App.css'
 import NavBar from './Components/navbar';
 import Fade from '@material-ui/core/Fade';
 import ToastNotification from './Components/toast';
-import axiosPreset from './axios/config';
+import Axios from './axios/config';
 
 function App() {
 
@@ -33,7 +33,7 @@ function App() {
 
   const handleLogout = ()=>{
 
-    axiosPreset.get(
+    Axios.get(
       '/logout'
     ).then((response)=>{
       setToastMessage({error: false, messageText: response.data})

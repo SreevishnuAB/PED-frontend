@@ -4,7 +4,7 @@ import CustomButton from './custom-button';
 import ToastNotification from './toast';
 import CustomTextField from './custom-text-input';
 import ProgressBar from './progress-bar';
-import axiosPreset from '../axios/config';
+import Axios from '../axios/config';
 import { Redirect } from 'react-router-dom';
 import Fade from '@material-ui/core/Fade';
 
@@ -72,7 +72,7 @@ export default function Login(props){
   }
 
 
-  const handleSubmit = ()=>{
+  const handleSubmit = async ()=>{
     if(!username || !password){
       setToastMessage({error:true,messageText:"Username and password cannot be empty"});
       setOpenToast(!openToast);
@@ -84,7 +84,7 @@ export default function Login(props){
       formData.append("username", username);
       formData.append("password", password);
 
-      axiosPreset.post(
+      await Axios.post(
         '/login',
         formData,
       ).then((response)=>{
