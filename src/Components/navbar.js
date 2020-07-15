@@ -87,6 +87,29 @@ const useStyles = makeStyles(theme => ({
   },
   menuBtnOptions:{
     borderRadius: '0px !important'
+  },
+  overlay:{
+    height: "100%",
+    width: "0",
+    position: "fixed",
+    zIndex: 500,
+    top: 0,
+    left: 0,
+    bottom: 0,
+    right: 0,
+    backgroundColor: "rgba(0,26,41, 0.9)",
+    overflowX: "hidden",
+    transition: "0.5s"
+  },
+  fullWidth: {
+    width: '100%',
+    transition: '0.5s'
+  },
+  appbar: {
+    zIndex: 1500,
+    position: 'fixed',
+    top: 0,
+    left: 0
   }
 }));
 
@@ -149,43 +172,8 @@ export default function NavBar(props) {
   return (
     <Fade>
       <div className={classes.root}>
-        <MenuDialog onClose={handleOpenMenu} aria-labelledby="user-menu" open={openMenu}>
-          <MenuDialogTitle className={classes.dialogTitle} id="user-menu-title"><AccountCircleIcon fontSize="large" className={classes.logoutBtn}/><span>{props.username}</span></MenuDialogTitle>
-          <DialogContent className={classes.menuContent}>
-            <Button className={`${classes.menuButton} ${classes.menuBtnOptions}`} onClick={handleOpenPwd}>Change Password</Button>
-            <Button className={`${classes.menuButton} ${classes.menuBtnOptions}`} onClick={handleLogout}>Logout</Button>
-          </DialogContent>
-        </MenuDialog>
-
-        <MenuDialog open={openPwd} onClose={handleOpenPwd} aria-labelledby="responsive-dialog-title">
-          <MenuDialogTitle id="responsive-dialog-title">Change Password</MenuDialogTitle>
-          <DialogContent className={classes.dialogContent}>
-            <CustomTextField
-              className={classes.textField}
-              label={`Old password`}
-              onChange={(event)=>{setPwdCur(event.target.value)}}
-              variant="outlined"
-              value={pwdCur}
-              type="password"
-            />
-            <CustomTextField
-              className={classes.textField}
-              label={`New password`}
-              onChange={(event)=>{setPwdNew(event.target.value)}}
-              variant="outlined"
-              value={pwdNew}
-              type="password"
-            />
-          </DialogContent>
-          <DialogActions>
-            <CustomButton onClick={handleSave} autoFocus>
-              Save
-            </CustomButton>
-          </DialogActions>
-        </MenuDialog>
         <ToastNotification open={openToast} onClose={(open)=>{setOpenToast(open)}} message={toastMessage}/>
-
-        <AppBar position="static">
+        <AppBar position="static" className={classes.appbar}>
           <Toolbar className={classes.toolbar}>
             <Typography variant="h6" className={classes.title}>
               Placement Eligibility Dashboard
@@ -195,6 +183,9 @@ export default function NavBar(props) {
             </IconButton>}
           </Toolbar>
         </AppBar>
+        <div className={(openMenu)?`${classes.overlay} ${classes.fullWidth}`:classes.overlay}>
+
+        </div>
         <ProgressBar open={openProg} onClose={()=>{setOpenProg(false)}}/>
       </div>
     </Fade>

@@ -76,9 +76,7 @@ export default function Graph({ studentId , className}){
         </ComposedChart>
       </ResponsiveContainer>
       <IconButton className={classes.btn} onClick={handleSwitch}>
-        <Fade>
-          {(switchData)?<PersonOutlineOutlinedIcon fontSize="large"/>:<PeopleAltOutlinedIcon fontSize="large"/>}
-        </Fade>
+        {(switchData)?<Fade><PersonOutlineOutlinedIcon fontSize="large"/></Fade>:<Fade><PeopleAltOutlinedIcon fontSize="large"/></Fade>}
       </IconButton>
     </div>
   );

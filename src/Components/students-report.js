@@ -25,6 +25,8 @@ const useStyles = makeStyles((theme)=>({
     justifyContent: 'flex-start',
     alignItems: 'stretch',
     marginTop: "75px",
+    position: 'fixed',
+    zIndex: -1
   },
   sections: {
     margin: "10px 10px",   
@@ -488,11 +490,10 @@ export default function StudentsReport(props){
 
     async function getData(){
       await Axios.get(
-        `/student/${id}`)
+        `/student/${id}/peddata`)
         .then((response)=>{
           console.log("response");
-          setProfile(response.data.profile);
-          setPedData(response.data.pedData);
+          setPedData(response.data);
           //onGet(response.data.profile);
           setOpen(false);
         })
@@ -549,9 +550,9 @@ export default function StudentsReport(props){
     <Fade in={true}>
       <div className={classes.reportRoot}>
         <ProgressBar open={open} onClose={handleClose}/>
-        {!open && <>
+        {(!open && pedData) && <>
           <div className={classes.profilePane}>
-            <Profile className={`${classes.cardContainer} ${classes.cardContainerProfile}`} profile={profile}/>
+            <Profile className={`${classes.cardContainer} ${classes.cardContainerProfile}`} id={id}/>
           </div>
           <div className={classes.mainPanel}>
             <Card className={`${colorCH} ${classes.cards} ${classes.cardGridInterviewStatus}`} size={"1x1"} title={"Interview Status"}>
