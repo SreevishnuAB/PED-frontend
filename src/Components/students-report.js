@@ -18,7 +18,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 
 const useStyles = makeStyles((theme)=>({
   reportRoot:{
-    // height: '90%',
+    // height: '97.5%',
     width: '100vw',
     display: 'flex',
     justifyContent: 'flex-start',
@@ -384,7 +384,6 @@ const useStyles = makeStyles((theme)=>({
   progressContainer: {
     gridRow: '3 / 4',
     gridColumn: '3 / 4',
-    placeSelf: 'end end'
   },
   progress: {
     color: '#ffffff',
@@ -548,9 +547,9 @@ export default function StudentsReport(props){
   return(
     <Fade in={true}>
       <div className={classes.reportRoot}>
-        <div className={classes.profilePane}>
+        {(pedData !== undefined)&& <div className={classes.profilePane}>
           <Profile className={`${classes.cardContainer} ${classes.cardContainerProfile}`} id={id}/>
-        </div>
+        </div>}
         <div className={classes.mainPanel}>
           {(pedData === undefined)?
           <Fade className={classes.progressContainer} in={true}>
