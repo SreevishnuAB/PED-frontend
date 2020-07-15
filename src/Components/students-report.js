@@ -2,7 +2,6 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from './card';
 import Typography from '@material-ui/core/Typography';
-import ProgressBar from './progress-bar';
 import { useRouteMatch } from 'react-router-dom';
 import Axios from '../axios/config';
 import Profile from './profile';
@@ -15,11 +14,11 @@ import KeyboardArrowLeftOutlinedIcon from '@material-ui/icons/KeyboardArrowLeftO
 import KeyboardArrowRightOutlinedIcon from '@material-ui/icons/KeyboardArrowRightOutlined';
 import IconButton from '@material-ui/core/IconButton';
 import Graph from './graph';
-
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const useStyles = makeStyles((theme)=>({
   reportRoot:{
-    // height: '100vh',
+    // height: '90%',
     width: '100vw',
     display: 'flex',
     justifyContent: 'flex-start',
@@ -381,6 +380,14 @@ const useStyles = makeStyles((theme)=>({
   graph:{
     width:'100%',
     height: '100%'
+  },
+  progressContainer: {
+    gridRow: '3 / 4',
+    gridColumn: '3 / 4',
+    placeSelf: 'end end'
+  },
+  progress: {
+    color: '#ffffff',
   }
 }));
 
@@ -479,10 +486,7 @@ const EvalCard = ({ evalObj })=>{
 export default function StudentsReport(props){
 
   const [pedData, setPedData] = React.useState(undefined);
-  const [profile, setProfile] = React.useState(undefined);
-  const [open, setOpen] = React.useState(true);
   const [currCard, setCurrCard] = React.useState(0);
-  const [direction, setDirection] = React.useState("left");
 
   const id = props.student.id;
   
@@ -494,8 +498,6 @@ export default function StudentsReport(props){
         .then((response)=>{
           console.log("response");
           setPedData(response.data);
-          //onGet(response.data.profile);
-          setOpen(false);
         })
         .catch((error)=>{
           console.log(error.response.data);
@@ -538,9 +540,6 @@ export default function StudentsReport(props){
 
   const color = {blue: "#4DC2FB", red: "red", green: "green", orange: "orange"};
   const match = useRouteMatch();
-  const handleClose = () => {
-    setOpen(false);
-  };
   
   // console.log(match.url);
   // props.onNav(match.url);
@@ -549,84 +548,85 @@ export default function StudentsReport(props){
   return(
     <Fade in={true}>
       <div className={classes.reportRoot}>
-        <ProgressBar open={open} onClose={handleClose}/>
-        {(!open && pedData) && <>
-          <div className={classes.profilePane}>
-            <Profile className={`${classes.cardContainer} ${classes.cardContainerProfile}`} id={id}/>
-          </div>
-          <div className={classes.mainPanel}>
-            <Card className={`${colorCH} ${classes.cards} ${classes.cardGridInterviewStatus}`} size={"1x1"} title={"Interview Status"}>
-              <div className={classes.cardContent1x1}>
-                <div className={`${classes.iconContainer1x1} ${colorStatus}`}>
-                  {getIconByValue(pedData.interviewStatus, classes)}
-                </div>
-                <Typography className={`${classes.statusText} ${colorStatus}`} variant="h6" component="h6">
-                  {pedData.interviewStatus}
+        <div className={classes.profilePane}>
+          <Profile className={`${classes.cardContainer} ${classes.cardContainerProfile}`} id={id}/>
+        </div>
+        <div className={classes.mainPanel}>
+          {(pedData === undefined)?
+          <Fade className={classes.progressContainer} in={true}>
+            <CircularProgress className={classes.progress}/>
+          </Fade>:<>
+          <Card className={`${colorCH} ${classes.cards} ${classes.cardGridInterviewStatus}`} size={"1x1"} title={"Interview Status"}>
+            <div className={classes.cardContent1x1}>
+              <div className={`${classes.iconContainer1x1} ${colorStatus}`}>
+                {getIconByValue(pedData.interviewStatus, classes)}
+              </div>
+              <Typography className={`${classes.statusText} ${colorStatus}`} variant="h6" component="h6">
+                {pedData.interviewStatus}
+              </Typography>
+            </div>
+          </Card>
+          <Card className={`${classes.cards} ${classes.cardGridTechSkills}`} size={"1x2"} title={"Technical Skills - Coding"}>
+            <div className={classes.cardContent1x1}>
+              <div className={`${classes.iconContainer1x1} ${classes.iconContainer1x2} ${getColorByValue(pedData.colorCH, classes)}`}>
+                {getIconByValue(pedData.colorCH, classes)}
+                <Typography className={getColorByValue(pedData.colorCH, classes)} variant="h6" component="h6">
+                  {`${pedData.colorCH[0].toUpperCase()}${pedData.colorCH.substring(1)}`}
                 </Typography>
               </div>
-            </Card>
-            <Card className={`${classes.cards} ${classes.cardGridTechSkills}`} size={"1x2"} title={"Technical Skills - Coding"}>
-              <div className={classes.cardContent1x1}>
-                <div className={`${classes.iconContainer1x1} ${classes.iconContainer1x2} ${getColorByValue(pedData.colorCH, classes)}`}>
-                  {getIconByValue(pedData.colorCH, classes)}
-                  <Typography className={getColorByValue(pedData.colorCH, classes)} variant="h6" component="h6">
-                    {`${pedData.colorCH[0].toUpperCase()}${pedData.colorCH.substring(1)}`}
-                  </Typography>
-                </div>
-                <Typography className={`${classes.statusText} ${classes.statusText1x2} ${getColorByValue(pedData.colorCH, classes)}`} variant="h6" component="h6">
-                  {(pedData.colorCH === 'red')?"Orange or above required":"Eligible"}
+              <Typography className={`${classes.statusText} ${classes.statusText1x2} ${getColorByValue(pedData.colorCH, classes)}`} variant="h6" component="h6">
+                {(pedData.colorCH === 'red')?"Orange or above required":"Eligible"}
+              </Typography>
+            </div>
+          </Card>
+          <Card className={`${classes.cards} ${classes.cardGridSoftSkills}`} size={"1x1"} title={"Soft Skills"}>
+            <div className={classes.cardContent1x1}>
+              <div className={`${classes.iconContainer1x1} ${colorSSStatus}`}>
+                {getIconByValue(pedData.softskillsStatus, classes)}
+              </div>
+              <Typography className={`${classes.statusText} ${colorSSStatus}`} variant="h6" component="h6">
+                {pedData.softskillsStatus}
+              </Typography>
+            </div>
+          </Card>
+          <Card className={`${classes.cards} ${classes.cardGridResume}`} size={"1x1"} title={"Resume Score"}>
+            <div className={classes.cardContent1x1}>
+              <div className={`${classes.iconContainer1x1} ${colorResume}`}>
+                {getIconByValue(pedData.resumeScore, classes, "resume")}
+              </div>
+              <Typography className={`${classes.statusText} ${colorResume}`} variant="h6" component="h6">
+                {pedData.resumeScore}
+              </Typography>
+            </div>
+          </Card>
+          <Card className={`${classes.cards} ${classes.cardGridAvgScore}`} size={"1x2"} title={"Average Score"}>
+            <div className={classes.cardContent1x1}>
+              <div className={`${classes.iconContainer1x1} ${classes.iconContainer1x2} ${colorScore}`}>
+                {getIconByValue(pedData.eligibility.avgScore, classes, "score")}
+                <Typography className={colorScore} variant="h6" component="h6">
+                  {`${pedData.eligibility.avgScore}%`}
                 </Typography>
               </div>
-            </Card>
-            <Card className={`${classes.cards} ${classes.cardGridSoftSkills}`} size={"1x1"} title={"Soft Skills"}>
-              <div className={classes.cardContent1x1}>
-                <div className={`${classes.iconContainer1x1} ${colorSSStatus}`}>
-                  {getIconByValue(pedData.softskillsStatus, classes)}
-                </div>
-                <Typography className={`${classes.statusText} ${colorSSStatus}`} variant="h6" component="h6">
-                  {pedData.softskillsStatus}
-                </Typography>
-              </div>
-            </Card>
-            <Card className={`${classes.cards} ${classes.cardGridResume}`} size={"1x1"} title={"Resume Score"}>
-              <div className={classes.cardContent1x1}>
-                <div className={`${classes.iconContainer1x1} ${colorResume}`}>
-                  {getIconByValue(pedData.resumeScore, classes, "resume")}
-                </div>
-                <Typography className={`${classes.statusText} ${colorResume}`} variant="h6" component="h6">
-                  {pedData.resumeScore}
-                </Typography>
-              </div>
-            </Card>
-            <Card className={`${classes.cards} ${classes.cardGridAvgScore}`} size={"1x2"} title={"Average Score"}>
-              <div className={classes.cardContent1x1}>
-                <div className={`${classes.iconContainer1x1} ${classes.iconContainer1x2} ${colorScore}`}>
-                  {getIconByValue(pedData.eligibility.avgScore, classes, "score")}
-                  <Typography className={colorScore} variant="h6" component="h6">
-                    {`${pedData.eligibility.avgScore}%`}
-                  </Typography>
-                </div>
-                <Typography className={`${classes.statusText} ${classes.statusText1x2} ${colorScore}`} variant="h6" component="h6">
-                  {(parseFloat(pedData.eligibility.avgScore) < 55 )?"Average above 55% required":"Eligible"}
-                </Typography>
-              </div>
-            </Card>
-            <Card className={`${classes.cards} ${classes.cardGridVAV}`} size={"2x4"} title={"Verbal & Aptitude - Visualization"}>
-              <Graph className={classes.graph} studentId={id}/>
-            </Card>
-            <Card className={`${classes.cards} ${classes.cardGridVAE}`} size={"3x4"} title={"Verbal & Aptitude - Evaluation"}>
-              <div className={classes.innerContainer}>
-                <IconButton className={`${classes.navBtn} ${classes.navBtnLt}`} onClick={handlePrevious}>
-                  <KeyboardArrowLeftOutlinedIcon fontSize="large"/>
-                </IconButton>
-                <EvalCard evalObj={evalData[currCard]}/>
-                <IconButton className={`${classes.navBtn} ${classes.navBtnRt}`} onClick={handleNext}>
-                  <KeyboardArrowRightOutlinedIcon fontSize="large"/>
-                </IconButton>
-              </div>
-            </Card>
-          </div>
-        </>}
+              <Typography className={`${classes.statusText} ${classes.statusText1x2} ${colorScore}`} variant="h6" component="h6">
+                {(parseFloat(pedData.eligibility.avgScore) < 55 )?"Average above 55% required":"Eligible"}
+              </Typography>
+            </div>
+          </Card>
+          <Card className={`${classes.cards} ${classes.cardGridVAV}`} size={"2x4"} title={"Verbal & Aptitude - Visualization"}>
+            <Graph className={classes.graph} studentId={id}/>
+          </Card>
+          <Card className={`${classes.cards} ${classes.cardGridVAE}`} size={"3x4"} title={"Verbal & Aptitude - Evaluation"}>
+            <div className={classes.innerContainer}>
+              <IconButton className={`${classes.navBtn} ${classes.navBtnLt}`} onClick={handlePrevious}>
+                <KeyboardArrowLeftOutlinedIcon fontSize="large"/>
+              </IconButton>
+              <EvalCard evalObj={evalData[currCard]}/>
+              <IconButton className={`${classes.navBtn} ${classes.navBtnRt}`} onClick={handleNext}>
+                <KeyboardArrowRightOutlinedIcon fontSize="large"/>
+              </IconButton>
+            </div>
+          </Card></>}
+        </div>
       </div>
     </Fade>
   );

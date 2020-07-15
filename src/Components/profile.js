@@ -9,11 +9,7 @@ import FadeRR from 'react-reveal';
 const useStyles = makeStyles((theme)=>({
   cards: {
     width: '95%',
-    // backgroundColor: '#375e79',
     margin: '5px',
-//    flex: '1',
-    // boxShadow: '0px 0px 5px #121212',
-    // color: '#ffffff',
     padding: '3px'
   },
   cardContainer: {
