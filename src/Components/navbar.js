@@ -17,7 +17,10 @@ import ToastNotification from './toast';
 import ProgressBar from './progress-bar';
 import Axios from '../axios/config';
 import Fade from 'react-reveal/Fade';
-import Card from './card';
+import VpnKeyOutlinedIcon from '@material-ui/icons/VpnKeyOutlined';
+import DialpadOutlinedIcon from '@material-ui/icons/DialpadOutlined';
+import AlternateEmailOutlinedIcon from '@material-ui/icons/AlternateEmailOutlined';
+import ExitToAppOutlinedIcon from '@material-ui/icons/ExitToAppOutlined';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -123,8 +126,8 @@ const useStyles = makeStyles(theme => ({
   //   placeSelf: 'stretch stretch' 
   // },
   btnContainer: {
-    height: '400px',
-    width: '400px',
+    height: '350px',
+    width: '350px',
     display: 'grid',
     gridTemplateColumns: "repeat(2, 1fr)",
     gridTemplateRows: "repeat(2, 1fr)",
@@ -146,18 +149,28 @@ const useStyles = makeStyles(theme => ({
     gridColumn: '2 / 3',
     gridRow: '2 / 3',
   },
+  icon: {
+    border: '3px solid #ffffff',
+    borderRadius: '50%',
+    padding: '7.5px',
+    gridRow: '1 / 2',
+    placeSelf: 'center center',
+  }
 }));
 
 const CustomButton = withStyles({
   root: {
     backgroundColor: '#292929',
     color: '#ffffff',
-    padding: '3px',
     borderRadius: '5px',
-    margin: '3px',
     boxShadow: '0px 0px 10px 1.5px #121212',
     placeSelf: 'stretch stretch',
-    fontSize: '1.25em',
+    display: 'grid',
+    // justifyContent: 'space-around',
+    // alignItems: 'center',
+    gridTemplateColumns: '1fr',
+    gridTemplateRows: '1fr',
+    fontSize: "1em",
     '&:hover':{
       backgroundColor: '#505050',
     }
@@ -238,18 +251,22 @@ export default function NavBar(props) {
           </Toolbar>
         </AppBar>
         <div className={(openMenu)?`${classes.overlay} ${classes.fullWidth}`:classes.overlay}>
-          <Fade>
+          <Fade when={openMenu}>
             <div className={classes.btnContainer}>
               <CustomButton className={`${classes.button} ${classes.btnEmail}`}>
-                Update Email
+                <AlternateEmailOutlinedIcon className={classes.icon} fontSize="large"/>
+                Update Email        
               </CustomButton>
               <CustomButton className={`${classes.button} ${classes.btnPhone}`}>
-                Update Phone Number
+                <DialpadOutlinedIcon className={classes.icon} fontSize="large"/>
+                Update Phone
               </CustomButton>
               <CustomButton className={`${classes.button} ${classes.btnPwd}`}>
+                <VpnKeyOutlinedIcon className={classes.icon} fontSize="large"/>
                 Change Password
               </CustomButton>
               <CustomButton className={`${classes.button} ${classes.btnLogout}`}>
+                <ExitToAppOutlinedIcon className={classes.icon} fontSize="large"/>
                 Logout
               </CustomButton>
             </div>
