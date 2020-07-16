@@ -31,9 +31,9 @@ const useSizes = makeStyles(()=>({
     padding: "10px"
   },
   "2x2": {
-    maxWidth: "324px",
+    // maxWidth: "324px",
     minWidth: "324px",
-    maxHeight: "324px",
+    // maxHeight: "324px",
     minHeight: "324px",
     width: "324px",
     height: "324px",

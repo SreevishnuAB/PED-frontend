@@ -9,14 +9,15 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import MenuDialog from './dialog';
 import MenuDialogTitle from './dialog-title';
 import DialogContent from '@material-ui/core/DialogContent';
-import { Button } from '@material-ui/core';
-import CustomButton from './custom-button';
+import Button from '@material-ui/core/Button';
+import { withStyles } from '@material-ui/core/styles'
 import DialogActions from '@material-ui/core/DialogActions';
 import CustomTextField from './custom-text-input';
 import ToastNotification from './toast';
 import ProgressBar from './progress-bar';
 import Axios from '../axios/config';
 import Fade from 'react-reveal/Fade';
+import Card from './card';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -51,9 +52,6 @@ const useStyles = makeStyles(theme => ({
   },
   condRend:{
     visibility: 'hidden',
-  },
-  logoutBtn: {
-    padding:'0.5px !important'
   },
   user: {
     height: '45px',
@@ -97,9 +95,13 @@ const useStyles = makeStyles(theme => ({
     left: 0,
     bottom: 0,
     right: 0,
-    backgroundColor: "rgba(0,26,41, 0.9)",
+    backgroundColor: "rgba(18,18,18, 0.9)",
     overflowX: "hidden",
-    transition: "0.5s"
+    transition: "0.5s",
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   fullWidth: {
     width: '100%',
@@ -111,10 +113,59 @@ const useStyles = makeStyles(theme => ({
     top: 0,
     left: 0
   }
+  ,
+  // button: {
+  //   backgroundColor: '#292929',
+  //   padding: '3px',
+  //   borderRadius: '5px',
+  //   margin: '3px',
+  //   boxShadow: '0px 0px 10px 1.5px #121212',
+  //   placeSelf: 'stretch stretch' 
+  // },
+  btnContainer: {
+    height: '400px',
+    width: '400px',
+    display: 'grid',
+    gridTemplateColumns: "repeat(2, 1fr)",
+    gridTemplateRows: "repeat(2, 1fr)",
+    gap: '6px 6px',
+  },
+  btnEmail: {
+    gridColumn: '1 / 2',
+    gridRow: '1 / 2',
+  },
+  btnPhone: {
+    gridColumn: '2 / 3',
+    gridRow: '1 / 2'
+  },
+  btnPwd: {
+    gridColumn: '1 / 2',
+    gridRow: '2 / 3'
+  },
+  btnLogout: {
+    gridColumn: '2 / 3',
+    gridRow: '2 / 3',
+  },
 }));
 
+const CustomButton = withStyles({
+  root: {
+    backgroundColor: '#292929',
+    color: '#ffffff',
+    padding: '3px',
+    borderRadius: '5px',
+    margin: '3px',
+    boxShadow: '0px 0px 10px 1.5px #121212',
+    placeSelf: 'stretch stretch',
+    fontSize: '1.25em',
+    '&:hover':{
+      backgroundColor: '#505050',
+    }
+  }
+})(Button);
 export default function NavBar(props) {
   const classes = useStyles();
+  const [curEdit, setCurEdit] = useState(undefined);
   const [openMenu, setOpenMenu] = useState(false);
   const [openPwd, setOpenPwd] = useState(false);
   const [pwdCur, setPwdCur] = useState('');
@@ -130,6 +181,9 @@ export default function NavBar(props) {
   const handleLogout = ()=>{
     handleOpenMenu();
     props.onLogout();
+  }
+  const handleEmail = ()=>{
+
   }
 
   const handleSave = ()=>{
@@ -184,7 +238,22 @@ export default function NavBar(props) {
           </Toolbar>
         </AppBar>
         <div className={(openMenu)?`${classes.overlay} ${classes.fullWidth}`:classes.overlay}>
-
+          <Fade>
+            <div className={classes.btnContainer}>
+              <CustomButton className={`${classes.button} ${classes.btnEmail}`}>
+                Update Email
+              </CustomButton>
+              <CustomButton className={`${classes.button} ${classes.btnPhone}`}>
+                Update Phone Number
+              </CustomButton>
+              <CustomButton className={`${classes.button} ${classes.btnPwd}`}>
+                Change Password
+              </CustomButton>
+              <CustomButton className={`${classes.button} ${classes.btnLogout}`}>
+                Logout
+              </CustomButton>
+            </div>
+          </Fade>
         </div>
         <ProgressBar open={openProg} onClose={()=>{setOpenProg(false)}}/>
       </div>

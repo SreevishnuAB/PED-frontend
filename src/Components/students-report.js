@@ -180,6 +180,7 @@ const useStyles = makeStyles((theme)=>({
   innerCards: {
     gridColumn: "2 / 4",
     gridRow: "2 / 4",
+    placeSelf: 'stretch stretch',
     backgroundColor: '#4481ab',
     boxShadow: '0px 0px 10px 1.5px #121212',
   },
