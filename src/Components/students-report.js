@@ -1,5 +1,5 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles , useTheme , withStyles } from '@material-ui/core/styles';
 import Card from './card';
 import Typography from '@material-ui/core/Typography';
 import { useRouteMatch } from 'react-router-dom';
@@ -15,17 +15,21 @@ import KeyboardArrowRightOutlinedIcon from '@material-ui/icons/KeyboardArrowRigh
 import IconButton from '@material-ui/core/IconButton';
 import Graph from './graph';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import useMediaQuery from "@material-ui/core/useMediaQuery";
+import FadeRR from 'react-reveal';
+import CustomButton from './custom-button';
 
 const useStyles = makeStyles((theme)=>({
   reportRoot:{
-    // height: '97.5%',
+    height: "calc(100vh - 100px)",
     width: '100vw',
     display: 'flex',
     justifyContent: 'flex-start',
     alignItems: 'stretch',
     marginTop: "75px",
     position: 'fixed',
-    zIndex: -1
+    zIndex: -1,
+    overflowY: 'hidden'
   },
   sections: {
     margin: "10px 10px",   
@@ -168,19 +172,27 @@ const useStyles = makeStyles((theme)=>({
   },
   innerContainer: {
     width: '100%',
-    height: '100%',
+    height: "calc(100% - 100px)",
     // display: 'flex',
     // justifyContent: 'space-evenly',
     // alignItems: 'center'
     display: 'grid',
-    gridTemplateColumns: "repeat(4, 1fr)",
+    [theme.breakpoints.up("lg")]: {
+      gridTemplateColumns: "repeat(4, 1fr)",
+      gridTemplateRows: "0.2fr repeat(2, 1fr) 0.2fr",
+    },
+    gridTemplateColumns: "repeat(2, 1fr)",
     gridTemplateRows: "0.2fr repeat(2, 1fr) 0.2fr",
     gap: '6px 6px'
   },
   innerCards: {
-    gridColumn: "2 / 4",
-    gridRow: "2 / 4",
-    placeSelf: 'stretch stretch',
+    // [theme.breakpoints.up("lg")]: {
+      gridColumn: "2 / 4",
+      gridRow: "2 / 4",
+    // },
+    // gridColumn: "1 / 3",
+    // gridRow: "2 / 4",
+    placeSelf: 'center center',
     backgroundColor: '#4481ab',
     boxShadow: '0px 0px 10px 1.5px #121212',
   },
@@ -227,14 +239,27 @@ const useStyles = makeStyles((theme)=>({
   mainPanel: {
     // height: '93vh',
     display: 'grid',
-    gridTemplateColumns: 'auto repeat(8, 1fr) auto',
+    gridTemplateColumns: 'auto repeat(auto-fit, 1fr) auto',
     gridTemplateRows: 'repeat(5, 1fr)',
+    alignItems: 'stretch',
+    // justifyContent: 'center',
     gap: '6px 6px',
-    overflowY: 'hidden'
+    gridAutoFlow: 'row dense',
+    [theme.breakpoints.up("xl")]: {
+      overflowY: 'hidden'
+    },
+    overflowY: 'auto',
+    height: "calc(100vh - 100px)",
+
   },
   profilePane: {
     // height: "100vh",
-    maxHeight: "910px",
+    minWidth: '350px',
+    minHeight:'700px',
+    [theme.breakpoints.up("xl")]: {
+      maxHeight: "1080px",
+    },
+    height: "calc(100vh - 100px)",
     overflowY: "clip"
   },
   iconContainer1x1: {
@@ -264,7 +289,7 @@ const useStyles = makeStyles((theme)=>({
   statusText: {
     width: "130px",
     padding: '5px',
-    margin: '0px 10px',
+    margin: '0px 10px 10px',
     backgroundColor: '#1a4051',
     borderRadius: "5px",
     textAlign: "center",
@@ -279,10 +304,6 @@ const useStyles = makeStyles((theme)=>({
   },
   statusText1x2: {
     width: "310px !important"
-  },
-  //temporary
-  containerWide: {
-    width: "100% !important"
   },
   cardGridDate: {
     gridColumn: "3 / 4",
@@ -337,16 +358,24 @@ const useStyles = makeStyles((theme)=>({
     alignSelf: 'stretch',
   },
   cardGridVAV: {
-    gridColumn: ' 6 / 10',
+    gridColumn: '6 / 10',
     gridRow: '1 / 4',
+    // [theme.breakpoints.down("lg")]: {
+    //   gridColumn: '2 / 6',
+    //   gridRow: '3 / 6',
+    // },
     justifySelf: 'stretch',
     alignSelf: 'stretch',
   },
   cardGridVAE: {
     gridColumn: '2 / 6',
     gridRow: '3 / 7',
-    justifySelf: 'stretch',
-    alignSelf: 'stretch',
+    // justifySelf: 'start',
+    // alignSelf: 'start',
+    // [theme.breakpoints.up("lg")]: {
+      justifySelf: 'stretch',
+      alignSelf: 'stretch',
+    // },
   },
   statusTextGrid: {
     height: '40px',
@@ -369,14 +398,24 @@ const useStyles = makeStyles((theme)=>({
     }
   },
   navBtnLt: {
-    gridColumn: '1 / 2',
-    gridRow: '2 / 3',
-    alignSelf: 'end'
+    // [theme.breakpoints.up("lg")]: {
+      gridColumn: '1 / 2',
+      gridRow: '2 / 3',
+      placeSelf: 'end center'
+    // },
+    // gridColumn: '1 / 2',
+    // gridRow: '4 / 5',
+    // placeSelf: 'end end'
   },
   navBtnRt: {
-    gridColumn: '4 / 5',
-    gridRow: '2 / 3',
-    alignSelf: 'end'
+    // [theme.breakpoints.up("lg")]: {
+      gridColumn: '4 / 5',
+      gridRow: '2 / 3',
+      placeSelf: 'end center'
+    // },
+    // gridColumn: '2 / 3',
+    // gridRow: '4 / 5',
+    // placeSelf: 'end start'
   },
   graph:{
     width:'100%',
@@ -388,6 +427,11 @@ const useStyles = makeStyles((theme)=>({
   },
   progress: {
     color: '#ffffff',
+  },
+  graphBtn: {
+    gridColumn: '5 / 6',
+    gridRow: '2 / 3',
+    placeSelf: 'stretch stretch'
   }
 }));
 
@@ -483,11 +527,16 @@ const EvalCard = ({ evalObj })=>{
   )
 }
 
+
 export default function StudentsReport(props){
 
+  const [showGraph, setShowGraph] = React.useState(false);
   const [pedData, setPedData] = React.useState(undefined);
   const [currCard, setCurrCard] = React.useState(0);
-
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.up('lg'));
+  const viewGraph = useMediaQuery('(min-width: 1760px)');
+  console.log(viewGraph);
   const id = props.student.id;
   
   React.useEffect(()=>{
@@ -612,10 +661,16 @@ export default function StudentsReport(props){
               </Typography>
             </div>
           </Card>
-          <Card className={`${classes.cards} ${classes.cardGridVAV}`} size={"2x4"} title={"Verbal & Aptitude - Visualization"}>
-            <Graph className={classes.graph} studentId={id}/>
-          </Card>
-          <Card className={`${classes.cards} ${classes.cardGridVAE}`} size={"3x4"} title={"Verbal & Aptitude - Evaluation"}>
+          {!viewGraph &&
+          <CustomButton className={classes.graphBtn} onClick={()=>{setShowGraph(!showGraph)}}>
+            {`Show ${(!showGraph?"Graph":"Cards")}`}
+          </CustomButton>}
+          {(viewGraph || showGraph) && <Card className={`${classes.cards} ${(!showGraph)?classes.cardGridVAV:classes.cardGridVAE}`} size={"2x4"} title={"Verbal & Aptitude - Visualization"}>
+            <FadeRR when={showGraph || viewGraph}>
+              <Graph className={classes.graph} studentId={id}/>
+            </FadeRR>
+          </Card>}
+          {!showGraph && <Card className={`${classes.cards} ${classes.cardGridVAE}`} size={(matches)?"3x4":"3x2"} title={"Verbal & Aptitude - Evaluation"}>
             <div className={classes.innerContainer}>
               <IconButton className={`${classes.navBtn} ${classes.navBtnLt}`} onClick={handlePrevious}>
                 <KeyboardArrowLeftOutlinedIcon fontSize="large"/>
@@ -625,7 +680,7 @@ export default function StudentsReport(props){
                 <KeyboardArrowRightOutlinedIcon fontSize="large"/>
               </IconButton>
             </div>
-          </Card></>}
+          </Card>}</>}
         </div>
       </div>
     </Fade>

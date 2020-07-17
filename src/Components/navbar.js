@@ -155,6 +155,7 @@ const useStyles = makeStyles(theme => ({
     padding: '7.5px',
     gridRow: '1 / 2',
     placeSelf: 'center center',
+    marginBottom: '10px'
   }
 }));
 
@@ -166,8 +167,6 @@ const CustomButton = withStyles({
     boxShadow: '0px 0px 10px 1.5px #121212',
     placeSelf: 'stretch stretch',
     display: 'grid',
-    // justifyContent: 'space-around',
-    // alignItems: 'center',
     gridTemplateColumns: '1fr',
     gridTemplateRows: '1fr',
     fontSize: "1em",

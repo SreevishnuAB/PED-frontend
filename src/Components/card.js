@@ -6,7 +6,7 @@ const useStyles = makeStyles(()=>({
   title: {
     width: "100%",
     textAlign: 'center',
-    marginBottom: "5px"
+    marginBottom: "2px"
   }
 }));
 const useSizes = makeStyles(()=>({
@@ -80,7 +80,17 @@ const useSizes = makeStyles(()=>({
     // height: "504px",
     borderRadius: "5px",
     padding: "10px"
-  }
+  },
+  "3x2": {
+    // maxWidth: "504px",
+    minWidth: "324px",
+    // maxHeight: "324px",
+    minHeight: "504px",
+    // width: "504px",
+    // height: "324px",
+    borderRadius: "5px",
+    padding: "10px"
+  },
 }));
 
 const Card = (props)=>{

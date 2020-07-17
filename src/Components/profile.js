@@ -23,7 +23,11 @@ const useStyles = makeStyles((theme)=>({
     boxShadow: '0px 0px 5px 0.5px #121212',
     backgroundColor: '#286790',
     margin: '0px 0px 0px 3px',
-    maxHeight: "900px"
+    minWidth: '350px',
+    [theme.breakpoints.up("xl")]: {
+      maxHeight: "1070px",
+    },
+    // height: '100%',
   },
   details: {
     textAlign: 'right',
