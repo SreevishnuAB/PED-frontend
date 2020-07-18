@@ -8,3 +8,8 @@
   color: var(--color-body);
   font-family:'Roboto';
 }
+@media screen and (min-resolution: 120dpi) { 
+  body {
+    zoom: 0.75;
+  }
+}

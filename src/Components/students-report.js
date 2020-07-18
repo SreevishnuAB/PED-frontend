@@ -21,8 +21,12 @@ import CustomButton from './custom-button';
 
 const useStyles = makeStyles((theme)=>({
   reportRoot:{
-    height: "calc(100vh - 100px)",
-    width: '100vw',
+    [theme.breakpoints.up("lg")]: {
+      height: "calc(100vh - 100px)", 
+      width: '100vw', 
+    },
+    height: "calc(100% - 100px)",
+    width: '100%',
     display: 'flex',
     justifyContent: 'flex-start',
     alignItems: 'stretch',
@@ -177,12 +181,12 @@ const useStyles = makeStyles((theme)=>({
     // justifyContent: 'space-evenly',
     // alignItems: 'center'
     display: 'grid',
-    [theme.breakpoints.up("lg")]: {
+    // [theme.breakpoints.up("lg")]: {
       gridTemplateColumns: "repeat(4, 1fr)",
       gridTemplateRows: "0.2fr repeat(2, 1fr) 0.2fr",
-    },
-    gridTemplateColumns: "repeat(2, 1fr)",
-    gridTemplateRows: "0.2fr repeat(2, 1fr) 0.2fr",
+    // },
+    // gridTemplateColumns: "repeat(2, 1fr)",
+    // gridTemplateRows: "0.2fr repeat(2, 1fr) 0.2fr",
     gap: '6px 6px'
   },
   innerCards: {
@@ -238,8 +242,10 @@ const useStyles = makeStyles((theme)=>({
   },
   mainPanel: {
     // height: '93vh',
+    margin:"0px 6px",
+    // width: '100vw',
     display: 'grid',
-    gridTemplateColumns: 'auto repeat(auto-fit, 1fr) auto',
+    gridTemplateColumns: 'repeat(auto-fill, 1fr)',
     gridTemplateRows: 'repeat(5, 1fr)',
     alignItems: 'stretch',
     // justifyContent: 'center',
@@ -249,8 +255,10 @@ const useStyles = makeStyles((theme)=>({
       overflowY: 'hidden'
     },
     overflowY: 'auto',
-    height: "calc(100vh - 100px)",
-
+    height: "100%",
+    [theme.breakpoints.up("lg")]: {
+      height: "calc(100vh - 100px)",  
+    },
   },
   profilePane: {
     // height: "100vh",
@@ -259,7 +267,10 @@ const useStyles = makeStyles((theme)=>({
     [theme.breakpoints.up("xl")]: {
       maxHeight: "1080px",
     },
-    height: "calc(100vh - 100px)",
+    [theme.breakpoints.up("lg")]: {
+      height: "calc(100vh - 100px)",  
+    },
+    height: "calc(100% - 100px)",
     overflowY: "clip"
   },
   iconContainer1x1: {
@@ -328,37 +339,37 @@ const useStyles = makeStyles((theme)=>({
     alignSelf: 'start'
   },
   cardGridInterviewStatus: {
-    gridColumn: '2 / 3',
+    gridColumn: '1 / 2',
     gridRow: '1 / 2',
     justifySelf: 'stretch',
     alignSelf: 'stretch',
   },
   cardGridTechSkills: {
-    gridColumn: '3 / 5',
+    gridColumn: '2 / 4',
     gridRow: '1 / 2',
     justifySelf: 'stretch',
     alignSelf: 'stretch',
   },
   cardGridSoftSkills: {
-    gridColumn: '5 / 6',
+    gridColumn: '4 / 5',
     gridRow: '1 / 2',
     justifySelf: 'stretch',
     alignSelf: 'stretch',
   },
   cardGridResume: {
-    gridColumn: '2 / 3',
+    gridColumn: '1 / 2',
     gridRow: '2 / 3',
     justifySelf: 'stretch',
     alignSelf: 'stretch',
   },
   cardGridAvgScore: {
-    gridColumn: '3 / 5',
+    gridColumn: '2 / 4',
     gridRow: '2 / 3',
     justifySelf: 'stretch',
     alignSelf: 'stretch',
   },
   cardGridVAV: {
-    gridColumn: '6 / 10',
+    gridColumn: '5 / 9',
     gridRow: '1 / 4',
     // [theme.breakpoints.down("lg")]: {
     //   gridColumn: '2 / 6',
@@ -368,7 +379,7 @@ const useStyles = makeStyles((theme)=>({
     alignSelf: 'stretch',
   },
   cardGridVAE: {
-    gridColumn: '2 / 6',
+    gridColumn: '1 / 5',
     gridRow: '3 / 7',
     // justifySelf: 'start',
     // alignSelf: 'start',
@@ -429,7 +440,7 @@ const useStyles = makeStyles((theme)=>({
     color: '#ffffff',
   },
   graphBtn: {
-    gridColumn: '5 / 6',
+    gridColumn: '4 / 5',
     gridRow: '2 / 3',
     placeSelf: 'stretch stretch'
   }
@@ -665,7 +676,7 @@ export default function StudentsReport(props){
           <CustomButton className={classes.graphBtn} onClick={()=>{setShowGraph(!showGraph)}}>
             {`Show ${(!showGraph?"Graph":"Cards")}`}
           </CustomButton>}
-          {(viewGraph || showGraph) && <Card className={`${classes.cards} ${(!showGraph)?classes.cardGridVAV:classes.cardGridVAE}`} size={"2x4"} title={"Verbal & Aptitude - Visualization"}>
+          {(viewGraph || showGraph) && <Card className={`${classes.cards} ${(!showGraph)?classes.cardGridVAV:classes.cardGridVAE}`} size={"3x4"} title={"Verbal & Aptitude - Visualization"}>
             <FadeRR when={showGraph || viewGraph}>
               <Graph className={classes.graph} studentId={id}/>
             </FadeRR>
