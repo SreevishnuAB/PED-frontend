@@ -4,12 +4,15 @@ import CustomButton from './custom-button';
 import ToastNotification from './toast';
 import CustomTextField from './custom-text-input';
 import ProgressBar from './progress-bar';
-import axiosPreset from '../axios/config';
+import Axios from '../axios/config';
 import { Redirect } from 'react-router-dom';
+import Fade from '@material-ui/core/Fade';
+
 //const axios = require('axios');
 
 const useStyles = makeStyles((theme)=>({
   root: {
+    marginTop: '100px',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
@@ -20,24 +23,24 @@ const useStyles = makeStyles((theme)=>({
     marginTop: '50px',
     borderStyle: 'solid',
     borderWidth: '1px',
-    borderColor: '#00adb5',
+    borderColor: '#779eb3',
     height: '200px',
     maxWidth: '300px',
-    padding: '75px 100px 70px 100px',
+    padding: '75px 100px 70px',
     display:'flex',
     flexDirection: 'column',
     justifyContent: 'space-around',
     alignItems:'center',
-    backgroundColor: '#393E46',
-    borderRadius: '5px'
-
+    backgroundColor: '#1a4051',
+    borderRadius: '5px',
+    boxShadow: '0px 2px 5px #121212'
   },
   submitBtn:{
-    color: '#23C94A',
-    backgroundColor: '#001215',
+    color: '#ddf0fe',
+    backgroundColor: '#36667c',
     borderWidth: '1px',
     borderStyle: 'solid',
-    borderColor: '#23C94A',
+    borderColor: '#ddf0fe',
     width: '50px',
     padding: '5px 35px 5px 35px',
   },
@@ -69,7 +72,7 @@ export default function Login(props){
   }
 
 
-  const handleSubmit = ()=>{
+  const handleSubmit = async ()=>{
     if(!username || !password){
       setToastMessage({error:true,messageText:"Username and password cannot be empty"});
       setOpenToast(!openToast);
@@ -81,7 +84,7 @@ export default function Login(props){
       formData.append("username", username);
       formData.append("password", password);
 
-      axiosPreset.post(
+      await Axios.post(
         '/login',
         formData,
       ).then((response)=>{
@@ -109,29 +112,31 @@ export default function Login(props){
     return <Redirect to={`/student/${props.user.id}`}/>;
   
   return(
-    <div className={classes.root}>
-      <ProgressBar open={open} onClose={handleClose}/>
-      <div className={classes.form}>
-        <CustomTextField
-          id="outlined-username-input"
-          label="Username"
-          variant="outlined"
-          size="small"
-          value={username}
-          onChange={(e)=>{setUsername(e.target.value)}}
-        />
-        <CustomTextField
-          id="outlined-password-input"
-          label="Password"
-          type="password"
-          variant="outlined"
-          size="small"
-          value={password}
-          onChange={(e)=>{setPassword(e.target.value)}}
-        />
-        <CustomButton onClick={handleSubmit}>Submit</CustomButton>
+    <Fade in={true}>
+      <div className={classes.root}>
+        <ProgressBar open={open} onClose={handleClose}/>
+        <div className={classes.form}>
+          <CustomTextField
+            id="outlined-username-input"
+            label="Username"
+            variant="outlined"
+            size="small"
+            value={username}
+            onChange={(e)=>{setUsername(e.target.value)}}
+          />
+          <CustomTextField
+            id="outlined-password-input"
+            label="Password"
+            type="password"
+            variant="outlined"
+            size="small"
+            value={password}
+            onChange={(e)=>{setPassword(e.target.value)}}
+          />
+          <CustomButton onClick={handleSubmit}>Submit</CustomButton>
+        </div>
+        <ToastNotification open={openToast} onClose={handleToast} message={toastMessage}/>
       </div>
-      <ToastNotification open={openToast} onClose={handleToast} message={toastMessage}/>
-    </div>
+    </Fade>
   );
 }

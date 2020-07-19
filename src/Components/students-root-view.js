@@ -1,7 +1,6 @@
 import React from 'react';
 import { Switch , Route, Redirect, useRouteMatch } from 'react-router-dom';
 import StudentsReport from './students-report';
-import Profile from './profile';
 
 export default function StudentsRootView(props){
 
@@ -35,17 +34,6 @@ export default function StudentsRootView(props){
               onGet={handleProfile}
               onNav={props.onNav}
               {...routerProps}
-            />
-        )}
-      />
-      <Route
-        path={`${match.path}/:studentId/profile`}
-        render={(routerProps)=>(
-            <Profile
-              profile={profile}
-              user={props.user}
-              {...routerProps}
-              {...props}
             />
         )}
       />

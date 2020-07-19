@@ -6,7 +6,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import MenuDialogTitle from './dialog-title';
 import CustomTextField from './custom-text-input';
 import ToastNotification from './toast';
-import axiosPreset from '../axios/config';
+import Axios from '../axios/config';
 import ProgressBar from './progress-bar';
 
 export default function EditDialog(props) {
@@ -45,7 +45,7 @@ export default function EditDialog(props) {
 
       payload[`${props.label.toLowerCase()}`] = value;
 
-      axiosPreset.patch(
+      Axios.patch(
         endpoint,
         payload
       ).then((response)=>{

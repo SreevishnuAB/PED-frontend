@@ -1,34 +1,33 @@
 import React, { useState } from 'react';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
-import IconButton from '@material-ui/core/IconButton';
-import EditIcon from '@material-ui/icons/Edit';
-import EditDialog from './edit-dialog';
+import Axios from '../axios/config';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import Fade from '@material-ui/core/Fade';
+import FadeRR from 'react-reveal';
 
 const useStyles = makeStyles((theme)=>({
-  sectionBounds: {
-    border: "1px solid",
-    borderRadius: '3px',
-    width: 'inherit',
-    height: 'inherit',
-    margin: '15px'
-  },
   cards: {
-    minWidth: '270px',
-    backgroundColor: '#181818',
-    border: '1px solid #00fff5',
+    width: '95%',
     margin: '5px',
-    flex: '1',
-    color: '#00fff5',
+    padding: '3px'
   },
   cardContainer: {
+    borderRadius: '5px',
+    width: '350px',
+    height: '100%',
     display: 'flex',
-    alignItems: 'stretch', 
-    justifyContent: 'center',
-    flex: '1',
-    flexWrap: 'wrap'
+    flexDirection: 'column',
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
+    boxShadow: '0px 0px 5px 0.5px #121212',
+    backgroundColor: '#286790',
+    margin: '0px 0px 0px 3px',
+    minWidth: '350px',
+    [theme.breakpoints.up("xl")]: {
+      maxHeight: "1070px",
+    },
+    // height: '100%',
   },
   details: {
     textAlign: 'right',
@@ -37,100 +36,101 @@ const useStyles = makeStyles((theme)=>({
     display: 'flex',
     justifyContent:'space-between',
     alignItems: 'center !important',
-    marginBottom: '20px'
+    marginBottom: '15px'
   },
   header: {
     flex: '2'
   },
-  headerBtn: {
-    marginRight: '7px',
-    color: '#00fff5',
-    '&:hover': {
-      backgroundColor: '#00adb5 !important',
-      color: '#393e46'
-    }
+  editIcon:{
+    width: '20px',
+    height: '20px'
   },
+  headerBtn: {
+    color: '#bbd7e5',
+    backgroundColor: '#001a29',
+    transition: '0.5s',
+    '&:hover': {
+      transition: '0.5s',
+      color: '#001a29',
+      backgroundColor: '#bbd7e5',
+    },
+    width: '30px',
+    height: '30px',
+    margin: '7px',
+    padding: '2px',
+    boxShadow: '0px 0px 5px 0.5px #121212',
+  },
+  avatar:{
+    margin: '10px 0px 10px 0px',
+    height: '200px !important',
+    width: '200px !important',
+    borderRadius: '50%',
+    border: '2.5px solid #00F7FF',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#1a4051',
+    boxShadow: '0px 0px 5px 0.5px #121212',
+  },
+  subContainer:{
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'stretch',
+    width: '100%'
+  },
+  progress: {
+    color: '#ffffff',
+  }
 }));
 
 
-export default function Profile(props){
+export default function Profile({ className , id}){
 
-  const [openDialog, setOpenDialog] = useState(false);
-  const [label, setLabel] = useState('');
-  const [profile, setProfile] = useState(props.profile);
+  const [profile, setProfile] = useState(undefined);
   const classes = useStyles();
 
-  const handleProfileChange = (newField)=>{
-    let updatedProf = profile;
-    updatedProf[newField.field.toLowerCase()] = newField.value;
-    setProfile(updatedProf);
-  }
-
-  const handleEditDialog = (open)=>{
-    setOpenDialog(open);
-  }
-
-  const handleEditPhone = ()=>{
-    setLabel("Phone");
-    setOpenDialog(true);
-  }
-
-  const handleEditEmail = ()=>{
-    setLabel("Email");
-    setOpenDialog(true);
-  }
+  React.useEffect(()=>{
+    async function getPEDData(){
+      await Axios.get(`/student/${id}/profile`)
+      .then((response)=>{
+        // console.log(response.data);
+        setProfile(response.data);
+      })
+      .catch((error)=>{
+        console.log(error.response.data)
+      })
+    }
+    getPEDData();
+  }, [id]);
 
   return(
-    <React.Fragment>
-      <EditDialog open={openDialog} label={label} user={props.student} onProfileChange={handleProfileChange} onClose={handleEditDialog}/>
-      <fieldset className={classes.sectionBounds}>
-        <legend>Profile</legend>
-        <div className={classes.cardContainer}>
-          <Card className={classes.cards}>
-            <CardContent>
+    <div className={className}>
+      <div className={classes.cardContainer}>
+        {(profile === undefined)?(<Fade in={(profile === undefined)} unmountOnExit>
+          <CircularProgress className={classes.progress}/>
+        </Fade>):
+        (<FadeRR>
+          <div className={classes.avatar}>
+            <Typography className={classes.details} variant="h5" component="h5">
+              {profile.name}
+            </Typography> 
+          </div>
+          <div className={classes.subContainer}>
+            {Object.keys(profile).filter(key => key !== "name").map((key, index)=>(
+            <div key={index} className={classes.cards}>
               <Typography className={classes.header} gutterBottom>
-                ID
+                {key.toUpperCase()}
               </Typography>
-              <Typography className={classes.details} variant="h5" component="h3">
-                {profile.id.toUpperCase()}
-              </Typography>
-              <Typography className={classes.details} variant="h6" component="h4">
-                {profile.name}
-              </Typography>
-            </CardContent>
-          </Card>
-          <Card className={classes.cards}>
-            <CardContent>
-              <div className={classes.headerContainer}>
-                <Typography className={classes.header} gutterBottom>
-                  PHONE
+              <div className={classes.details}>
+                <Typography className={classes.details} variant="h6" component="h4">
+                  {(key !== "email")?profile[key].toUpperCase():profile[key]}
                 </Typography>
-                <IconButton className={classes.headerBtn} onClick={handleEditPhone} edge="end" aria-label="edit">
-                  <EditIcon/>
-                </IconButton>
               </div>
-              <Typography className={classes.details} variant="h6" component="h4">
-                {profile.phone}
-              </Typography>
-            </CardContent>
-          </Card>
-          <Card className={classes.cards}>
-            <CardContent>
-              <div className={classes.headerContainer}>
-                <Typography className={classes.header} gutterBottom>
-                  EMAIL
-                </Typography>
-                <IconButton className={classes.headerBtn} onClick={handleEditEmail} edge="end" caria-label="edit">
-                  <EditIcon/>
-                </IconButton>
-              </div>
-              <Typography className={classes.details} variant="h6" component="h4">
-                {profile.email}
-              </Typography>
-            </CardContent>
-          </Card>
-        </div>
-      </fieldset>
-    </React.Fragment>
+            </div>))}
+          </div>
+        </FadeRR>)}
+      </div>
+    </div>
   );
 }

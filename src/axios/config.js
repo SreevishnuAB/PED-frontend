@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const axiosPreset = axios.create({
+const Axios = axios.create({
   baseURL: "https://ped-be.herokuapp.com/api/v1",
   withCredentials: true,
   headers: {
@@ -10,4 +10,4 @@ const axiosPreset = axios.create({
   }
 });
 
-export default axiosPreset;
+export default Axios;

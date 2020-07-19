@@ -3,17 +3,17 @@ import { withStyles } from '@material-ui/core/styles';
 
 const CustomTextField = withStyles({
   root:{
-      backgroundColor: '#222831',
-      borderColor: '#00adb5',
+      backgroundColor: '#001a29',
+      borderColor: '#779eb3',
     '& .MuiOutlinedInput-root':{
-      color: '#00fff5',
+      color: '#bbd7e5',
       '& .MuiOutlinedInput-notchedOutline': {
-            borderColor: '#00fff5'
+            borderColor: '#779eb3'
         },
       },
     '& label':{
-      color: '#00fff5 !important'
-    }
+      color: '#bbd7e5 !important'
+    },
   },
 })(TextField);
 

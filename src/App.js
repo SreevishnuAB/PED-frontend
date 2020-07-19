@@ -6,26 +6,19 @@ import './App.css'
 import NavBar from './Components/navbar';
 import Fade from '@material-ui/core/Fade';
 import ToastNotification from './Components/toast';
-import axiosPreset from './axios/config';
+import Axios from './axios/config';
 
 function App() {
 
   const history = useHistory();
   const [user, setUser] = useState({authenticated: false, id:'', designation: undefined});
-  const [url, setUrl] = useState('/');
   const [toastMessage, setToastMessage] = useState({error: false, messageText: ''});
   const [open, setOpen] = useState(false);
 
-  const changeView = ()=>{
-//    setView(newView);
-    console.log(url);
-    history.push(`${url}/profile`)
-    
-  }
 
-  const handlePath = (path)=>{
-    setUrl(path);
-  }
+  // const handlePath = (path)=>{
+  //   setUrl(path);
+  // }
 
   const handleUserAuth = React.useCallback((authData)=>{
     setUser(authData);
@@ -40,7 +33,7 @@ function App() {
 
   const handleLogout = ()=>{
 
-    axiosPreset.get(
+    Axios.get(
       '/logout'
     ).then((response)=>{
       setToastMessage({error: false, messageText: response.data})
@@ -56,42 +49,35 @@ function App() {
 
   return(
     <>
-      <Fade timeout={150}>
-        <NavBar
-          authenticated={user.authenticated}
-          username={user.id.toUpperCase()}
-          onProfileClick={changeView}
-          onLogout={handleLogout}
-          />
-       </Fade> 
-       <Fade timeout={150}>
-        <Switch>
-          <Route
-            exact
-            path="/"
-            render={(routerProps)=>(
-              <Login
-                {...routerProps}
-                onLogin={handleUserAuth}
-                user={user}
-              />
-            )}
-          />
-          <Route
-            path="/student"
-            render={(routerProps)=>(
-              <StudentsRootView
-                {...routerProps}
-                student={user}
-                onNav={handlePath}
-                onProfileChange={handleProfileChange}
-                onMenuClick={changeView}
-                onLogout={handleLogout}
-              />
-            )}
-          />
-        </Switch>
-      </Fade>
+      <NavBar
+        authenticated={user.authenticated}
+        user={user}
+        onLogout={handleLogout}
+        />
+      <Switch>
+        <Route
+          exact
+          path="/"
+          render={(routerProps)=>(
+            <Login
+              {...routerProps}
+              onLogin={handleUserAuth}
+              user={user}
+            />
+          )}
+        />
+        <Route
+          path="/student"
+          render={(routerProps)=>(
+            <StudentsRootView
+              {...routerProps}
+              student={user}
+              onProfileChange={handleProfileChange}
+              onLogout={handleLogout}
+            />
+          )}
+        />
+      </Switch>
       <ToastNotification open={open} onClose={()=>{setOpen(false)}} message={toastMessage}/>
     </>
   );
