@@ -51,7 +51,7 @@ function App() {
     <>
       <NavBar
         authenticated={user.authenticated}
-        username={user.id.toUpperCase()}
+        user={user}
         onLogout={handleLogout}
         />
       <Switch>

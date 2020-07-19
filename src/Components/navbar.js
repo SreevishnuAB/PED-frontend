@@ -2,16 +2,12 @@ import '../App.css';
 import React, { useState } from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, responsiveFontSizes } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
 import Toolbar from "@material-ui/core/Toolbar";
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import MenuDialog from './dialog';
-import MenuDialogTitle from './dialog-title';
-import DialogContent from '@material-ui/core/DialogContent';
 import Button from '@material-ui/core/Button';
-import { withStyles } from '@material-ui/core/styles'
-import DialogActions from '@material-ui/core/DialogActions';
+import { withStyles } from '@material-ui/core/styles';
 import CustomTextField from './custom-text-input';
 import ToastNotification from './toast';
 import ProgressBar from './progress-bar';
@@ -21,6 +17,8 @@ import VpnKeyOutlinedIcon from '@material-ui/icons/VpnKeyOutlined';
 import DialpadOutlinedIcon from '@material-ui/icons/DialpadOutlined';
 import AlternateEmailOutlinedIcon from '@material-ui/icons/AlternateEmailOutlined';
 import ExitToAppOutlinedIcon from '@material-ui/icons/ExitToAppOutlined';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import Card from './card';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -115,16 +113,7 @@ const useStyles = makeStyles(theme => ({
     position: 'fixed',
     top: 0,
     left: 0
-  }
-  ,
-  // button: {
-  //   backgroundColor: '#292929',
-  //   padding: '3px',
-  //   borderRadius: '5px',
-  //   margin: '3px',
-  //   boxShadow: '0px 0px 10px 1.5px #121212',
-  //   placeSelf: 'stretch stretch' 
-  // },
+  },
   btnContainer: {
     height: '350px',
     width: '350px',
@@ -132,6 +121,25 @@ const useStyles = makeStyles(theme => ({
     gridTemplateColumns: "repeat(2, 1fr)",
     gridTemplateRows: "repeat(2, 1fr)",
     gap: '6px 6px',
+  },
+  card: {
+    gridColumn: '1 / 3',
+    gridRow: '1 / 3',
+    placeSelf: 'center center',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    backgroundColor: '#292929',
+    color: '#ffffff'
+  },
+  cardFooter: {
+    width: '100%',
+    borderTop: '2px solid #ffffff',
+    height: '15%',
+    display: 'flex',
+    justifyContent: 'flex-end',
+    alignItems: 'flex-end'
   },
   btnEmail: {
     gridColumn: '1 / 2',
@@ -156,10 +164,24 @@ const useStyles = makeStyles(theme => ({
     gridRow: '1 / 2',
     placeSelf: 'center center',
     marginBottom: '10px'
+  },
+  progress: {
+    color: '#ffffff'
   }
 }));
 
-const CustomButton = withStyles({
+function getTitle(option){
+  switch (option) {
+    case "password":
+      return "Change Password"
+    case "phone":
+      return "Update Phone Number";
+    case "email":
+      return "Update Email";
+  }
+}
+
+const CardButton = withStyles({
   root: {
     backgroundColor: '#292929',
     color: '#ffffff',
@@ -175,64 +197,142 @@ const CustomButton = withStyles({
     }
   }
 })(Button);
+
+const CancelButton = withStyles({
+  root: {
+    backgroundColor: '#ffffff',
+    color: '#292929',
+    width: '50px',
+    margin: '3px',
+    border: '1px solid #292929',
+    borderRadius: '5px',
+    boxShadow: '0px 0px 10px 1.5px #121212',
+    '&:hover':{
+      backgroundColor: '#505050',
+      color: '#ffffff'
+    }
+  }
+})(Button);
+
+const SaveButton = withStyles({
+  root: {
+    backgroundColor: '#0AB00A',
+    color: '#ffffff',
+    border: '1px solid #AB00A',
+    width: '50px',
+    margin: '3px',
+    borderRadius: '5px',
+    boxShadow: '0px 0px 10px 1.5px #121212',
+    '&:hover':{
+      backgroundColor: '#505050',
+      color: '#0AB00A'
+    }
+  }
+})(Button);
 export default function NavBar(props) {
   const classes = useStyles();
   const [curEdit, setCurEdit] = useState(undefined);
   const [openMenu, setOpenMenu] = useState(false);
-  const [openPwd, setOpenPwd] = useState(false);
-  const [pwdCur, setPwdCur] = useState('');
-  const [pwdNew, setPwdNew] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [newInfo, setNewInfo] = useState('');
+  const [curPwd, setCurPwd] = useState('');
   const [openToast, setOpenToast] = useState(false);
   const [openProg, setOpenProg] = useState(false);
   const [toastMessage, setToastMessage] = useState({error: false, messageText: ''});
 
   const handleOpenMenu = ()=>{
     setOpenMenu(!openMenu);
+    if(setCurEdit)
+      setCurEdit(undefined);
   }
 
   const handleLogout = ()=>{
     handleOpenMenu();
     props.onLogout();
   }
-  const handleEmail = ()=>{
-
-  }
 
   const handleSave = ()=>{
-    /*TODO* backend integration*/
 
-    if(!pwdNew || !pwdCur){
-      setToastMessage({error: true, messageText: 'Enter a valid password'});
+    let endpoint = (props.user.designation === "student")?
+                    `/student/${props.user.id}/`:
+                    `/faculty/${props.user.id}/`;
+
+    const payload = {
+      id: props.user.id
+    }
+
+    let error = {error: false, messageText: ''};
+    if(!newInfo){
+      error = {error: true, messageText: ''};
+      if(curEdit === "password")
+        error.messageText = "Enter new password";
+      else if(curEdit === "phone")
+        error.messageText = "Enter new phone number";
+      else
+        error.messageText = "Enter new email";
+      setToastMessage(error);
       setOpenToast(true);
     }
-    else{
-      const payload = {
-        id: props.username,
-        cur_pwd: pwdCur,
-        new_pwd: pwdNew
-      };
-      handleOpenPwd();
-      setPwdCur('');
-      setPwdNew('');
-      setOpenProg(true);
-      Axios.patch(
-        `/${props.username}/password`,
-        payload
-      ).then((response)=>{
-        setToastMessage({error: false, messageText: response.data});
-        setOpenProg(false);
+    else if(curEdit === "password"){
+      if(!curPwd){
+        error = {error: true, messageText: 'Enter current password'};
+        setToastMessage(error);
         setOpenToast(true);
-      }).catch((error)=>{
-        setToastMessage({error: false, messageText: error.response.data});
-        setOpenProg(false);
+      }
+      else{
+        endpoint = `/${props.user.id}/password`;
+        console.log(endpoint);
+        payload.cur_pwd = curPwd;
+        payload.new_pwd = newInfo;
+      }
+    }
+    else if(curEdit === "phone"){
+      if(newInfo.length !== 10 || newInfo.search(/[\D]/) !== -1 ){
+        error = {error: true, messageText: "Enter a valid phone number"};
+        setToastMessage(error);
+        setOpenToast(true);
+      }
+      else{
+        // error.error = false;
+        endpoint += "profile/phone";
+        payload.phone = newInfo;
+      }
+    }
+    else if(curEdit === "email"){
+      if(!RegExp(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/).test(newInfo)){
+        error = {error: true, messageText: "Enter a valid email address"};
+        setToastMessage(error);
+        setOpenToast(true);
+      }
+      else{
+        // error.error = false;
+        endpoint += "profile/email";
+        payload.email = newInfo;
+      }
+    }
+    if(error.error === false){
+      setLoading(true);
+      setCurPwd('');
+      setNewInfo('');
+      Axios.patch(endpoint, payload)
+      .then((response)=>{
+        setToastMessage({error: false, messageText: response.data});
+        setLoading(false);
+        setOpenToast(true);
+        setTimeout(()=>setCurEdit(undefined), 1000);
+      })
+      .catch((error)=>{
+        console.log(error.response);
+        setToastMessage({error: true, messageText: error.response.data.detail});
+        setLoading(false);
         setOpenToast(true);
       });
     }
   }
 
-  const handleOpenPwd = ()=>{
-    setOpenPwd(!openPwd);
-    setOpenMenu(false);
+  const handleCancel = ()=>{
+    setNewInfo(undefined);
+    setCurEdit(undefined);
   }
   
   return (
@@ -252,22 +352,52 @@ export default function NavBar(props) {
         <div className={(openMenu)?`${classes.overlay} ${classes.fullWidth}`:classes.overlay}>
           <Fade when={openMenu}>
             <div className={classes.btnContainer}>
-              <CustomButton className={`${classes.button} ${classes.btnEmail}`}>
+              {(!curEdit)?<>
+              <CardButton className={`${classes.button} ${classes.btnEmail}`} onClick={()=>{setCurEdit('email')}}>
                 <AlternateEmailOutlinedIcon className={classes.icon} fontSize="large"/>
                 Update Email        
-              </CustomButton>
-              <CustomButton className={`${classes.button} ${classes.btnPhone}`}>
+              </CardButton>
+              <CardButton className={`${classes.button} ${classes.btnPhone}`} onClick={()=>{setCurEdit('phone')}}>
                 <DialpadOutlinedIcon className={classes.icon} fontSize="large"/>
                 Update Phone
-              </CustomButton>
-              <CustomButton className={`${classes.button} ${classes.btnPwd}`}>
+              </CardButton>
+              <CardButton className={`${classes.button} ${classes.btnPwd}`} onClick={()=>{setCurEdit('password')}}>
                 <VpnKeyOutlinedIcon className={classes.icon} fontSize="large"/>
                 Change Password
-              </CustomButton>
-              <CustomButton className={`${classes.button} ${classes.btnLogout}`}>
+              </CardButton>
+              <CardButton className={`${classes.button} ${classes.btnLogout}`} onClick={handleLogout}>
                 <ExitToAppOutlinedIcon className={classes.icon} fontSize="large"/>
                 Logout
-              </CustomButton>
+              </CardButton></>
+              :<>
+              <Card className={classes.card} size={(curEdit === "password")?"2x2":"1x2"} title={getTitle(curEdit)}>
+                <CustomTextField
+                  label={`New ${(curEdit === "phone")? "Phone Number": (curEdit === "email")? "Email": "Password"}`}
+                  onChange={(event)=>{setNewInfo(event.target.value)}}
+                  variant="outlined"
+                  type={(curEdit === "password")?"password": "text"}
+                  value={newInfo}
+                />
+                {(curEdit === "password") &&
+                <CustomTextField
+                  label={"Current Password"}
+                  onChange={(event)=>{setCurPwd(event.target.value)}}
+                  variant="outlined"
+                  value={curPwd}
+                  type="password"
+                />}
+                <div className={classes.cardFooter}>
+                  <Fade in={loading} unmountOnExit>
+                    <CircularProgress className={classes.progress}/>
+                  </Fade>
+                  <SaveButton onClick={handleSave}>
+                    Save
+                  </SaveButton>
+                  <CancelButton onClick={handleCancel}>
+                    Cancel
+                  </CancelButton>
+                </div>
+              </Card></>}
             </div>
           </Fade>
         </div>
