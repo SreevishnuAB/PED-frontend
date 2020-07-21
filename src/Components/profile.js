@@ -13,6 +13,7 @@ const useStyles = makeStyles((theme)=>({
     padding: '3px'
   },
   cardContainer: {
+    minHeight:'700px',
     borderRadius: '5px',
     width: '350px',
     height: '100%',

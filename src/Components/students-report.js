@@ -263,15 +263,14 @@ const useStyles = makeStyles((theme)=>({
   profilePane: {
     // height: "100vh",
     minWidth: '350px',
-    minHeight:'700px',
     [theme.breakpoints.up("xl")]: {
       maxHeight: "1080px",
     },
     [theme.breakpoints.up("lg")]: {
       height: "calc(100vh - 100px)",  
     },
-    height: "calc(100% - 100px)",
-    overflowY: "clip"
+    height: "100%",
+    overflowY: "auto"
   },
   iconContainer1x1: {
     height: '40px',

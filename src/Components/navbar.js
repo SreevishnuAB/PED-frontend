@@ -299,7 +299,7 @@ export default function NavBar(props) {
       }
     }
     else if(curEdit === "email"){
-      if(!RegExp(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/).test(newInfo)){
+      if(!RegExp(/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/).test(newInfo)){
         error = {error: true, messageText: "Enter a valid email address"};
         setToastMessage(error);
         setOpenToast(true);
