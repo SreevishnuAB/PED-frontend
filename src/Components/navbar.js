@@ -19,6 +19,7 @@ import AlternateEmailOutlinedIcon from '@material-ui/icons/AlternateEmailOutline
 import ExitToAppOutlinedIcon from '@material-ui/icons/ExitToAppOutlined';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Card from './card';
+import BugReportOutlinedIcon from '@material-ui/icons/BugReportOutlined';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -116,9 +117,9 @@ const useStyles = makeStyles(theme => ({
   },
   btnContainer: {
     height: '350px',
-    width: '350px',
+    width: '525px',
     display: 'grid',
-    gridTemplateColumns: "repeat(2, 1fr)",
+    gridTemplateColumns: "repeat(3, 1fr)",
     gridTemplateRows: "repeat(2, 1fr)",
     gap: '6px 6px',
   },
@@ -156,6 +157,29 @@ const useStyles = makeStyles(theme => ({
   btnLogout: {
     gridColumn: '2 / 3',
     gridRow: '2 / 3',
+  },
+  btnReport: {
+    textDecoration: "none",
+    gridColumn: '3 / 4',
+    gridRow: '1 / 2',
+    backgroundColor: '#292929',
+    color: '#ffffff',
+    borderRadius: '5px',
+    boxShadow: '0px 0px 10px 1.5px #121212',
+    placeSelf: 'stretch stretch',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    fontSize: "1em",
+    fontFamily: "Roboto, Helvetica, Arial, sans-serif",
+    fontWeight: 500,
+    lineHeight: 1.75,
+    letterSpacing: "0.02857em",
+    textTransform: "uppercase",
+    '&:hover':{
+      backgroundColor: '#505050',
+    }
   },
   icon: {
     border: '3px solid #ffffff',
@@ -368,7 +392,13 @@ export default function NavBar(props) {
               <CardButton className={`${classes.button} ${classes.btnLogout}`} onClick={handleLogout}>
                 <ExitToAppOutlinedIcon className={classes.icon} fontSize="large"/>
                 Logout
-              </CardButton></>
+              </CardButton>
+              <a className={`${classes.button} ${classes.btnReport}`} href="mailto:sreeab28@gmail.com">
+                <BugReportOutlinedIcon className={classes.icon} fontSize="large"/>
+                <span style={{placeSelf: "center center"}}>
+                  REPORT AN ISSUE
+                </span>
+              </a></>
               :<>
               <Card className={classes.card} size={(curEdit === "password")?"2x2":"1x2"} title={getTitle(curEdit)}>
                 <CustomTextField
