@@ -393,7 +393,7 @@ export default function NavBar(props) {
                 <ExitToAppOutlinedIcon className={classes.icon} fontSize="large"/>
                 Logout
               </CardButton>
-              <a className={`${classes.button} ${classes.btnReport}`} href="mailto:sreeab28@gmail.com">
+              <a className={`${classes.button} ${classes.btnReport}`} href="mailto:sreeab28@gmail.com?subject=PED Bug Report/Feature Request">
                 <BugReportOutlinedIcon className={classes.icon} fontSize="large"/>
                 <span style={{placeSelf: "center center"}}>
                   REPORT AN ISSUE
